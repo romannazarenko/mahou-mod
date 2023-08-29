@@ -1,7 +1,7 @@
-[![GitHub Release](https://img.shields.io/github/release/BladeMight/Mahou.svg?style=flat-square)](https://github.com/BladeMight/Mahou/releases/latest)
+[![GitHub Release](https://img.shields.io/github/release/BladeMight/Mahou.svg?style=flat-square)](https://gitea.com/BladeMight/Mahou/releases/latest)
 [![AppVeyor Build](https://img.shields.io/appveyor/ci/BladeMight/Mahou.svg?style=flat-square)](https://ci.appveyor.com/project/BladeMight/mahou) 
-[![GitHub latest release downloads](https://img.shields.io/github/downloads/BladeMight/Mahou/latest/total.svg?style=flat-square)](https://github.com/BladeMight/Mahou/releases/latest)
-[![GitHub Downloads](https://img.shields.io/github/downloads/BladeMight/Mahou/total.svg?style=flat-square)](https://github.com/BladeMight/Mahou/releases)
+[![GitHub latest release downloads](https://img.shields.io/github/downloads/BladeMight/Mahou/latest/total.svg?style=flat-square)](https://gitea.com/BladeMight/Mahou/releases/latest)
+[![GitHub Downloads](https://img.shields.io/github/downloads/BladeMight/Mahou/total.svg?style=flat-square)](https://gitea.com/BladeMight/Mahou/releases)
 [![Gitter Chat Room](https://img.shields.io/gitter/room/BM_Mahou/BM_Mahou.svg?style=flat-square)](https://gitter.im/BM_Mahou/Lobby)
 
 # На русском. [Read in English](#english)
@@ -26,7 +26,7 @@ Mahou работает так как **Вы** хотите, настраивай
 3. Для конвертации последней линии нажмите <kbd>Shift</kbd>+<kbd>Pause</kbd>.
 4. Для переключения раскладки одной клавишей нажмите <kbd>CapsLock</kbd>.
 5. Начиная с `v1.0.4.4`, при конвертации выделения текст, не распознанный ни в одной из выбранных в настройках раскладках (пример: ♥), просто переписывается.
-6. Почитайте [wiki](https://github.com/BladeMight/Mahou/wiki/%D0%A1%D0%BF%D0%B8%D1%81%D0%BE%D0%BA-%D1%84%D1%83%D0%BD%D0%BA%D1%86%D0%B8%D0%B9) или [спросите меня](#%D0%9B%D0%B8%D1%86%D0%B5%D0%BD%D0%B7%D0%B8%D1%8F).
+6. Почитайте [wiki](https://gitea.com/BladeMight/Mahou/wiki/%D0%A1%D0%BF%D0%B8%D1%81%D0%BE%D0%BA-%D1%84%D1%83%D0%BD%D0%BA%D1%86%D0%B8%D0%B9) или [спросите меня](#%D0%9B%D0%B8%D1%86%D0%B5%D0%BD%D0%B7%D0%B8%D1%8F).
 
 ### Горячие клавиши
 - <kbd>Pause</kbd> - Конвертация последнего слова.
@@ -39,22 +39,22 @@ Mahou работает так как **Вы** хотите, настраивай
 - <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>Alt</kbd>+<kbd>Win</kbd>+<kbd>F12</kbd> - Завершить Mahou.
 - Остальные горячие клавиши выключены по умолчанию или имеют описание в Mahou.
 
-### [Скачать или посмотреть заметки о выпусках](https://github.com/BladeMight/Mahou/releases) (:exclamation: рекомендуется использовать: latest-commit ↓).
+### [Скачать или посмотреть заметки о выпусках](https://gitea.com/BladeMight/Mahou/releases) (:exclamation: рекомендуется использовать: latest-commit ↓).
 
-### Beta или "версия с последними изменениями" (aka latest-commit) [здесь](https://github.com/BladeMight/Mahou/releases/tag/latest-commit).
+### Beta или "версия с последними изменениями" (aka latest-commit) [здесь](https://gitea.com/BladeMight/Mahou/releases/tag/latest-commit).
 
-! Хоть дата релиза и стоит "12 Aug 2017", этот релиз авто-собирается и обновляется каждый коммит. Скачать [Release_x86_x64.zip](https://github.com/BladeMight/Mahou/releases/download/latest-commit/Release_x86_x64.zip).
+! Хоть дата релиза и стоит "12 Aug 2017", этот релиз авто-собирается и обновляется каждый коммит. Скачать [Release_x86_x64.zip](https://gitea.com/BladeMight/Mahou/releases/download/latest-commit/Release_x86_x64.zip).
 
 ### Используете Chocolatey? `cinst Mahou` для установки.
 
 ### Wiki
-Ознакомьтесь с [Mahou Wiki](https://github.com/BladeMight/Mahou/wiki).
+Ознакомьтесь с [Mahou Wiki](https://gitea.com/BladeMight/Mahou/wiki).
 
 ### Лицензия
-Mahou находится под [GPL v2+](https://github.com/BladeMight/Mahou/blob/master/LICENSE.md).
+Mahou находится под [GPL v2+](https://gitea.com/BladeMight/Mahou/blob/master/LICENSE.md).
 
 ### Связаться со мной
-Если Вы нашли ошибку или есть идея как улучшить Mahou, опишите её [здесь](https://github.com/BladeMight/Mahou/issues) или свяжитесь со мной через [эл. почту](mailto:BladeMight@gmail.com) (можете спрашивать о чём угодно).
+Если Вы нашли ошибку или есть идея как улучшить Mahou, опишите её [здесь](https://gitea.com/BladeMight/Mahou/issues) или свяжитесь со мной через [эл. почту](mailto:BladeMight@gmail.com) (можете спрашивать о чём угодно).
 
 ### Поддержать проект материально
 
@@ -74,7 +74,7 @@ Mahou находится под [GPL v2+](https://github.com/BladeMight/Mahou/bl
 
 **latest-commit (v2.9.0.1-dev <...>)**
 
-- [commits](https://github.com/BladeMight/Mahou/commits/master)
+- [commits](https://gitea.com/BladeMight/Mahou/commits/master)
 	
 **v2.9.0.0**
 
@@ -452,7 +452,7 @@ Mahou находится под [GPL v2+](https://github.com/BladeMight/Mahou/bl
 
 - 🐛 Исправлено что конфигурация не читала больше 255 букв (полезно для функции смены раскладки гор. клавишами).
 - 📝 Изменен тип выбора для списка выбора типа обновления.
-- 🐛 Исправлена ошибка при не выбранном типе смены раскладки гор. клавишей [#140](https://github.com/BladeMight/Mahou/issues/140).
+- 🐛 Исправлена ошибка при не выбранном типе смены раскладки гор. клавишей [#140](https://gitea.com/BladeMight/Mahou/issues/140).
 
 **v2.5.2.1**
 
@@ -465,20 +465,20 @@ Mahou находится под [GPL v2+](https://github.com/BladeMight/Mahou/bl
 **v2.5.1.4**
 
 - 🐛 Исправлено сохранение типа авто-запуска.
-- 📝 Добавлена возможность скрытия флагов для функции разного вида раскладок подсказок языка. [#135](https://github.com/BladeMight/Mahou/issues/135)
+- 📝 Добавлена возможность скрытия флагов для функции разного вида раскладок подсказок языка. [#135](https://gitea.com/BladeMight/Mahou/issues/135)
 - 📝 Исправлено сбрасывание позиции списков.
 - 📝 Исправлена конвертация "щ" в словаре транслитерации.
 - 🚀 Улучшена скорость транслитерации.
 - 💎 Добавлена возможность переписи сниппетов функциями конвертации слова/линии.
-- 🐛 Добавлена проверка на возможность создания/чтения настроек Mahou.ini при запуске. [#134](https://github.com/BladeMight/Mahou/issues/134)
-- 💎 Улучшена функция проверки настроек при запуске, теперь Mahou будет предлагать переключиться на настройки в %AppData%, когда не может создать/прочитать Mahou.ini который находиться там где Mahou.exe. [#138](https://github.com/BladeMight/Mahou/issues/138)
+- 🐛 Добавлена проверка на возможность создания/чтения настроек Mahou.ini при запуске. [#134](https://gitea.com/BladeMight/Mahou/issues/134)
+- 💎 Улучшена функция проверки настроек при запуске, теперь Mahou будет предлагать переключиться на настройки в %AppData%, когда не может создать/прочитать Mahou.ini который находиться там где Mahou.exe. [#138](https://gitea.com/BladeMight/Mahou/issues/138)
 - 🐛 Исправлена функция проверки настроек при запуске, теперь сохраняется после перезапуска.
 
 **v2.5.1.0**
 
 - 🐛 Добавлена возможность назначить 1 клавишу на Конверт последнего слова/выделения/линии (двойная гор. клавиша).
 - 🐛 Заменен способ получения позиции каретки на GetGuiThreadInfo.
-- 💎 Добавлена возможность включать `Эмулировать переключение раскладки` и `Переключать между раскладками` вместе, это исправляет зависания приложений вроде MSOffice2016. [подробнее на Wiki](https://github.com/BladeMight/Mahou/wiki/%D0%9F%D1%80%D0%BE%D0%B1%D0%BB%D0%B5%D0%BC%D1%8B-%D0%B2-%D0%BD%D0%B5%D0%BA%D0%BE%D1%82%D0%BE%D1%80%D1%8B%D1%85-%D0%BF%D1%80%D0%BE%D0%B3%D1%80%D0%B0%D0%BC%D0%BC%D0%B0%D1%85%3F#microsoft-office-2016skype-%D0%B8-%D0%BF%D0%BE%D1%85%D0%BE%D0%B6%D0%B8%D0%B5)
+- 💎 Добавлена возможность включать `Эмулировать переключение раскладки` и `Переключать между раскладками` вместе, это исправляет зависания приложений вроде MSOffice2016. [подробнее на Wiki](https://gitea.com/BladeMight/Mahou/wiki/%D0%9F%D1%80%D0%BE%D0%B1%D0%BB%D0%B5%D0%BC%D1%8B-%D0%B2-%D0%BD%D0%B5%D0%BA%D0%BE%D1%82%D0%BE%D1%80%D1%8B%D1%85-%D0%BF%D1%80%D0%BE%D0%B3%D1%80%D0%B0%D0%BC%D0%BC%D0%B0%D1%85%3F#microsoft-office-2016skype-%D0%B8-%D0%BF%D0%BE%D1%85%D0%BE%D0%B6%D0%B8%D0%B5)
 - 💬 Обновлены подсказки функций `Эмулировать переключение раскладки` и `Переключать между раскладками`.
 
 **v2.5.0.5**
@@ -573,25 +573,25 @@ Mahou находится под [GPL v2+](https://github.com/BladeMight/Mahou/bl
 **v2.3.5.1~v2.3.5.2**
 
 - 💎 Исправлена проблема конвертации выделения в обычном режиме (из-за лишней ; в коде).
-- 💎 Восстановлена поддержка getconkbl.dll. P.S. Также есть pack Mahou и getconkbl.dll в [этом](https://github.com/BladeMight/Mahou/releases/tag/v2.3.5.2) релизе на github.
+- 💎 Восстановлена поддержка getconkbl.dll. P.S. Также есть pack Mahou и getconkbl.dll в [этом](https://gitea.com/BladeMight/Mahou/releases/tag/v2.3.5.2) релизе на github.
 
 **v2.3.4.4~v2.3.5.0**
 
-- 💎 Добавлено исправление для QWERTZ клавиатур. [#107](https://github.com/BladeMight/Mahou/issues/107)
-- 💎 Добавлено исправление *смерти* хука при нажатии на применить (не подтверждено). [#102](https://github.com/BladeMight/Mahou/issues/102)
+- 💎 Добавлено исправление для QWERTZ клавиатур. [#107](https://gitea.com/BladeMight/Mahou/issues/107)
+- 💎 Добавлено исправление *смерти* хука при нажатии на применить (не подтверждено). [#102](https://gitea.com/BladeMight/Mahou/issues/102)
 - 💎 Исправлено правило очистки слов по Alt+Tab.
-- 💎 Исправлено совместимость при назначении на одну горяч. главишу конвертации выделения и последнего слова. [#104](https://github.com/BladeMight/Mahou/issues/104)
+- 💎 Исправлено совместимость при назначении на одну горяч. главишу конвертации выделения и последнего слова. [#104](https://gitea.com/BladeMight/Mahou/issues/104)
 - 💎 Добавлено исправление пробелов для имен файлов в Mahou (заменяйте пробел на _).
-- 🐛 Исправлена работа функции программ исключений. [#101](https://github.com/BladeMight/Mahou/issues/101)
+- 🐛 Исправлена работа функции программ исключений. [#101](https://gitea.com/BladeMight/Mahou/issues/101)
 - 🐛 Добавлено исправление в KMHook, ожидание инициализации MMain.mahou.
 - 🐛 Исправлена ошибка двойных hook'ов.
-- 🐛 Исправлено запоминание позиции галочки в горяч. клавишах. [#108](https://github.com/BladeMight/Mahou/issues/108)
+- 🐛 Исправлено запоминание позиции галочки в горяч. клавишах. [#108](https://gitea.com/BladeMight/Mahou/issues/108)
 - 💎 Исправлено включение неправлильной вкладки при проверке обновления при запуске и нажатии на ок.
 - 💎 Добавлена возможность разделять имена процессов линиями.
 - 💬 Добавлены новые подсказки.
 - 💎 Имена процессов теперь не зависят от регистра.
 - 💎 Mahou теперь имеет 2 строки с вкладками.
-- 💎 Добавлена возможность включить переключение раскладки 1 клавишей даже в исключенных программах. [#109](https://github.com/BladeMight/Mahou/issues/109)
+- 💎 Добавлена возможность включить переключение раскладки 1 клавишей даже в исключенных программах. [#109](https://gitea.com/BladeMight/Mahou/issues/109)
 
 **v2.3.4.0**
 
@@ -601,7 +601,7 @@ Mahou находится под [GPL v2+](https://github.com/BladeMight/Mahou/bl
 
 **v2.3.3.3**
 
-- 💎 Новая возможность - Панель языка (она использует код из [JustUI](https://github.com/BladeMight/JustUI)).
+- 💎 Новая возможность - Панель языка (она использует код из [JustUI](https://gitea.com/BladeMight/JustUI)).
 - 💎 Новая горячия клавиша - Показать/скрыть панель языка.
 - 🐛 Исправлены некоторые ошибки интерфейса.
 
@@ -644,13 +644,13 @@ Mahou находится под [GPL v2+](https://github.com/BladeMight/Mahou/bl
 - 💎 Переписан способ регистрации горячих клавиш.
 - 💎 Добавлена поддержка AltGr для функции Переключать раскладки по клавишам.
 - 💎 Обновлена функция конвертации нескольких слов для поддержки нового способа регистрации горячих
-- [...](https://github.com/BladeMight/Mahou/releases/v2.3.0.0)
+- [...](https://gitea.com/BladeMight/Mahou/releases/v2.3.0.0)
 
 **v2.1.2.6**
 - 💎 Добавлена функция постоянной раскладки для процессов.
 
 **v2.1.2.0~v2.1.2.3**
-- 💎 Добавлена поддержка getconkbl.dll, который позволяет получить правильную раскладку в консольных приложениях. ТОЛЬКО x86 версии обоих (Mahou и getconkbl.dll) поддерживаются. (Вы можете взять dll [отсюда]( https://github.com/Elfy/getconkbl), поставьте ее в папку где находится Mahou.exe, возможно потребуется перезапуск Mahou.)
+- 💎 Добавлена поддержка getconkbl.dll, который позволяет получить правильную раскладку в консольных приложениях. ТОЛЬКО x86 версии обоих (Mahou и getconkbl.dll) поддерживаются. (Вы можете взять dll [отсюда]( https://gitea.com/Elfy/getconkbl), поставьте ее в папку где находится Mahou.exe, возможно потребуется перезапуск Mahou.)
 - 🐛 Исправлены проблемы связанные с восстановлением буфера.
 - 💎 Добавлена Shift+CapsLock к переключеать раскладки по клавишам.
 - 💬 Обновлен способ показа подсказок, :rocket: теперь быстрее показывается, и таймаут исчезания - 20 сек.
@@ -672,7 +672,7 @@ Mahou находится под [GPL v2+](https://github.com/BladeMight/Mahou/bl
 - Добавлено скрытие вида пароля прокси и шифрование пароля в файле настроек.
 
 **v2.1.0.4**
-- Добавлена поддержка [MCDS](https://github.com/BladeMight/MahouCaretDisplayServer), который добавляет возможность отображения подсказки языка возле каретки в Sublime Text 3.
+- Добавлена поддержка [MCDS](https://gitea.com/BladeMight/MahouCaretDisplayServer), который добавляет возможность отображения подсказки языка возле каретки в Sublime Text 3.
 - Добавлена функция прогамм-исключений.
 
 **v2.0.0.3**
@@ -787,7 +787,7 @@ Even selected text switches just between **selected** layouts, though if you lik
 3. To convert line hit <kbd>Shift</kbd>+<kbd>Pause</kbd>.
 4. To change layout by one key press <kbd>CapsLock</kbd>.
 5. Starting from v1.0.4.4 in Convert selection unrecognized text by all selected layout in settings (example: ♥) just rewrites.
-6. Read the [wiki](https://github.com/BladeMight/Mahou/wiki/Functions-list) or [ask me](#license).
+6. Read the [wiki](https://gitea.com/BladeMight/Mahou/wiki/Functions-list) or [ask me](#license).
 
 ### Hotkeys
 - <kbd>Pause</kbd> - Convert last input.
@@ -801,22 +801,22 @@ Even selected text switches just between **selected** layouts, though if you lik
 - <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>Alt</kbd>+<kbd>Win</kbd>+<kbd>F12</kbd> - To exit Mahou.
 - Other hotkeys disabled by default or have description in Mahou.
 
-### [Download or view release notes](https://github.com/BladeMight/Mahou/releases) (:exclamation: recommended to use: latest-commit ↓).
+### [Download or view release notes](https://gitea.com/BladeMight/Mahou/releases) (:exclamation: recommended to use: latest-commit ↓).
 
-### Beta or "version with latest changes" (aka latest-commit) [here](https://github.com/BladeMight/Mahou/releases/tag/latest-commit).
+### Beta or "version with latest changes" (aka latest-commit) [here](https://gitea.com/BladeMight/Mahou/releases/tag/latest-commit).
 
-! Even though release date is "12 Aug 2017", this release is auto-compiled and updated every commit. If unsure download the [Release_x86_x64.zip](https://github.com/BladeMight/Mahou/releases/download/latest-commit/Release_x86_x64.zip)..
+! Even though release date is "12 Aug 2017", this release is auto-compiled and updated every commit. If unsure download the [Release_x86_x64.zip](https://gitea.com/BladeMight/Mahou/releases/download/latest-commit/Release_x86_x64.zip)..
 
 ### Using Chocolatey? type `cinst Mahou` to install.
 
 ### Wiki
-Check out [Mahou Wiki](https://github.com/BladeMight/Mahou/wiki).
+Check out [Mahou Wiki](https://gitea.com/BladeMight/Mahou/wiki).
 
 ### License
-Mahou is under [GPL v2+](https://github.com/BladeMight/Mahou/blob/master/LICENSE.md).
+Mahou is under [GPL v2+](https://gitea.com/BladeMight/Mahou/blob/master/LICENSE.md).
 
 ### Contact
-If you found an issue or have an idea how to improve Mahou write [here](https://github.com/BladeMight/Mahou/issues)
+If you found an issue or have an idea how to improve Mahou write [here](https://gitea.com/BladeMight/Mahou/issues)
 or contact me though [email](mailto:BladeMight@gmail.com) (You can ask anything)
 
 ### Donate
@@ -836,7 +836,7 @@ Ways:
 
 **latest-commit (v2.9.0.1-dev <...>)**
 
-- [commits](https://github.com/BladeMight/Mahou/commits/master)
+- [commits](https://gitea.com/BladeMight/Mahou/commits/master)
 
 **v2.9.0.0**
 
@@ -1375,7 +1375,7 @@ Ways:
 
 - 🐛 Fixed configs wasn't reading more than 255 characters(useful for switch layout by hotkeys feature).
 - 📝 Changed updates channel combobox dropdown to list style.
-- 🐛 Fixed layout string was empty error for switch layout hotkeys [#140](https://github.com/BladeMight/Mahou/issues/140).
+- 🐛 Fixed layout string was empty error for switch layout hotkeys [#140](https://gitea.com/BladeMight/Mahou/issues/140).
 
 **v2.5.2.1**
 
@@ -1387,19 +1387,19 @@ Ways:
 
 **v2.5.1.4**
 - 🐛 Fixed autostart type wasn't saving.
-- 📝 Added feature to disable display of certain layout when display flags feature active for language tooltips. [#135](https://github.com/BladeMight/Mahou/issues/135)
+- 📝 Added feature to disable display of certain layout when display flags feature active for language tooltips. [#135](https://gitea.com/BladeMight/Mahou/issues/135)
 - 📝 Fixed listboxes was resetting its position after apply.
 - 📝 Fixed transliteration dictionary "щ" conversion.
 - 🚀 Improved transliteration speed.
 - 💎 Added ability to re-write snippets by convert last/line.
-- 🐛 Added error check and message box for creating/reading Mahou.ini at startup. [#134](https://github.com/BladeMight/Mahou/issues/134)
-- 💎 Added force configs in %AppData%, when Mahou can't read/write Mahou.ini where Mahou.exe is. [#138](https://github.com/BladeMight/Mahou/issues/138)
+- 🐛 Added error check and message box for creating/reading Mahou.ini at startup. [#134](https://gitea.com/BladeMight/Mahou/issues/134)
+- 💎 Added force configs in %AppData%, when Mahou can't read/write Mahou.ini where Mahou.exe is. [#138](https://gitea.com/BladeMight/Mahou/issues/138)
 - 🐛 Fixed .force file was deleting by applying configs.
 
 **v2.5.1.0**
 - 🐛 Fixed conversions for same hotkeys but double for convert line and single for convert last.
 - 🐛 Got rid of thread attach/detach, using now GetGuiThreadInfo for getting caret position.
-- 💎 Added emulate layout switching and switch between layouts to work together, that fixes crashing of apps like MSOffice2016. [Detailed on Wiki](https://github.com/BladeMight/Mahou/wiki/Problems-in-some-programs%3F#microsoft-office-2016skype-and-similar)
+- 💎 Added emulate layout switching and switch between layouts to work together, that fixes crashing of apps like MSOffice2016. [Detailed on Wiki](https://gitea.com/BladeMight/Mahou/wiki/Problems-in-some-programs%3F#microsoft-office-2016skype-and-similar)
 - 💬 Updated switch between layouts and emulate layout switching tooltips.
 
 **v2.5.0.5**
@@ -1505,25 +1505,25 @@ Removed (some just commented) the ones that are less popular.
 **v2.3.5.1~v2.3.5.2**
 
 - 🐛 Fixed mistake symbol ; in default convert selection mode. (It caused it not to convert at all.)
-- 💎 Restored getconkbl.dll support. P.S. There is also an pack with Mahou x86 and getconkbl.dll in [this](https://github.com/BladeMight/Mahou/releases/tag/v2.3.5.2) release on github.
+- 💎 Restored getconkbl.dll support. P.S. There is also an pack with Mahou x86 and getconkbl.dll in [this](https://gitea.com/BladeMight/Mahou/releases/tag/v2.3.5.2) release on github.
 
 **v2.3.4.4~v2.3.5.0**
 
-- 💎 Added QWERTZ keyboard fix. [#107](https://github.com/BladeMight/Mahou/issues/107)
-- 💎 Added fix for hooks die on apply(unconfirmed). [#102](https://github.com/BladeMight/Mahou/issues/102)
-- 💎 Fixed Selection and Last Word conversion with same hotkey. [#104](https://github.com/BladeMight/Mahou/issues/104)
+- 💎 Added QWERTZ keyboard fix. [#107](https://gitea.com/BladeMight/Mahou/issues/107)
+- 💎 Added fix for hooks die on apply(unconfirmed). [#102](https://gitea.com/BladeMight/Mahou/issues/102)
+- 💎 Fixed Selection and Last Word conversion with same hotkey. [#104](https://gitea.com/BladeMight/Mahou/issues/104)
 - 💎 Added space fix in process names for persistent layout process names and excluded process names (replace space with _).
-- 🐛 Fixed excluded programs feature. [#101](https://github.com/BladeMight/Mahou/issues/101)
+- 🐛 Fixed excluded programs feature. [#101](https://gitea.com/BladeMight/Mahou/issues/101)
 - 🐛 Added fix for bug in KMHook for non-initialized MahouUI.
 - 🐛 Fixed double hooks bug.
 - 💎 Restored fix for ctrl/alt/win+tab clear words.
-- 🐛 Fixed hotkey enabled checkbox wasn't remembering its state for hotkeys. [#108](https://github.com/BladeMight/Mahou/issues/108)
+- 🐛 Fixed hotkey enabled checkbox wasn't remembering its state for hotkeys. [#108](https://gitea.com/BladeMight/Mahou/issues/108)
 - 💎 Fixed update on click from message box was showing not right tab.
 - 💎 Added line breaks as seperators for process names.
 - 💎 Make process names case insensitive in Mahou.
 - 💎 Make Mahou have 2 row of tabs.
 - 💬 Added new tooltips.
-- 💎 Added feature to change layout by 1 key in excluded programs. [#109](https://github.com/BladeMight/Mahou/issues/109)
+- 💎 Added feature to change layout by 1 key in excluded programs. [#109](https://gitea.com/BladeMight/Mahou/issues/109)
 
 **v2.3.4.0**
 
@@ -1533,7 +1533,7 @@ Removed (some just commented) the ones that are less popular.
 
 **v2.3.3.3**
 
-- 💎 Added new feature - Language Panel (uses some code of [JustUI](https://github.com/BladeMight/JustUI)).
+- 💎 Added new feature - Language Panel (uses some code of [JustUI](https://gitea.com/BladeMight/JustUI)).
 - 💎 Added new Hotkey to toggle Language Panel visibility.
 - 🐛 Fixed bugs in UI.
 
@@ -1576,13 +1576,13 @@ Removed (some just commented) the ones that are less popular.
 - 💎 Hotkeys overhaul migrated to Windows-style (RegisterHotkey()) which is a way more stable.
 - 💎 Added AltGr support for switch layout with one key.
 - 💎 Updated Convert Multiple words style to new Hotkeys style.
-- [...](https://github.com/BladeMight/Mahou/releases/v2.3.0.0)
+- [...](https://gitea.com/BladeMight/Mahou/releases/v2.3.0.0)
 
 **v2.1.2.6**
 - 💎 Added Persistent layout function for processes.
 
 **v2.1.2.0~v2.1.2.3**
-- 💎 Added support for getconkbl.dll, which adds support for console apps right layout recognition. ONLY x86 version of both (Mahou and getconkbl.dll) are supported. (You can get dll from [here]( https://github.com/Elfy/getconkbl), put it in directory where Mahou.exe is.)
+- 💎 Added support for getconkbl.dll, which adds support for console apps right layout recognition. ONLY x86 version of both (Mahou and getconkbl.dll) are supported. (You can get dll from [here]( https://gitea.com/Elfy/getconkbl), put it in directory where Mahou.exe is.)
 - 🐛 Fixed some clipboard restore issues.
 - 💎 Added Shift+CapsLock to by key switch.
 - 💬 Updated tooltip appear style, 🚀 now faster (re)show, and timeout to hide to 20 sec.
@@ -1604,7 +1604,7 @@ Removed (some just commented) the ones that are less popular.
 - Added proxy password hide in view and password encryption in the settings file.
 
 **v2.1.0.4**
-- Added support for [MCDS](https://github.com/BladeMight/MahouCaretDisplayServer), which adds ability to display caret language tooltip in Sublime Text 3.
+- Added support for [MCDS](https://gitea.com/BladeMight/MahouCaretDisplayServer), which adds ability to display caret language tooltip in Sublime Text 3.
 - Added excluded programs function.
 
 **v2.0.0.3**
