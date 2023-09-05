@@ -1002,7 +1002,7 @@ namespace Mahou {
     					if (!String.IsNullOrEmpty(AS_END_symbols)) {
 	    					if (snip.Length == as_wrongs[i].Length+1) {
     							for(int m = 0; m!= AS_END_symbols.Length; m++) {
-    								var asi = new StringBuilder(as_wrongs[i]).Append(AS_END_symbols[m]);
+    								var asi = new StringBuilder(as_wrongs[i]).Append(AS_END_symbols[m]).ToString().ToLower();
     								if (snil == asi.ToString()) {
     									Debug.WriteLine("Word: " +as_wrongs[i] + " with symbol ending: " + AS_END_symbols[m]);
     									withsymbol = true;
