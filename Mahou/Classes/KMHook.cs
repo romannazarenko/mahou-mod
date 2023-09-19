@@ -989,6 +989,11 @@ namespace Mahou {
 			foreach (var element in word) {
 				Debug.WriteLine(element.key);
 			}
+			Logging.Log("[AS] --- snil guess ---");
+			var gg = WordGuessLayout(snil,0,false);
+			var sncl = gg.Item1.ToLowerInvariant();
+			var snl = gg.Item2;
+			Debug.WriteLine("Correct? ["+sncl+"]");
 			for (int i = 0; i < as_wrongs.Length; i++) {
 				if (as_corrects.Length > i) {
 //					if (snip == as_wrongs[i]) {
@@ -1002,9 +1007,9 @@ namespace Mahou {
     					if (!String.IsNullOrEmpty(AS_END_symbols)) {
 	    					if (snip.Length == as_wrongs[i].Length+1) {
     							for(int m = 0; m!= AS_END_symbols.Length; m++) {
-    								var asi = new StringBuilder(as_wrongs[i]).Append(AS_END_symbols[m]).ToString().ToLower();
-    								if (snil == asi.ToString()) {
-    									Debug.WriteLine("Word: " +as_wrongs[i] + " with symbol ending: " + AS_END_symbols[m]);
+    								var asi = new StringBuilder(as_corrects[i]).Append(AS_END_symbols[m]).ToString().ToLower();
+    								if (sncl == asi.ToString()) {
+    									Debug.WriteLine("Word: " +as_corrects[i] + " with symbol ending: " + AS_END_symbols[m]);
     									withsymbol = true;
     									core = AS_END_symbols[m].ToString();
     									break;
@@ -1013,14 +1018,12 @@ namespace Mahou {
 	    					}
 						}
 						if (snip.Length == as_wrongs[i].Length || withsymbol) {
-							if (snil == as_wrongs[i].ToLowerInvariant() || withsymbol) {
+							if (sncl == as_corrects[i].ToLowerInvariant() || withsymbol) {
 	        					if (MahouUI.SoundOnAutoSwitch)
 	        						MahouUI.SoundPlay();
 	        					if (MahouUI.SoundOnAutoSwitch2)
 	        						MahouUI.SoundPlay(true);
 	        					corr = as_corrects[i]+core;
-	        					Logging.Log("[AS] --- snil guess ---");
-	        					var snl = WordGuessLayout(snil,0,false).Item2;
 	        					Logging.Log("[AS] --- asl guess ---");
 	        					var asl = WordGuessLayout(corr,0,false).Item2;
 	        					Logging.Log("[AS] --- end guesses ---");
