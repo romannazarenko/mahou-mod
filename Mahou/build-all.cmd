@@ -1,10 +1,17 @@
 @ECHO OFF
+move "%~dp0\____commit.cs" "%~dp0\____commit.cs.bak"
+echo | set /p="static class ____ { public static string commit=" > "%~dp0\____commit.cs"
+<nul set /p =^""" >> "%~dp0\____commit.cs"
+for /f "usebackq delims=;" %%i in (`git log -1 --pretty^=^%%h`) do echo | set /p="%%i" >> "%~dp0\____commit.cs"
+<nul set /p =^""" >> "%~dp0\____commit.cs"
+<nul set /p ="; }" >> "%~dp0\____commit.cs"
 call "%~dp0\build.cmd" release x86
 call "%~dp0\build.cmd" release x64
 call "%~dp0\build.cmd" release x86_x64
 call "%~dp0\build.cmd" debug x86
 call "%~dp0\build.cmd" debug x64
 call "%~dp0\build.cmd" debug x86_x64
+move "%~dp0\____commit.cs.bak" "%~dp0\____commit.cs"
 rmdir /Q /S "%~dp0\..\BUILD"
 mkdir "%~dp0\..\BUILD"
 cd "%~dp0\..\JKL\bin\"
