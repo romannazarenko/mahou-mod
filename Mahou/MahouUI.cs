@@ -4304,14 +4304,14 @@ DEL /Q /F /A ""%TEMP%\UpdateMahou.cmd""";
 		string getASD_RemoteSize(bool InZip = false) {
 			try {
 				if (InZip) {
-					var data = getResponce("https://github.com/BladeMight/Mahou/releases/latest-commit"); 
+					var data = getResponce("https://gitea.com/api/v1/repos/BladeMight/Mahou/releases/tags/latest-commit"); 
 					if (!String.IsNullOrEmpty(data)) {
-						var siz = Regex.Match(data, "<small class=\"text-gray float-right\">(.+)</small>").Groups[1].Value;
+						var siz = (Int32.Parse(Regex.Match(data, "\"AS_Dict\\.zip.*?\"size\":\\s*(\\d+)").Groups[1].Value) / 1024 / 1024) + " MB";
 						Logging.Log("Remote size of AS_dict: " + siz);
 						return siz;
 					} else throw new Exception(MMain.Lang[Languages.Element.NetError]);
 				} 
-				var request = (HttpWebRequest)WebRequest.Create("https://raw.githubusercontent.com/BladeMight/Mahou/master/AS_dict.txt");
+				var request = (HttpWebRequest)WebRequest.Create("https://gitea.com/BladeMight/Mahou/raw/branch/master/AS_dict.txt");
 				if (!String.IsNullOrEmpty(txt_ProxyServerPort.Text)) {
 					request.Proxy = MakeProxy();
 				}
@@ -4391,7 +4391,7 @@ DEL /Q /F /A ""%TEMP%\UpdateMahou.cmd""";
 						if (!String.IsNullOrEmpty(txt_ProxyServerPort.Text)) {
 							wc.Proxy = MakeProxy();
 						}
-						wc.DownloadFile(new Uri("https://github.com/BladeMight/Mahou/releases/download/latest-commit/AS_dict.zip"), zip);
+						wc.DownloadFile(new Uri("https://gitea.com/BladeMight/Mahou/releases/download/latest-commit/AS_dict.zip"), zip);
 						var ExtractASD = @"@ECHO OFF
 chcp 65001
 ECHO With CreateObject(""Shell.Application"") > ""unzip.vbs""
@@ -4460,7 +4460,7 @@ DEL ""ExtractASD.cmd""";
 		/// </summary>
 		void GetUpdateInfo() {
 			var Info = new string[5] {"","","","",""} ; // Update info
-			var api = "https://api.github.com/repos/BladeMight/Mahou/releases";
+			var api = "https://gitea.com/api/v1/repos/BladeMight/Mahou/releases";
 			var url = api+"/latest";
 			var beta = MMain.MyConfs.Read("Updates", "Channel") != "Stable";
 			if (beta) {
@@ -5120,22 +5120,22 @@ DEL ""ExtractASD.cmd""";
 			__lopen(Logging.log, "txt", e.Button == MouseButtons.Right);
 		}
 		void Lnk_RepositoryLinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
-			__lopen("http://github.com/BladeMight/Mahou", "http", false, e.Button == MouseButtons.Right);
+			__lopen("https://gitea.com/BladeMight/Mahou", "http", false, e.Button == MouseButtons.Right);
 		}
 		void Lnk_SiteLinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
-			__lopen("http://blademight.github.io/Mahou/", "http", false, e.Button == MouseButtons.Right);
+			__lopen("https://gitea.com/BladeMight/Mahou/", "http", false, e.Button == MouseButtons.Right);
 		}
 		void Lnk_WikiLinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
-			__lopen("http://github.com/BladeMight/Mahou/wiki", "http", false, e.Button == MouseButtons.Right);
+			__lopen("https://gitea.com/BladeMight/Mahou/wiki", "http", false, e.Button == MouseButtons.Right);
 		}
 		void Lnk_ReleasesLinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
-			__lopen("http://github.com/BladeMight/Mahou/releases", "http", false, e.Button == MouseButtons.Right);
+			__lopen("https://gitea.com/BladeMight/Mahou/releases", "http", false, e.Button == MouseButtons.Right);
 		}
 		void Lnk_EmailLinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
 			__lopen("mailto:BladeMight@gmail.com", "mailto", false, e.Button == MouseButtons.Right);
 		}
 		void Lnk_pluginLinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
-			__lopen("http://github.com/BladeMight/MahouCaretDisplayServer", "http", false, e.Button == MouseButtons.Right);
+			__lopen("https://gitea.com/BladeMight/MahouCaretDisplayServer", "http", false, e.Button == MouseButtons.Right);
 		}
 		void Lnk_SnipOpenLinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
 			__lopen(snipfile, "txt");

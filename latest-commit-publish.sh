@@ -18,9 +18,10 @@ data="{
 }"
 #echo $data | jq
 curl -s -X "DELETE" "$API/releases/tags/$TAG?token=$TOKEN" -H 'accept: application/json'
+curl -s -X "DELETE" "$API/tags/$TAG?token=$TOKEN" -H 'accept: application/json'
 sleep 2
 id=$(curl -s -X "POST" "$API/releases?token=$TOKEN" -H "Content-Type: application/json" -d "$data" | jq -r '.id')
-assets="Release_x86_x64.zip ASDict.zip jkl.zip Debug_x86.zip Debug_x64.zip Debug_x86_x64.zip Release_x86.zip Release_x64.zip"
+assets="Release_x86_x64.zip AS_Dict.zip jkl.zip Debug_x86.zip Debug_x64.zip Debug_x86_x64.zip Release_x86.zip Release_x64.zip"
 cd BUILD
 while IFS= read -r ANAME; do
   curl -s -X 'POST' \
