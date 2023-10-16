@@ -1,4 +1,4 @@
-## [Русский](https://github.com/BladeMight/Mahou/blob/master/.github/ISSUE_TEMPLATE_RU.md)
+## [Русский](https://gitea.com/BladeMight/Mahou/raw/branch/master/.github/ISSUE_TEMPLATE_RU.md)
 
 ## Problem/Request description
 
