@@ -3159,7 +3159,7 @@ namespace Mahou {
 			ClearModifiers();
 			var clsNM = Locales.ActiveWindowClassName(40, WinAPI.GetForegroundWindow());
 			var delay = 0;
-			if (clsNM.StartsWith("Qt5")) { delay = 40; }
+			if (clsNM.StartsWith("Qt5") || clsNM.StartsWith("Qt6")) { delay = 40; }
 			KInputs.MakeInput(new[]{KInputs.AddKey(Keys.LControlKey, true)});
 			if (delay > 0 ) { Thread.Sleep(delay); }
 			KInputs.MakeInput(KInputs.AddPress(Keys.Insert));
@@ -3302,7 +3302,7 @@ namespace Mahou {
 				   		&& MahouUI.cmdbackfix)
 						backs++;
 //					Debug.WriteLine("ACT_CLASSN: " + clsNM);
-					if (clsNM.StartsWith("Qt5")) { // Qt5 keyboard message handling seems slow, so wait for it before starting 
+					if (clsNM.StartsWith("Qt5") || clsNM.StartsWith("Qt6")) { // Qt5/6 keyboard message handling seems slow, so wait for it before starting 
 						Thread.Sleep(250);
 					}
 				//}
@@ -4101,7 +4101,7 @@ namespace Mahou {
 						modsUP += "LAlt,";
 		       		}
 		       		var clsNM = Locales.ActiveWindowClassName(40, WinAPI.GetForegroundWindow());
-		       		if (clsNM.StartsWith("Qt5")) {
+		       		if (clsNM.StartsWith("Qt5") || clsNM.StartsWith("Qt6")) {
 		       			Thread.Sleep(75);
 		       		}
 				}
