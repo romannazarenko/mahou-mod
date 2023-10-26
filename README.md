@@ -33,11 +33,9 @@ Mahou работает так как **Вы** хотите, настраивай
 - <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>Alt</kbd>+<kbd>Win</kbd>+<kbd>F12</kbd> - Завершить Mahou.
 - Остальные горячие клавиши выключены по умолчанию или имеют описание в Mahou.
 
-### [Скачать или посмотреть заметки о выпусках](https://gitea.com/BladeMight/Mahou/releases) (:exclamation: рекомендуется использовать: latest-commit ↓).
+### Версия с последними изменениями (aka latest-commit) [здесь](https://gitea.com/BladeMight/Mahou/releases/tag/latest-commit).
 
-### Beta или "версия с последними изменениями" (aka latest-commit) [здесь](https://gitea.com/BladeMight/Mahou/releases/tag/latest-commit).
-
-! Хоть дата релиза и стоит "12 Aug 2017", этот релиз авто-собирается и обновляется каждый коммит. Скачать [Release_x86_x64.zip](https://gitea.com/BladeMight/Mahou/releases/download/latest-commit/Release_x86_x64.zip).
+! Скачать [Release_x86_x64.zip](https://gitea.com/BladeMight/Mahou/releases/download/latest-commit/Release_x86_x64.zip).
 
 ### Используете Chocolatey? `cinst Mahou` для установки.
 
@@ -783,11 +781,9 @@ Even selected text switches just between **selected** layouts, though if you lik
 - <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>Alt</kbd>+<kbd>Win</kbd>+<kbd>F12</kbd> - To exit Mahou.
 - Other hotkeys disabled by default or have description in Mahou.
 
-### [Download or view release notes](https://gitea.com/BladeMight/Mahou/releases) (:exclamation: recommended to use: latest-commit ↓).
+### Version with latest changes (aka latest-commit) [here](https://gitea.com/BladeMight/Mahou/releases/tag/latest-commit).
 
-### Beta or "version with latest changes" (aka latest-commit) [here](https://gitea.com/BladeMight/Mahou/releases/tag/latest-commit).
-
-! Even though release date is "12 Aug 2017", this release is auto-compiled and updated every commit. If unsure download the [Release_x86_x64.zip](https://gitea.com/BladeMight/Mahou/releases/download/latest-commit/Release_x86_x64.zip)..
+! Download the [Release_x86_x64.zip](https://gitea.com/BladeMight/Mahou/releases/download/latest-commit/Release_x86_x64.zip)..
 
 ### Using Chocolatey? type `cinst Mahou` to install.
 
