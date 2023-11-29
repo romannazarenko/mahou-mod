@@ -427,6 +427,7 @@ public static class WinAPI {
     public static extern bool SetForegroundWindow(IntPtr hWnd);[
 		DllImport("user32.dll")]
 	public static extern IntPtr WindowFromPoint(Point p);
+	[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
 	public struct SHFILEINFO {
         public IntPtr hIcon;
         public int iIcon;
@@ -438,7 +439,7 @@ public static class WinAPI {
     };
     [DllImport("shell32.dll", CharSet = CharSet.Auto, BestFitMapping = false, ThrowOnUnmappableChar = true)]
     public static extern IntPtr ExtractIcon(IntPtr hInst, string lpszExeFileName, int nIconIndex);
-    [DllImport("Shell32.dll", BestFitMapping = false, ThrowOnUnmappableChar = true)]
+    [DllImport("Shell32.dll", BestFitMapping = false, ThrowOnUnmappableChar = true, CharSet=CharSet.Auto)]
     public static extern int SHGetFileInfo(string pszPath, int dwFileAttributes, ref SHFILEINFO psfi, int cbFileInfo, SHGFI_Flag uFlags);
     [DllImport("Shell32.dll")]
     public static extern int SHGetFileInfo(IntPtr pszPath, uint dwFileAttributes, ref SHFILEINFO psfi, int cbFileInfo, SHGFI_Flag uFlags);
