@@ -2,21 +2,21 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
   <metadata>
     <id>Mahou</id>
-    <version>2.9.0.1</version>
+    <version>2.9.0.1-latest-commit</version>
     <title>Mahou</title>
     <authors>BladeMight</authors>
     <owners>BladeMight</owners>
     <licenseUrl>https://www.gnu.org/licenses/old-licenses/gpl-2.0.html</licenseUrl>
-    <projectUrl>http://blademight.github.io/Mahou</projectUrl>
+    <projectUrl>https://gitea.com/BladeMight/Mahou</projectUrl>
     <iconUrl>http://i.imgur.com/TETEeBs.jpg</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Layout switcher that can switch wrongly typed text in correct layout. And much more...</description>
     <summary>Magic layout switcher.</summary>
-    <releaseNotes>http://github.com/BladeMight/Mahou/releases</releaseNotes>
+    <releaseNotes>https://gitea.com/BladeMight/Mahou</releaseNotes>
     <tags>layout switcher C# snippets layout-indicator</tags>
-	<packageSourceUrl>https://github.com/BladeMight/Mahou/tree/master/Chocolatey</packageSourceUrl>
-    <projectSourceUrl>http://github.com/BladeMight/Mahou</projectSourceUrl>
-    <docsUrl>http://github.com/BladeMight/Mahou/wiki</docsUrl>
-    <bugTrackerUrl>http://github.com/BladeMight/Mahou/issues</bugTrackerUrl>
+	<packageSourceUrl>https://gitea.com/BladeMight/Mahou/tree/master/Chocolatey</packageSourceUrl>
+    <projectSourceUrl>https://gitea.com/BladeMight/Mahou</projectSourceUrl>
+    <docsUrl>https://gitea.com/BladeMight/Mahou/wiki</docsUrl>
+    <bugTrackerUrl>https://gitea.com/BladeMight/Mahou/issues</bugTrackerUrl>
   </metadata>
 </package>
