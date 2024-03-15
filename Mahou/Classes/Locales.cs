@@ -41,7 +41,16 @@ namespace Mahou
 			var strb = new StringBuilder(256);
 			WinAPI.GetClassName(hwnd, strb, strb.Capacity);
 			if (strb.ToString() == "ConsoleWindowClass") {
-				WinAPI.GetWindowThreadProcessId(hwnd, out pid);
+				var imewnd = WinAPI.ImmGetDefaultIMEWnd(hwnd);  // https://www.autohotkey.com/boards/viewtopic.php?t=84140
+				if (imewnd != IntPtr.Zero) {
+					hwnd = imewnd;
+				}
+				var tid = WinAPI.GetWindowThreadProcessId(hwnd, out pid);
+				IntPtr layout = WinAPI.GetKeyboardLayout(tid);
+				if (layout != IntPtr.Zero) {
+					layoutId = (uint)layout;
+					return;
+				}
 				uint lid = 0;
 				try {
 					var init = Initialize();

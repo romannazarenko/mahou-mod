@@ -385,6 +385,8 @@ public static class WinAPI {
 	public static extern uint GetWindowThreadProcessId(IntPtr hwnd, IntPtr proccess);
 	[DllImport("user32.dll", SetLastError = true)]
 	public static extern bool GetGUIThreadInfo(uint hTreadID, ref GUITHREADINFO lpgui);
+	[DllImport("imm32.dll")]
+	public static extern IntPtr ImmGetDefaultIMEWnd(IntPtr UnNamed);
 	#endregion
     #region NativeClipboard requires 
     [DllImport("shell32.dll", CharSet = CharSet.Auto)]
