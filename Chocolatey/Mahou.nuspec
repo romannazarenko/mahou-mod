@@ -14,7 +14,7 @@
     <summary>Magic layout switcher.</summary>
     <releaseNotes>https://gitea.com/BladeMight/Mahou</releaseNotes>
     <tags>layout switcher C# snippets layout-indicator</tags>
-	<packageSourceUrl>https://gitea.com/BladeMight/Mahou/tree/master/Chocolatey</packageSourceUrl>
+    <packageSourceUrl>https://gitea.com/BladeMight/Mahou/src/branch/master/Chocolatey</packageSourceUrl>
     <projectSourceUrl>https://gitea.com/BladeMight/Mahou</projectSourceUrl>
     <docsUrl>https://gitea.com/BladeMight/Mahou/wiki</docsUrl>
     <bugTrackerUrl>https://gitea.com/BladeMight/Mahou/issues</bugTrackerUrl>
