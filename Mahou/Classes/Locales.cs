@@ -29,7 +29,7 @@ namespace Mahou
 			try {
 				IfCmdExe(actv, out pid); 
 				if (pid != 0) 
-					layout = (IntPtr)pid;
+					return pid;
 			} catch (Exception e) { Logging.Log("Error in IfCmdExe (getconkbl.dll), details: \r\n" + e.Message + e.StackTrace +"\r\n", 1); }
 			//Produces TOO much logging, disabled.
             //Logging.Log("Current locale id is [" + (uint)(layout.ToInt32() & 0xFFFF) + "].");
