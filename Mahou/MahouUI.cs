@@ -1567,6 +1567,7 @@ namespace Mahou {
 			MMain.MyConfs.Write("Hidden", "ClipBackOnlyText", Hchk_ClipBackOnlyText.Checked.ToString());
 			MMain.MyConfs.Write("Hidden", "AutoSwitchEndingSymbols", Htxt_ASEndSymbols.Text);
 			MMain.MyConfs.Write("Hidden", "CycleCaseSaveBase", Hchk_SaveBase.Checked.ToString());
+			MMain.MyConfs.Write("Hidden", "IGNORE_exe_launch_show_window", Hchk_DontToggleMWexe.Checked.ToString());
 			try { MMain.MyConfs.Write("Hidden", "Layout_1_Modifier_Key", (
 					String.IsNullOrEmpty(Htxt_LayoutModifier_1.Text)?0:
 					((int)KMHook.strparsekey(Htxt_LayoutModifier_1.Text)[0])
@@ -1643,6 +1644,7 @@ namespace Mahou {
 			LayoutDModifierKey = MMain.MyConfs.ReadInt("Hidden", "Layout_D_Modifier_Key");
 			LayoutSModifierKey = MMain.MyConfs.ReadInt("Hidden", "Layout_S_Modifier_Key");
 			Htxt_LayoutModifier_S_LAYOUT.Text = MMain.MyConfs.Read("Hidden", "Layout_S_Modifier_Layout");
+			Hchk_DontToggleMWexe.Checked = MMain.MyConfs.ReadBool("Hidden", "IGNORE_exe_launch_show_window");
 			int ti = 0;
 			Int32.TryParse(Regex.Replace(Htxt_LayoutModifier_S_LAYOUT.Text, @"[^0-9]+", ""), out ti);
 			LayoutSModifierLayout = (uint)ti;

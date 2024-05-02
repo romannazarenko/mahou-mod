@@ -64,8 +64,12 @@ namespace Mahou
 							WinAPI.PostMessage((IntPtr)0xffff, re, 0, 0);
 							return;
 						}
-					} 
-					WinAPI.PostMessage((IntPtr)0xffff, ao, 0, 0);
+					}
+					if (!MyConfs.ReadBool("Hidden", "IGNORE_exe_launch_show_window")) {
+						WinAPI.PostMessage((IntPtr)0xffff, ao, 0, 0);
+					} else {
+						Logging.Log("Ignored another exe launch.");
+					}
 					return;
 				}
 				if (args.Length > ind) {

@@ -249,6 +249,7 @@ namespace Mahou {
 			CheckBool("Hidden", "AS_IngoreLS", "false");
 			CheckString("Hidden", "AS_IngoreRules", "SWMCLT");
 			CheckInt("Hidden", "AS_IngoreLSTimeout", "5000");
+			CheckBool("Hidden", "IGNORE_exe_launch_show_window", "false");
 			#endregion
         	#region Sync
 			CheckString("Sync", "BBools", "0|1|0|0|0");

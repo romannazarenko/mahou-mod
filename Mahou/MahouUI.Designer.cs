@@ -353,6 +353,7 @@ namespace Mahou
 		private System.Windows.Forms.TextBox Htxt_LayoutModifier_S_LAYOUT;
 		private System.Windows.Forms.TextBox Htxt_LayoutModifier_S;
 		private System.Windows.Forms.Label Hlbl_LayoutModifier_S;
+		private System.Windows.Forms.CheckBox Hchk_DontToggleMWexe;
 		/// <summary>
 		/// Disposes resources used by the form.
 		/// </summary>
@@ -372,9 +373,9 @@ namespace Mahou
 			this.tab_functions = new System.Windows.Forms.TabPage();
 			this.lbl_TrayDislpayType = new System.Windows.Forms.Label();
 			this.cbb_TrayDislpayType = new System.Windows.Forms.ComboBox();
-			this.lnk_OpenConfig = new MahouUI.LinkLabelNew();
-			this.lnk_OpenLogs = new MahouUI.LinkLabelNew();
-			this.lnk_OpenHistory = new MahouUI.LinkLabelNew();
+			this.lnk_OpenConfig = new Mahou.MahouUI.LinkLabelNew();
+			this.lnk_OpenLogs = new Mahou.MahouUI.LinkLabelNew();
+			this.lnk_OpenHistory = new Mahou.MahouUI.LinkLabelNew();
 			this.cbb_BackSpaceType = new System.Windows.Forms.ComboBox();
 			this.lbl_BackSpaceType = new System.Windows.Forms.Label();
 			this.chk_WriteInputHistory = new System.Windows.Forms.CheckBox();
@@ -391,7 +392,7 @@ namespace Mahou
 			this.lbl_AutoStartArrow = new System.Windows.Forms.Label();
 			this.cbb_AutostartType = new System.Windows.Forms.ComboBox();
 			this.chk_OneLayoutWholeWord = new System.Windows.Forms.CheckBox();
-			this.lnk_plugin = new MahouUI.LinkLabelNew();
+			this.lnk_plugin = new Mahou.MahouUI.LinkLabelNew();
 			this.chk_MCDS_support = new System.Windows.Forms.CheckBox();
 			this.chk_CapsLockDTimer = new System.Windows.Forms.CheckBox();
 			this.chk_StartupUpdatesCheck = new System.Windows.Forms.CheckBox();
@@ -514,7 +515,7 @@ namespace Mahou
 			this.btn_NCRAdd = new System.Windows.Forms.Button();
 			this.pan_NoConvertRules = new System.Windows.Forms.Panel();
 			this.lbl_ScrollPastContentSnippets = new System.Windows.Forms.Label();
-			this.lnk_SnipOpen = new MahouUI.LinkLabelNew();
+			this.lnk_SnipOpen = new Mahou.MahouUI.LinkLabelNew();
 			this.cbb_SnippetExpandKeys = new System.Windows.Forms.ComboBox();
 			this.lbl_SnippetExpandKey = new System.Windows.Forms.Label();
 			this.txt_Snippets = new Mahou.MahouUI.TextBoxCA();
@@ -646,11 +647,11 @@ namespace Mahou
 			this.tab_about = new System.Windows.Forms.TabPage();
 			this.btn_DebugInfo = new System.Windows.Forms.Button();
 			this.txt_Help = new Mahou.MahouUI.TextBoxCA();
-			this.lnk_Releases = new MahouUI.LinkLabelNew();
-			this.lnk_Email = new MahouUI.LinkLabelNew();
-			this.lnk_Wiki = new MahouUI.LinkLabelNew();
-			this.lnk_Site = new MahouUI.LinkLabelNew();
-			this.lnk_Repository = new MahouUI.LinkLabelNew();
+			this.lnk_Releases = new Mahou.MahouUI.LinkLabelNew();
+			this.lnk_Email = new Mahou.MahouUI.LinkLabelNew();
+			this.lnk_Wiki = new Mahou.MahouUI.LinkLabelNew();
+			this.lnk_Site = new Mahou.MahouUI.LinkLabelNew();
+			this.lnk_Repository = new Mahou.MahouUI.LinkLabelNew();
 			this.tab_Hidden = new System.Windows.Forms.TabPage();
 			this.Htxt_LayoutModifier_S_LAYOUT = new System.Windows.Forms.TextBox();
 			this.Htxt_LayoutModifier_S = new System.Windows.Forms.TextBox();
@@ -714,6 +715,7 @@ namespace Mahou
 			this.btn_OK = new System.Windows.Forms.Button();
 			this.btn_Cancel = new System.Windows.Forms.Button();
 			this.btn_Apply = new System.Windows.Forms.Button();
+			this.Hchk_DontToggleMWexe = new System.Windows.Forms.CheckBox();
 			this.tabs.SuspendLayout();
 			this.tab_functions.SuspendLayout();
 			this.tab_layouts.SuspendLayout();
@@ -798,7 +800,7 @@ namespace Mahou
 			this.tabs.Multiline = true;
 			this.tabs.Name = "tabs";
 			this.tabs.SelectedIndex = 0;
-			this.tabs.Size = new System.Drawing.Size(567, 316);
+			this.tabs.Size = new System.Drawing.Size(562, 316);
 			this.tabs.TabIndex = 0;
 			this.tabs.SelectedIndexChanged += new System.EventHandler(this.MahouUIActivated);
 			// 
@@ -4083,6 +4085,7 @@ namespace Mahou
 			// 
 			this.tab_Hidden.AutoScroll = true;
 			this.tab_Hidden.BackColor = System.Drawing.Color.DarkSlateGray;
+			this.tab_Hidden.Controls.Add(this.Hchk_DontToggleMWexe);
 			this.tab_Hidden.Controls.Add(this.Htxt_LayoutModifier_S_LAYOUT);
 			this.tab_Hidden.Controls.Add(this.Htxt_LayoutModifier_S);
 			this.tab_Hidden.Controls.Add(this.Hlbl_LayoutModifier_S);
@@ -4146,7 +4149,7 @@ namespace Mahou
 			this.tab_Hidden.Location = new System.Drawing.Point(4, 44);
 			this.tab_Hidden.Name = "tab_Hidden";
 			this.tab_Hidden.Padding = new System.Windows.Forms.Padding(3);
-			this.tab_Hidden.Size = new System.Drawing.Size(559, 268);
+			this.tab_Hidden.Size = new System.Drawing.Size(554, 268);
 			this.tab_Hidden.TabIndex = 15;
 			this.tab_Hidden.Text = "[Hidden]";
 			// 
@@ -4777,7 +4780,7 @@ namespace Mahou
 			// 
 			// Hlbl_scrollpastcontent
 			// 
-			this.Hlbl_scrollpastcontent.Location = new System.Drawing.Point(229, 891);
+			this.Hlbl_scrollpastcontent.Location = new System.Drawing.Point(229, 907);
 			this.Hlbl_scrollpastcontent.Name = "Hlbl_scrollpastcontent";
 			this.Hlbl_scrollpastcontent.Size = new System.Drawing.Size(100, 23);
 			this.Hlbl_scrollpastcontent.TabIndex = 40;
@@ -4813,6 +4816,16 @@ namespace Mahou
 			this.btn_Apply.Text = "Apply";
 			this.btn_Apply.UseVisualStyleBackColor = true;
 			this.btn_Apply.Click += new System.EventHandler(this.Btn_ApplyClick);
+			// 
+			// Hchk_DontToggleMWexe
+			// 
+			this.Hchk_DontToggleMWexe.AutoSize = true;
+			this.Hchk_DontToggleMWexe.Location = new System.Drawing.Point(8, 895);
+			this.Hchk_DontToggleMWexe.Name = "Hchk_DontToggleMWexe";
+			this.Hchk_DontToggleMWexe.Size = new System.Drawing.Size(322, 19);
+			this.Hchk_DontToggleMWexe.TabIndex = 64;
+			this.Hchk_DontToggleMWexe.Text = "Don\'t toggle main window on subsequent exe launches.";
+			this.Hchk_DontToggleMWexe.UseVisualStyleBackColor = true;
 			// 
 			// MahouUI
 			// 
