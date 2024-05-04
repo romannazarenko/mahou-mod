@@ -3167,12 +3167,19 @@ namespace Mahou {
 			Thread.Sleep(30);
 			var txt = NativeClipboard.GetText();
 			if (string.IsNullOrEmpty(txt)) {
+				if (clsNM == "ConsoleWindowClass" || 
+				    clsNM == "mintty" || 
+				    clsNM == "VirtualConsoleClass" // ConEmu
+				   ) {
+					Logging.Log("Skip trying to get text by Ctrl+C in console window.");
+				} else {
 				KInputs.MakeInput(new[]{KInputs.AddKey(Keys.LControlKey, true)});
-				if (delay > 0 ) { Thread.Sleep(delay); }
-				KInputs.MakeInput(KInputs.AddPress(Keys.C));
-				KInputs.MakeInput(new[]{KInputs.AddKey(Keys.LControlKey, false)});
-				Thread.Sleep(30);
-				txt = NativeClipboard.GetText();
+					if (delay > 0 ) { Thread.Sleep(delay); }
+					KInputs.MakeInput(KInputs.AddPress(Keys.C));
+					KInputs.MakeInput(new[]{KInputs.AddKey(Keys.LControlKey, false)});
+					Thread.Sleep(30);
+					txt = NativeClipboard.GetText();
+				}
 			}
 			return txt;
 		}
