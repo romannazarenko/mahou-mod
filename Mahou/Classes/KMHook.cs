@@ -3168,6 +3168,7 @@ namespace Mahou {
 			var txt = NativeClipboard.GetText();
 			if (string.IsNullOrEmpty(txt)) {
 				if (clsNM == "ConsoleWindowClass" || 
+				    clsNM == "CASCADIA_HOSTING_WINDOW_CLASS" ||
 				    clsNM == "mintty" || 
 				    clsNM == "VirtualConsoleClass" // ConEmu
 				   ) {
