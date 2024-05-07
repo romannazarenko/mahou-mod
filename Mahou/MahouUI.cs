@@ -2666,7 +2666,9 @@ DEL "+restartMahouPath;
 				caretLangDisplay = new LangDisplay();
 			if (destroyonly || !ENABLED) {
 				mouseLangDisplay.Dispose();
+				mouseLangDisplay = null;
 				caretLangDisplay.Dispose();
+				caretLangDisplay = null;
 				return; 
 			}
 			if (LDForMouse) {
