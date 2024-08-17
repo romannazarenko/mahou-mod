@@ -2714,7 +2714,7 @@ namespace Mahou {
 						}
 						ReSelect(items, "N");
 						MahouUI.hk_result = true;
-					}
+					} else { MahouUI.hk_result = false; }
 					NativeClipboard.Clear();
 					RestoreClipBoard();
 				}, "convert_selection");

@@ -574,9 +574,12 @@ namespace Mahou {
 					var clcs = Hotkey.GetMods(HKCSelection_tempMods) == Hotkey.GetMods(HKCLast_tempMods) &&
 								HKCSelection_tempKey == HKCLast_tempKey && 
 								HKCLast_tempEnabled && HKCSelection_tempEnabled;
+					var cllcs = Hotkey.GetMods(HKCSelection_tempMods) == Hotkey.GetMods(HKCLine_tempMods) &&
+								HKCSelection_tempKey == HKCLine_tempKey && 
+								HKCSelection_tempEnabled && HKCLine_tempEnabled;
 					if (clcs && HKCSelection_tempDouble == HKCLast_tempDouble)
 						Hotkey.CallHotkey(HKCLast, id, ref hksOK, KMHook.ConvertSelection); // Use HKCLast id for cs if hotkeys are the same
-					else 
+					else if (!cllcs)
 						Hotkey.CallHotkey(HKCSelection, id, ref hksOK, KMHook.ConvertSelection);
 					var clcl = false; // Convert Line + Convert Last
 					var conv = false;
@@ -605,7 +608,15 @@ namespace Mahou {
 							stimer.Start();
 						}
 					}
-					if (!clcl) {
+					if (!clcl && !clcs && cllcs && HKCSelection_tempDouble == HKCLine_tempDouble) {
+						Hotkey.CallHotkey(HKCSelection, id, ref hksOK, KMHook.ConvertSelection);
+						Debug.WriteLine("HAAAAAAAAAA!" + hk_result);
+						if (!hk_result) {
+							Hotkey.CallHotkey(HKCSelection, id, ref hksOK, ConvertLastLine);
+							Debug.WriteLine("HAAAAAAAAAAX!" + hk_result);
+						}
+					}
+					if (!clcl && !cllcs) {
 						if (clcs && HKCSelection_tempDouble && !HKCLast_tempDouble) {
 							if (!hklOK) {
 								hklOK = true;
