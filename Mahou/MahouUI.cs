@@ -27,7 +27,7 @@ namespace Mahou {
 		/// </summary>
 		public bool hksTTCOK, hksTRCOK, hksTSCOK, hksTrslOK, hkShWndOK, hkcwdsOK, hklOK, 
 					hksOK, hklineOK, hkSIOK, hkExitOK, hkToglLPOK, hkShowTSOK, hkToggleMahouOK, hkUcOK, hklcOK, hkccOK,
-					hkSCCok, hkSCMUM;
+					hkSCCok, hkSCMUM, hkCLLCS_toOK;
 		public static string nPath = AppDomain.CurrentDomain.BaseDirectory, CustomSound, CustomSound2, Redefines;
 		public static int ACT_Match = 0, TrayHoverMahouMM = 0, explorer_pid, explorer_not_found_tries = 0;
 		public static bool LoggingEnabled, dummy, CapsLockDisablerTimer, LangPanelUpperArrow, mouseLTUpperArrow, caretLTUpperArrow,
@@ -617,23 +617,30 @@ namespace Mahou {
 								Debug.WriteLine("HAAAAAAAAAAX!" + hk_result);
 							}
 						} else if (HKCSelection_tempDouble && !HKCLine_tempDouble) {
-							if (!hksOK) {
+							if (!hkCLLCS_toOK) {
 								hksOK = true;
+								hkCLLCS_toOK = true;
 //								Debug.WriteLine("hklineOK NOT");
 								KMHook.doublekey.Interval = MMain.mahou.DoubleHKInterval;
 								KMHook.doublekey.Start();
 								var clcst = new Timer();
 								clcst.Interval = MMain.mahou.DoubleHKInterval+25;
 								clcst.Tick += (_, __) => { 
-									if (!hksOK) {
+									if (hkCLLCS_toOK) {
 										Debug.WriteLine("HK NOK" + ((int)id) + " " + HKCLine.ID);
-										Hotkey.CallHotkey(HKCLine, Hotkey.HKID.ConvertLastLine, ref hklineOK, ConvertLastLine);
+										Hotkey.CallHotkey(HKCLine, Hotkey.HKID.ConvertLastLine, ref hkCLLCS_toOK, ConvertLastLine);
+										hkCLLCS_toOK = false;
 									}
 									clcst.Stop(); clcst.Dispose(); };
 								clcst.Start();
-							} else
+							} else {
 								Hotkey.CallHotkey(HKCSelection, id, ref hksOK, KMHook.ConvertSelection);
+								hkCLLCS_toOK = false;
+							}
 						}
+					} else {
+						Debug.WriteLine("HK CLL TR2");
+						Hotkey.CallHotkey(HKCLine, id, ref hklineOK, ConvertLastLine);
 					}
 					if (!clcl && !cllcs) {
 						if (clcs && HKCSelection_tempDouble && !HKCLast_tempDouble) {
@@ -655,7 +662,6 @@ namespace Mahou {
 						} else 
 							Hotkey.CallHotkey(HKCLast, id, ref hklOK, () => KMHook.ConvertLast(MMain.c_word));
 					}
-					Hotkey.CallHotkey(HKCLine, id, ref hklineOK, ConvertLastLine);
 				}
 				if (!KMHook.ExcludedProgram() && !specific) {
 					Hotkey.CallHotkey(HKCycleCase, id, ref hkccOK, ()=>CycleCase());
