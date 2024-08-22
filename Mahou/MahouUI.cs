@@ -608,12 +608,31 @@ namespace Mahou {
 							stimer.Start();
 						}
 					}
-					if (!clcl && !clcs && cllcs && HKCSelection_tempDouble == HKCLine_tempDouble) {
-						Hotkey.CallHotkey(HKCSelection, id, ref hksOK, KMHook.ConvertSelection);
-						Debug.WriteLine("HAAAAAAAAAA!" + hk_result);
-						if (!hk_result) {
-							Hotkey.CallHotkey(HKCSelection, id, ref hksOK, ConvertLastLine);
-							Debug.WriteLine("HAAAAAAAAAAX!" + hk_result);
+					if (!clcl && !clcs && cllcs) {
+						if (HKCSelection_tempDouble == HKCLine_tempDouble) {
+							Hotkey.CallHotkey(HKCSelection, id, ref hksOK, KMHook.ConvertSelection);
+							Debug.WriteLine("HAAAAAAAAAA!" + hk_result);
+							if (!hk_result) {
+								Hotkey.CallHotkey(HKCSelection, id, ref hksOK, ConvertLastLine);
+								Debug.WriteLine("HAAAAAAAAAAX!" + hk_result);
+							}
+						} else if (HKCSelection_tempDouble && !HKCLine_tempDouble) {
+							if (!hksOK) {
+								hksOK = true;
+//								Debug.WriteLine("hklineOK NOT");
+								KMHook.doublekey.Interval = MMain.mahou.DoubleHKInterval;
+								KMHook.doublekey.Start();
+								var clcst = new Timer();
+								clcst.Interval = MMain.mahou.DoubleHKInterval+25;
+								clcst.Tick += (_, __) => { 
+									if (!hksOK) {
+										Debug.WriteLine("HK NOK" + ((int)id) + " " + HKCLine.ID);
+										Hotkey.CallHotkey(HKCLine, Hotkey.HKID.ConvertLastLine, ref hklineOK, ConvertLastLine);
+									}
+									clcst.Stop(); clcst.Dispose(); };
+								clcst.Start();
+							} else
+								Hotkey.CallHotkey(HKCSelection, id, ref hksOK, KMHook.ConvertSelection);
 						}
 					}
 					if (!clcl && !cllcs) {
