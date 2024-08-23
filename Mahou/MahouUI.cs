@@ -662,9 +662,8 @@ namespace Mahou {
 							} else
 								Hotkey.CallHotkey(HKCLast, id, ref hklOK, KMHook.ConvertSelection);
 						} 
-					}  else {
-						Hotkey.CallHotkey(HKCLast, id, ref hklOK, () => KMHook.ConvertLast(MMain.c_word));
 					}
+					Hotkey.CallHotkey(HKCLast, id, ref hklOK, () => KMHook.ConvertLast(MMain.c_word));
 				}
 				if (!KMHook.ExcludedProgram() && !specific) {
 					Hotkey.CallHotkey(HKCycleCase, id, ref hkccOK, ()=>CycleCase());
