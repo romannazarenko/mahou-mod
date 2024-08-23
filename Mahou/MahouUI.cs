@@ -628,8 +628,10 @@ namespace Mahou {
 								clcst.Tick += (_, __) => { 
 									if (hkCLLCS_toOK) {
 										Debug.WriteLine("HK NOK" + ((int)id) + " " + HKCLine.ID);
-										Hotkey.CallHotkey(HKCLine, Hotkey.HKID.ConvertLastLine, ref hkCLLCS_toOK, ConvertLastLine);
-										hkCLLCS_toOK = false;
+										if (id == Hotkey.HKID.ConvertSelection) {
+											Hotkey.CallHotkey(HKCLine, Hotkey.HKID.ConvertLastLine, ref hkCLLCS_toOK, ConvertLastLine);
+											hkCLLCS_toOK = false;
+										}
 									}
 									clcst.Stop(); clcst.Dispose(); };
 								clcst.Start();
@@ -659,8 +661,9 @@ namespace Mahou {
 								clcst.Start();
 							} else
 								Hotkey.CallHotkey(HKCLast, id, ref hklOK, KMHook.ConvertSelection);
-						} else 
-							Hotkey.CallHotkey(HKCLast, id, ref hklOK, () => KMHook.ConvertLast(MMain.c_word));
+						} 
+					}  else {
+						Hotkey.CallHotkey(HKCLast, id, ref hklOK, () => KMHook.ConvertLast(MMain.c_word));
 					}
 				}
 				if (!KMHook.ExcludedProgram() && !specific) {
