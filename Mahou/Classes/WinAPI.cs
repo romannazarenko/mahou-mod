@@ -327,6 +327,8 @@ public static class WinAPI {
     public static extern UInt32 SendInput(UInt32 numberOfInputs, INPUT[] inputs, Int32 sizeOfInputStructure);
     [DllImport("user32.dll", SetLastError = true)]
     public static extern int MapVirtualKey(uint uCode, uint uMapType);
+    [DllImport("user32.dll")]
+    public static extern bool BlockInput(bool fBlockIt);
     #endregion
     #region KMHook requires
 	[DllImport("user32.dll", SetLastError = true)]

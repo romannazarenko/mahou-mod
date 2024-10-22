@@ -176,7 +176,9 @@ namespace Mahou {
 	    	if (Hotkey.ContainsModifier(mods, (int)WinAPI.MOD_CONTROL)) rinputs.Add(AddKey(Keys.LControlKey, false));
 	    	if (Hotkey.ContainsModifier(mods, (int)WinAPI.MOD_WIN)) rinputs.Add(AddKey(Keys.LWin, false));
 	    	var sinputs = rinputs.ToArray();
+	    	WinAPI.BlockInput(true);
 	    	var done = WinAPI.SendInput((UInt32)sinputs.Length, sinputs, Marshal.SizeOf(typeof(WinAPI.INPUT)));
+	    	WinAPI.BlockInput(false);
 	    	//System.Diagnostics.Debug.WriteLine("VK SENDED: " + sinputs[0].Data.Keyboard.Vk);
 	    	if (done != sinputs.Length)
 	    		Mahou.Logging.Log("ERROR during send input, lenght: " +done+ ", Win32ERR: " + Marshal.GetLastWin32Error());
