@@ -608,7 +608,7 @@ namespace Mahou {
 							stimer.Start();
 						}
 					}
-					if (!clcl && !clcs && cllcs) {
+					if (!clcl && !clcs && cllcs && (id == Hotkey.HKID.ConvertSelection || id == Hotkey.HKID.ConvertLastLine)) {
 						if (HKCSelection_tempDouble == HKCLine_tempDouble) {
 							Hotkey.CallHotkey(HKCSelection, id, ref hksOK, KMHook.ConvertSelection);
 							Debug.WriteLine("HAAAAAAAAAA!" + hk_result);
