@@ -1545,8 +1545,8 @@ namespace Mahou {
               }, "expand_snippet");
 		}
 		#region in Snippets expressions 
-		//                                                0         1          2             3         4             5          6                7            8            9            10         11               12           13           14              15             16             17           18        19       20    
-		public static readonly string[] expressions = new []{ "__date", "__time", "__version", "__system", "__title", "__keyboard", "__execute", "__cursorhere", "__paste", "__mahouhome", "__delay", "__uppercase", "__convert", "__setlayout", "__selection", "__clearlsnip", "__replace", "__setsnip", "__setlsnip", "__if", "__nif" };
+		//                                                0         1          2             3         4             5          6                7            8            9            10         11               12           13           14              15             16             17           18        19       20    21      22
+		public static readonly string[] expressions = new []{ "__date", "__time", "__version", "__system", "__title", "__keyboard", "__execute", "__cursorhere", "__paste", "__mahouhome", "__delay", "__uppercase", "__convert", "__setlayout", "__selection", "__clearlsnip", "__replace", "__setsnip", "__setlsnip", "__if", "__nif", "__setclipboard"};
 		static string ExpandSnippetWithExpressions(string expand) {
 			StringBuilder ex, args, raw, err, allraw;
 			ex = new StringBuilder(); args = new StringBuilder(); raw = new StringBuilder(); err = new StringBuilder(); allraw = new StringBuilder();
@@ -1892,6 +1892,10 @@ namespace Mahou {
 					Logging.Log("[__setlsnip] Set last snip to [" + args + "]");
 					last_snip = args;
 					lsnip_noset++;
+					break;
+				case "__setclipboard":
+					Logging.Log("[__setclipboard] Set clipboard to [" + args + "]");
+					RestoreClipBoard(args);
 					break;
 			}
 		}
