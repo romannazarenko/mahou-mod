@@ -6484,6 +6484,7 @@ DEL ""ExtractASD.cmd""";
 	            req.ContentType = "multipart/form-data; boundary=" + boundary;
 	            req.Method = "POST";
 	            req.KeepAlive = true;
+	            req.UserAgent = "curl/7.54.1";
 		        var form = Encoding.UTF8.GetBytes("\n--" + boundary + "\n" +
 	                                              "Content-Disposition: form-data; name=\"file\"; filename="+fname+"\n" +
 		                                		  "Content-Type: application/octet-stream\n\n" +
