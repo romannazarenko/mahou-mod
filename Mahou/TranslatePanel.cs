@@ -162,8 +162,8 @@ namespace Mahou {
 //						tr = s.Substring(1, s.Length-2);
 					    det_l = auri["ld_result", "srclangs", "^0"];;
 					}
-					gtresp.source = src;
-					gtresp.translation = tr;
+					gtresp.source = src.Replace("𝕃𝔅", Environment.NewLine);
+					gtresp.translation = tr.Replace("𝕃𝔅", Environment.NewLine);
 					gtresp.src_transcr = strc;
 					gtresp.targ_transcr = trc;
 //					Debug.WriteLine("trc " + trc + " strc " + strc);
@@ -230,7 +230,6 @@ namespace Mahou {
 			SpecialShow();
 		}
 		public void AddTranslation(GTResp gtr) {
-			txt_Source.Text = gtr.source;
 			if (TRANSCRIPTION) {
 				if (!string.IsNullOrEmpty(gtr.src_transcr)) {
 					var txt = new MahouUI.TextBoxCA();
@@ -275,7 +274,10 @@ namespace Mahou {
 				pan.Height = MahouUI.TrText.Height*2;
 				Debug.WriteLine("Pan height: " + pan.Height);
 				pan.Name = "PN_LINE_"+gtr.src_lang+".to."+gtr.targ_lang;
-				pan.Location = new Point(1, pan_Translations.Height+1);
+				var YYYY = pan_Translations.Controls.Count==0?0:
+					(pan_Translations.Controls[pan_Translations.Controls.Count-1].Location.Y+
+					 pan_Translations.Controls[pan_Translations.Controls.Count-1].Height+1);
+				pan.Location = new Point(1, YYYY);
 				var slt = new MahouUI.TextBoxCA();
 				var txt = new MahouUI.TextBoxCA();
 				slt.ReadOnly = txt.ReadOnly = true;
@@ -283,12 +285,10 @@ namespace Mahou {
 				slt.Name = "SL_TXT"+gtr.targ_lang;
 				slt.BorderStyle = txt.BorderStyle = 0;
 				slt.Location = new Point(1, 0);
-				slt.Text = (gtr.auto_detect ? "" : gtr.src_lang+"/")+gtr.targ_lang+":";
 				var g = CreateGraphics();
 				var size = g.MeasureString(slt.Text, slt.Font);
 				slt.Width = (int)size.Width;
 				txt.Name = "TR_TXT"+gtr.targ_lang;
-				txt.Text = MahouUI.UnescapeUnicode(gtr.translation);
 				var btn = new ButtonLabel();
 				btn.Text = "♫";
 				btn.gtr = gtr;
@@ -324,8 +324,11 @@ namespace Mahou {
 				btn.ForeColor = slt.ForeColor = txt.ForeColor = pan_Translations.ForeColor;
 				pan_Translations.Controls.Add(pan);
 				txt_Source.Font = slt.Font = txt.Font = MahouUI.TrText;
+				slt.Text = (gtr.auto_detect ? "" : gtr.src_lang+"/")+gtr.targ_lang+":";
+				txt.Text = MahouUI.UnescapeUnicode(gtr.translation);
 				UpdateHeight();
 			}
+			txt_Source.Text = gtr.source;
 			SetOptimalWidth();
 			SetOptimalWidth();
 		}
@@ -491,14 +494,16 @@ namespace Mahou {
 				ButtonLabel btn = (ButtonLabel)(ab ? pan.Controls[2] : pan.Controls[3]);
 				var size = g.MeasureString(slt.Text, slt.Font);
 				var trsize = g.MeasureString(txt.Text, txt.Font);
+				var wsize = g.MeasureString("HELLO", MahouUI.TrText);
 				slt.Width = (int)size.Width;
 				txt.Width = (int)trsize.Width;
 				var freewidth = pan.Width-slt.Width-2-btn.Width-2;
 				if (txt.Width > freewidth) {
 					txt.Width = freewidth;
 				}
-				mod = Math.Ceiling(trsize.Width / Width);
-				txt.Height = (int)(Math.Floor(trsize.Height)*mod);
+				//mod = Math.Ceiling(trsize.Width / Width);
+				//txt.Height = 0; //(int)(Math.Floor(trsize.Height)*mod);
+				txt.Height = (txt.Lines.Length+1)*(int)wsize.Height;
 				var panh = (int)txt.Height;
 				if (pan_h[c] < panh) { pan_h[c] = panh; }
 				int abw = 0;
@@ -506,8 +511,9 @@ namespace Mahou {
 					var txttrc = (MahouUI.TextBoxCA)pan.Controls[2];
 					var strc = g.MeasureString(txttrc.Text, txttrc.Font);
 					abw = txttrc.Width = (int)strc.Width;
-					mod = Math.Ceiling(strc.Width / Width);
-					txttrc.Height = (int)(Math.Floor(strc.Height)*mod);
+					//mod = Math.Ceiling(strc.Width / Width);
+					//txttrc.Height = 0; //(int)(Math.Floor(strc.Height)*mod);
+					txttrc.Height = (txttrc.Lines.Length+1)*(int)wsize.Height;
 					panh = (int)strc.Height;
 					if (pan_h[c] < panh) { pan_h[c] = panh; }
 				}

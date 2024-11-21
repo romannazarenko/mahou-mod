@@ -868,7 +868,7 @@ namespace Mahou {
 //				pos = Cursor.Position;
 			var pos = Cursor.Position;
 			pos.Y += 10;
-			var str = KMHook.GetClipStr().Replace('\n', ' ');
+			var str = KMHook.GetClipStr().Replace("\n", "𝕃𝔅");
 			Debug.WriteLine(str);
 			if (!string.IsNullOrEmpty(str)) {
 				if (!TranslatePanel.running) {
