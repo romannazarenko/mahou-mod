@@ -484,7 +484,7 @@ namespace Mahou {
 					if (panty > pant_y) pant_y = panty;
 					txtS.Location = new	Point(txt_Source.Location.X+txt_Source.Width, txt_Source.Location.Y);
 				}
-			} else { txt_Source.Width = Width; }
+			} else { txt_Source.Width = Width-14-1-1; }
 			int c = 0;
 			foreach (Control ct in pan_Translations.Controls) {
 				var pan = ct;
