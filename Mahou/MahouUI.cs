@@ -5058,8 +5058,21 @@ DEL ""ExtractASD.cmd""";
 			        (ModifierKeys == Keys.Control) && this.Focused) {
 			        this.SelectAll();
 			        return true;
-			    }            
+			    }
 			    return base.ProcessCmdKey(ref msg, keyData);
+			}
+			protected override void WndProc(ref Message msg) {
+			    if (msg.Msg == 0x020A) { // WM_MOUSEWHEEL
+					this.SelectionStart = 0;
+					this.SelectionLength = 0;
+					this.Focus();
+			    	if (((int)msg.WParam >> 16) > 0) {
+			    		SendKeys.Send("{PgUp}");
+			    	} else {
+			    		SendKeys.Send("{PgDn}");
+			    	}
+			    }
+				base.WndProc(ref msg);
 			}
 		}
 		#endregion
