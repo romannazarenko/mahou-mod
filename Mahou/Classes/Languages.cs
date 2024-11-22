@@ -174,6 +174,7 @@ public class Languages
 		WebScript,
 		DirectV2,
 		Method,
+		SourceText,
 		#endregion
 		#region Updates
 		CheckForUpdates,
@@ -480,6 +481,7 @@ public class Languages
 		{ Element.WebScript, "Web Script(slower/stable)" }, 
 		{ Element.DirectV2, "Direct-v2(faster/more stable)" }, 
 		{ Element.Method, "Method" }, 
+		{ Element.SourceText, "Source text" }, 
 		#endregion
 		#region Updates
 		{ Element.CheckForUpdates, "Check for updates" }, 
@@ -812,6 +814,7 @@ Specify layout code 0 to disable this feature." },
 		{ Element.WebScript, "Веб-скрипт (медленнее|без ошибок)" }, 
 		{ Element.DirectV2, "Напрямую-v2(быстрее|стабильнее)" }, 
 		{ Element.Method, "Метод" }, 
+		{ Element.SourceText, "Исходный текст" }, 
 		#endregion
 		#region Updates
 		{ Element.CheckForUpdates, "Проверить наличие обновлений" }, 

@@ -354,6 +354,7 @@ namespace Mahou
 		private System.Windows.Forms.TextBox Htxt_LayoutModifier_S;
 		private System.Windows.Forms.Label Hlbl_LayoutModifier_S;
 		private System.Windows.Forms.CheckBox Hchk_DontToggleMWexe;
+		private System.Windows.Forms.CheckBox chk_TrSrc;
 		/// <summary>
 		/// Disposes resources used by the form.
 		/// </summary>
@@ -582,6 +583,9 @@ namespace Mahou
 			this.cbb_TrMethod = new System.Windows.Forms.ComboBox();
 			this.chk_TrEnable = new System.Windows.Forms.CheckBox();
 			this.grb_TrConfs = new System.Windows.Forms.GroupBox();
+			this.chk_TrSrc = new System.Windows.Forms.CheckBox();
+			this.lbl_TrTransparency = new System.Windows.Forms.Label();
+			this.nud_TrTransparency = new System.Windows.Forms.NumericUpDown();
 			this.chk_TrTranscription = new System.Windows.Forms.CheckBox();
 			this.btn_TrTitleFont = new System.Windows.Forms.Button();
 			this.btn_TrTextFont = new System.Windows.Forms.Button();
@@ -600,8 +604,6 @@ namespace Mahou
 			this.lbl_TrFG = new System.Windows.Forms.Label();
 			this.btn_TrBG = new System.Windows.Forms.Button();
 			this.btn_TrFG = new System.Windows.Forms.Button();
-			this.nud_TrTransparency = new System.Windows.Forms.NumericUpDown();
-			this.lbl_TrTransparency = new System.Windows.Forms.Label();
 			this.tab_sync = new System.Windows.Forms.TabPage();
 			this.grb_restore = new System.Windows.Forms.GroupBox();
 			this.chk_rMmm = new System.Windows.Forms.CheckBox();
@@ -653,6 +655,7 @@ namespace Mahou
 			this.lnk_Site = new Mahou.MahouUI.LinkLabelNew();
 			this.lnk_Repository = new Mahou.MahouUI.LinkLabelNew();
 			this.tab_Hidden = new System.Windows.Forms.TabPage();
+			this.Hchk_DontToggleMWexe = new System.Windows.Forms.CheckBox();
 			this.Htxt_LayoutModifier_S_LAYOUT = new System.Windows.Forms.TextBox();
 			this.Htxt_LayoutModifier_S = new System.Windows.Forms.TextBox();
 			this.Hlbl_LayoutModifier_S = new System.Windows.Forms.Label();
@@ -715,7 +718,6 @@ namespace Mahou
 			this.btn_OK = new System.Windows.Forms.Button();
 			this.btn_Cancel = new System.Windows.Forms.Button();
 			this.btn_Apply = new System.Windows.Forms.Button();
-			this.Hchk_DontToggleMWexe = new System.Windows.Forms.CheckBox();
 			this.tabs.SuspendLayout();
 			this.tab_functions.SuspendLayout();
 			this.tab_layouts.SuspendLayout();
@@ -843,7 +845,7 @@ namespace Mahou
 			this.tab_functions.Location = new System.Drawing.Point(4, 44);
 			this.tab_functions.Name = "tab_functions";
 			this.tab_functions.Padding = new System.Windows.Forms.Padding(3);
-			this.tab_functions.Size = new System.Drawing.Size(559, 268);
+			this.tab_functions.Size = new System.Drawing.Size(554, 268);
 			this.tab_functions.TabIndex = 0;
 			this.tab_functions.Text = "Functions";
 			this.tab_functions.UseVisualStyleBackColor = true;
@@ -1226,7 +1228,7 @@ namespace Mahou
 			this.tab_layouts.Location = new System.Drawing.Point(4, 44);
 			this.tab_layouts.Name = "tab_layouts";
 			this.tab_layouts.Padding = new System.Windows.Forms.Padding(3);
-			this.tab_layouts.Size = new System.Drawing.Size(559, 268);
+			this.tab_layouts.Size = new System.Drawing.Size(554, 268);
 			this.tab_layouts.TabIndex = 1;
 			this.tab_layouts.Text = "Layouts";
 			this.tab_layouts.UseVisualStyleBackColor = true;
@@ -1645,7 +1647,7 @@ namespace Mahou
 			this.tab_persistent.Location = new System.Drawing.Point(4, 44);
 			this.tab_persistent.Name = "tab_persistent";
 			this.tab_persistent.Padding = new System.Windows.Forms.Padding(3);
-			this.tab_persistent.Size = new System.Drawing.Size(559, 268);
+			this.tab_persistent.Size = new System.Drawing.Size(554, 268);
 			this.tab_persistent.TabIndex = 8;
 			this.tab_persistent.Text = "Persistent layout";
 			this.tab_persistent.UseVisualStyleBackColor = true;
@@ -1792,7 +1794,7 @@ namespace Mahou
 			this.tab_appearence.Location = new System.Drawing.Point(4, 44);
 			this.tab_appearence.Name = "tab_appearence";
 			this.tab_appearence.Padding = new System.Windows.Forms.Padding(3);
-			this.tab_appearence.Size = new System.Drawing.Size(559, 268);
+			this.tab_appearence.Size = new System.Drawing.Size(554, 268);
 			this.tab_appearence.TabIndex = 2;
 			this.tab_appearence.Text = "Appearence";
 			this.tab_appearence.UseVisualStyleBackColor = true;
@@ -2163,7 +2165,7 @@ namespace Mahou
 			this.tab_timings.Location = new System.Drawing.Point(4, 44);
 			this.tab_timings.Name = "tab_timings";
 			this.tab_timings.Padding = new System.Windows.Forms.Padding(3);
-			this.tab_timings.Size = new System.Drawing.Size(559, 268);
+			this.tab_timings.Size = new System.Drawing.Size(554, 268);
 			this.tab_timings.TabIndex = 7;
 			this.tab_timings.Text = "Timings";
 			this.tab_timings.UseVisualStyleBackColor = true;
@@ -2414,7 +2416,7 @@ namespace Mahou
 			this.tab_excluded.Location = new System.Drawing.Point(4, 44);
 			this.tab_excluded.Name = "tab_excluded";
 			this.tab_excluded.Padding = new System.Windows.Forms.Padding(3);
-			this.tab_excluded.Size = new System.Drawing.Size(559, 268);
+			this.tab_excluded.Size = new System.Drawing.Size(554, 268);
 			this.tab_excluded.TabIndex = 11;
 			this.tab_excluded.Text = "Excluded";
 			this.tab_excluded.UseVisualStyleBackColor = true;
@@ -2478,7 +2480,7 @@ namespace Mahou
 			this.tab_snippets.Location = new System.Drawing.Point(4, 44);
 			this.tab_snippets.Name = "tab_snippets";
 			this.tab_snippets.Padding = new System.Windows.Forms.Padding(3);
-			this.tab_snippets.Size = new System.Drawing.Size(559, 268);
+			this.tab_snippets.Size = new System.Drawing.Size(554, 268);
 			this.tab_snippets.TabIndex = 3;
 			this.tab_snippets.Text = "Snippets";
 			this.tab_snippets.UseVisualStyleBackColor = true;
@@ -2635,7 +2637,7 @@ namespace Mahou
 			this.tab_autoswitch.Controls.Add(this.lbl_AutoSwitchDependsOnSnippets);
 			this.tab_autoswitch.Location = new System.Drawing.Point(4, 44);
 			this.tab_autoswitch.Name = "tab_autoswitch";
-			this.tab_autoswitch.Size = new System.Drawing.Size(559, 268);
+			this.tab_autoswitch.Size = new System.Drawing.Size(554, 268);
 			this.tab_autoswitch.TabIndex = 10;
 			this.tab_autoswitch.Text = "Auto Switch";
 			this.tab_autoswitch.UseVisualStyleBackColor = true;
@@ -2720,7 +2722,7 @@ namespace Mahou
 			this.lbl_AutoSwitchDependsOnSnippets.ForeColor = System.Drawing.Color.OrangeRed;
 			this.lbl_AutoSwitchDependsOnSnippets.Location = new System.Drawing.Point(0, 0);
 			this.lbl_AutoSwitchDependsOnSnippets.Name = "lbl_AutoSwitchDependsOnSnippets";
-			this.lbl_AutoSwitchDependsOnSnippets.Size = new System.Drawing.Size(559, 24);
+			this.lbl_AutoSwitchDependsOnSnippets.Size = new System.Drawing.Size(554, 24);
 			this.lbl_AutoSwitchDependsOnSnippets.TabIndex = 10;
 			this.lbl_AutoSwitchDependsOnSnippets.Text = "To use this feature enable snippets.";
 			this.lbl_AutoSwitchDependsOnSnippets.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -2733,7 +2735,7 @@ namespace Mahou
 			this.tab_hotkeys.Location = new System.Drawing.Point(4, 44);
 			this.tab_hotkeys.Name = "tab_hotkeys";
 			this.tab_hotkeys.Padding = new System.Windows.Forms.Padding(3);
-			this.tab_hotkeys.Size = new System.Drawing.Size(559, 268);
+			this.tab_hotkeys.Size = new System.Drawing.Size(554, 268);
 			this.tab_hotkeys.TabIndex = 4;
 			this.tab_hotkeys.Text = "Hotkeys";
 			this.tab_hotkeys.UseVisualStyleBackColor = true;
@@ -2835,7 +2837,7 @@ namespace Mahou
 			this.tab_sounds.Location = new System.Drawing.Point(4, 44);
 			this.tab_sounds.Name = "tab_sounds";
 			this.tab_sounds.Padding = new System.Windows.Forms.Padding(3);
-			this.tab_sounds.Size = new System.Drawing.Size(559, 268);
+			this.tab_sounds.Size = new System.Drawing.Size(554, 268);
 			this.tab_sounds.TabIndex = 12;
 			this.tab_sounds.Text = "Sounds";
 			this.tab_sounds.UseVisualStyleBackColor = true;
@@ -3049,7 +3051,7 @@ namespace Mahou
 			this.tab_LangPanel.Location = new System.Drawing.Point(4, 44);
 			this.tab_LangPanel.Name = "tab_LangPanel";
 			this.tab_LangPanel.Padding = new System.Windows.Forms.Padding(3);
-			this.tab_LangPanel.Size = new System.Drawing.Size(559, 268);
+			this.tab_LangPanel.Size = new System.Drawing.Size(554, 268);
 			this.tab_LangPanel.TabIndex = 9;
 			this.tab_LangPanel.Text = "Language panel";
 			this.tab_LangPanel.UseVisualStyleBackColor = true;
@@ -3257,7 +3259,7 @@ namespace Mahou
 			this.tab_translator.Location = new System.Drawing.Point(4, 44);
 			this.tab_translator.Name = "tab_translator";
 			this.tab_translator.Padding = new System.Windows.Forms.Padding(3);
-			this.tab_translator.Size = new System.Drawing.Size(559, 268);
+			this.tab_translator.Size = new System.Drawing.Size(554, 268);
 			this.tab_translator.TabIndex = 13;
 			this.tab_translator.Text = "Translator";
 			this.tab_translator.UseVisualStyleBackColor = true;
@@ -3296,6 +3298,9 @@ namespace Mahou
 			// 
 			// grb_TrConfs
 			// 
+			this.grb_TrConfs.Controls.Add(this.chk_TrSrc);
+			this.grb_TrConfs.Controls.Add(this.lbl_TrTransparency);
+			this.grb_TrConfs.Controls.Add(this.nud_TrTransparency);
 			this.grb_TrConfs.Controls.Add(this.chk_TrTranscription);
 			this.grb_TrConfs.Controls.Add(this.btn_TrTitleFont);
 			this.grb_TrConfs.Controls.Add(this.btn_TrTextFont);
@@ -3314,20 +3319,61 @@ namespace Mahou
 			this.grb_TrConfs.Controls.Add(this.lbl_TrFG);
 			this.grb_TrConfs.Controls.Add(this.btn_TrBG);
 			this.grb_TrConfs.Controls.Add(this.btn_TrFG);
-			this.grb_TrConfs.Controls.Add(this.nud_TrTransparency);
-			this.grb_TrConfs.Controls.Add(this.lbl_TrTransparency);
 			this.grb_TrConfs.Location = new System.Drawing.Point(6, 20);
 			this.grb_TrConfs.Name = "grb_TrConfs";
 			this.grb_TrConfs.Size = new System.Drawing.Size(547, 242);
 			this.grb_TrConfs.TabIndex = 2;
 			this.grb_TrConfs.TabStop = false;
 			// 
+			// chk_TrSrc
+			// 
+			this.chk_TrSrc.Checked = true;
+			this.chk_TrSrc.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.chk_TrSrc.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.chk_TrSrc.Location = new System.Drawing.Point(6, 76);
+			this.chk_TrSrc.Name = "chk_TrSrc";
+			this.chk_TrSrc.Size = new System.Drawing.Size(142, 18);
+			this.chk_TrSrc.TabIndex = 52;
+			this.chk_TrSrc.Text = "Source text";
+			this.chk_TrSrc.UseVisualStyleBackColor = true;
+			// 
+			// lbl_TrTransparency
+			// 
+			this.lbl_TrTransparency.AutoSize = true;
+			this.lbl_TrTransparency.Location = new System.Drawing.Point(8, 35);
+			this.lbl_TrTransparency.Name = "lbl_TrTransparency";
+			this.lbl_TrTransparency.Size = new System.Drawing.Size(79, 15);
+			this.lbl_TrTransparency.TabIndex = 28;
+			this.lbl_TrTransparency.Text = "Transparency:";
+			// 
+			// nud_TrTransparency
+			// 
+			this.nud_TrTransparency.Increment = new decimal(new int[] {
+			3,
+			0,
+			0,
+			0});
+			this.nud_TrTransparency.Location = new System.Drawing.Point(111, 32);
+			this.nud_TrTransparency.Minimum = new decimal(new int[] {
+			1,
+			0,
+			0,
+			0});
+			this.nud_TrTransparency.Name = "nud_TrTransparency";
+			this.nud_TrTransparency.Size = new System.Drawing.Size(43, 23);
+			this.nud_TrTransparency.TabIndex = 29;
+			this.nud_TrTransparency.Value = new decimal(new int[] {
+			1,
+			0,
+			0,
+			0});
+			// 
 			// chk_TrTranscription
 			// 
 			this.chk_TrTranscription.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.chk_TrTranscription.Location = new System.Drawing.Point(6, 74);
+			this.chk_TrTranscription.Location = new System.Drawing.Point(6, 54);
 			this.chk_TrTranscription.Name = "chk_TrTranscription";
-			this.chk_TrTranscription.Size = new System.Drawing.Size(142, 19);
+			this.chk_TrTranscription.Size = new System.Drawing.Size(142, 18);
 			this.chk_TrTranscription.TabIndex = 51;
 			this.chk_TrTranscription.Text = "Transcription";
 			this.chk_TrTranscription.UseVisualStyleBackColor = true;
@@ -3373,7 +3419,7 @@ namespace Mahou
 			// chk_TrOnDoubleClick
 			// 
 			this.chk_TrOnDoubleClick.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.chk_TrOnDoubleClick.Location = new System.Drawing.Point(6, 19);
+			this.chk_TrOnDoubleClick.Location = new System.Drawing.Point(6, 11);
 			this.chk_TrOnDoubleClick.Name = "chk_TrOnDoubleClick";
 			this.chk_TrOnDoubleClick.Size = new System.Drawing.Size(199, 19);
 			this.chk_TrOnDoubleClick.TabIndex = 2;
@@ -3492,37 +3538,6 @@ namespace Mahou
 			this.btn_TrFG.UseVisualStyleBackColor = true;
 			this.btn_TrFG.Click += new System.EventHandler(this.Btn_ColorSelectionClick);
 			// 
-			// nud_TrTransparency
-			// 
-			this.nud_TrTransparency.Increment = new decimal(new int[] {
-			3,
-			0,
-			0,
-			0});
-			this.nud_TrTransparency.Location = new System.Drawing.Point(105, 45);
-			this.nud_TrTransparency.Minimum = new decimal(new int[] {
-			1,
-			0,
-			0,
-			0});
-			this.nud_TrTransparency.Name = "nud_TrTransparency";
-			this.nud_TrTransparency.Size = new System.Drawing.Size(43, 23);
-			this.nud_TrTransparency.TabIndex = 29;
-			this.nud_TrTransparency.Value = new decimal(new int[] {
-			1,
-			0,
-			0,
-			0});
-			// 
-			// lbl_TrTransparency
-			// 
-			this.lbl_TrTransparency.AutoSize = true;
-			this.lbl_TrTransparency.Location = new System.Drawing.Point(8, 48);
-			this.lbl_TrTransparency.Name = "lbl_TrTransparency";
-			this.lbl_TrTransparency.Size = new System.Drawing.Size(79, 15);
-			this.lbl_TrTransparency.TabIndex = 28;
-			this.lbl_TrTransparency.Text = "Transparency:";
-			// 
 			// tab_sync
 			// 
 			this.tab_sync.Controls.Add(this.grb_restore);
@@ -3530,7 +3545,7 @@ namespace Mahou
 			this.tab_sync.Location = new System.Drawing.Point(4, 44);
 			this.tab_sync.Name = "tab_sync";
 			this.tab_sync.Padding = new System.Windows.Forms.Padding(3);
-			this.tab_sync.Size = new System.Drawing.Size(559, 268);
+			this.tab_sync.Size = new System.Drawing.Size(554, 268);
 			this.tab_sync.TabIndex = 14;
 			this.tab_sync.Text = "Sync";
 			this.tab_sync.UseVisualStyleBackColor = true;
@@ -3834,7 +3849,7 @@ namespace Mahou
 			this.tab_updates.Location = new System.Drawing.Point(4, 44);
 			this.tab_updates.Name = "tab_updates";
 			this.tab_updates.Padding = new System.Windows.Forms.Padding(3);
-			this.tab_updates.Size = new System.Drawing.Size(559, 268);
+			this.tab_updates.Size = new System.Drawing.Size(554, 268);
 			this.tab_updates.TabIndex = 5;
 			this.tab_updates.Text = "Updates";
 			this.tab_updates.UseVisualStyleBackColor = true;
@@ -3982,7 +3997,7 @@ namespace Mahou
 			this.btn_CheckForUpdates.Dock = System.Windows.Forms.DockStyle.Top;
 			this.btn_CheckForUpdates.Location = new System.Drawing.Point(3, 3);
 			this.btn_CheckForUpdates.Name = "btn_CheckForUpdates";
-			this.btn_CheckForUpdates.Size = new System.Drawing.Size(553, 23);
+			this.btn_CheckForUpdates.Size = new System.Drawing.Size(548, 23);
 			this.btn_CheckForUpdates.TabIndex = 0;
 			this.btn_CheckForUpdates.Text = "Check for updates";
 			this.btn_CheckForUpdates.UseVisualStyleBackColor = true;
@@ -4000,7 +4015,7 @@ namespace Mahou
 			this.tab_about.Location = new System.Drawing.Point(4, 44);
 			this.tab_about.Name = "tab_about";
 			this.tab_about.Padding = new System.Windows.Forms.Padding(3);
-			this.tab_about.Size = new System.Drawing.Size(559, 268);
+			this.tab_about.Size = new System.Drawing.Size(554, 268);
 			this.tab_about.TabIndex = 6;
 			this.tab_about.Text = "About";
 			this.tab_about.UseVisualStyleBackColor = true;
@@ -4152,6 +4167,16 @@ namespace Mahou
 			this.tab_Hidden.Size = new System.Drawing.Size(554, 268);
 			this.tab_Hidden.TabIndex = 15;
 			this.tab_Hidden.Text = "[Hidden]";
+			// 
+			// Hchk_DontToggleMWexe
+			// 
+			this.Hchk_DontToggleMWexe.AutoSize = true;
+			this.Hchk_DontToggleMWexe.Location = new System.Drawing.Point(8, 895);
+			this.Hchk_DontToggleMWexe.Name = "Hchk_DontToggleMWexe";
+			this.Hchk_DontToggleMWexe.Size = new System.Drawing.Size(322, 19);
+			this.Hchk_DontToggleMWexe.TabIndex = 64;
+			this.Hchk_DontToggleMWexe.Text = "Don\'t toggle main window on subsequent exe launches.";
+			this.Hchk_DontToggleMWexe.UseVisualStyleBackColor = true;
 			// 
 			// Htxt_LayoutModifier_S_LAYOUT
 			// 
@@ -4816,16 +4841,6 @@ namespace Mahou
 			this.btn_Apply.Text = "Apply";
 			this.btn_Apply.UseVisualStyleBackColor = true;
 			this.btn_Apply.Click += new System.EventHandler(this.Btn_ApplyClick);
-			// 
-			// Hchk_DontToggleMWexe
-			// 
-			this.Hchk_DontToggleMWexe.AutoSize = true;
-			this.Hchk_DontToggleMWexe.Location = new System.Drawing.Point(8, 895);
-			this.Hchk_DontToggleMWexe.Name = "Hchk_DontToggleMWexe";
-			this.Hchk_DontToggleMWexe.Size = new System.Drawing.Size(322, 19);
-			this.Hchk_DontToggleMWexe.TabIndex = 64;
-			this.Hchk_DontToggleMWexe.Text = "Don\'t toggle main window on subsequent exe launches.";
-			this.Hchk_DontToggleMWexe.UseVisualStyleBackColor = true;
 			// 
 			// MahouUI
 			// 

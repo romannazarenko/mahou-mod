@@ -18,7 +18,7 @@ namespace Mahou {
 		public static readonly string speech_dir = Path.Combine(Path.GetTempPath(), "MahouGTSpeech");
 		public static readonly string txtstrc = "txt_Source_Transcr";
 		public static List<GTResp> GTRs = new List<GTResp>();
-		public static bool TRANSCRIPTION = false;
+		public static bool TRANSCRIPTION = false, SOURCE = true;
 //		public static List<string> SPFs = new List<string>();
 //		public static List<string> SPUs = new List<string>();
 		public static bool running, useGS = true, useNA = false;
@@ -59,7 +59,7 @@ namespace Mahou {
 		  	txt_Source.Text = MMain.Lang[Languages.Element.Error]+ " " + msg;
 		  	pan_Translations.Width = 0;
 		  	pan_Translations.Height = 0;
-		  	Height = TITLE.Height + 1 + txt_Source.Height+2;
+		  	Height = TITLE.Height + 1 + (SOURCE ? (txt_Source.Height+2) : 1);
 		  	SetOptimalWidth();
 		  	Prepare();
 		}
@@ -402,6 +402,7 @@ namespace Mahou {
 			txt_Source.BackColor = back;
 			txt_Source.ForeColor = fore;
 			txt_Source.Font = MahouUI.TrText;
+			txt_Source.Visible = SOURCE;
 			X.BackColor = back;
 			X._original_color = X.ForeColor = fore;
 			pan_Translations.ForeColor = fore;
@@ -429,7 +430,7 @@ namespace Mahou {
 				h+=ct.Height;
 			}
 			pan_Translations.Height = h+2;
-			if (pant_y == 0) {pant_y = txt_Source.Height; }
+			if (pant_y == 0) {pant_y = SOURCE ? txt_Source.Height : 0; }
 			pan_Translations.Location = new Point(1, TITLE.Height +1 + 2+ pant_y);
 			Height = pant_y+1+pan_Translations.Height+TITLE.Height+2+2;
 		}

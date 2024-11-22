@@ -1370,6 +1370,7 @@ namespace Mahou {
 				MMain.MyConfs.Write("TranslatePanel", "TextFont", fcv.ConvertToString(btn_TrTextFont.Font));
 				MMain.MyConfs.Write("TranslatePanel", "TitleFont", fcv.ConvertToString(btn_TrTitleFont.Font));
 				MMain.MyConfs.Write("TranslatePanel", "Transcription", chk_TrTranscription.Checked.ToString());
+				MMain.MyConfs.Write("TranslatePanel", "SourceText", chk_TrSrc.Checked.ToString());
 				SaveTrSets();
 				#endregion
 				#region Sync
@@ -1903,6 +1904,7 @@ namespace Mahou {
 	               	_TranslatePanel = new TranslatePanel();
                _TranslatePanel.SetTitle(MMain.Lang[Languages.Element.Translation]);
                chk_TrTranscription.Checked = TranslatePanel.TRANSCRIPTION = MMain.MyConfs.ReadBool("TranslatePanel", "Transcription");
+               chk_TrSrc.Checked = TranslatePanel.SOURCE = MMain.MyConfs.ReadBool("TranslatePanel", "SourceText");
 			} else {
 				if (_TranslatePanel != null)
 					_TranslatePanel.Dispose();
@@ -4840,6 +4842,7 @@ DEL ""ExtractASD.cmd""";
 			btn_LPFont.Text = MMain.Lang[Languages.Element.LDFont];
 			chk_LPUpperArrow.Text = MMain.Lang[Languages.Element.DisplayUpperArrow];
 			lbl_TrMethod.Text = MMain.Lang[Languages.Element.Method] + ":";
+			chk_TrSrc.Text = MMain.Lang[Languages.Element.SourceText];
 			#endregion
 			#region TranslatePanel
 			chk_TrEnable.Text = MMain.Lang[Languages.Element.EnableTranslatePanel];
