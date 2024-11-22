@@ -5062,17 +5062,20 @@ DEL ""ExtractASD.cmd""";
 			    return base.ProcessCmdKey(ref msg, keyData);
 			}
 			protected override void WndProc(ref Message msg) {
-			    if (msg.Msg == 0x020A) { // WM_MOUSEWHEEL
+				base.WndProc(ref msg);
+				if (msg.Msg == WinAPI.WM_MOUSEWHEEL) {
+					var x = msg.WParam.ToInt64();
+					int high = 0;
+					Int32.TryParse((x >> 16).ToString(), out high);
 					this.SelectionStart = 0;
 					this.SelectionLength = 0;
 					this.Focus();
-			    	if (((int)msg.WParam >> 16) > 0) {
+					if (high == 120) {
 			    		SendKeys.Send("{PgUp}");
-			    	} else {
+			    	} else if (Environment.Is64BitProcess ? (high == 65416 || high == 65296) : (high == -120)) {
 			    		SendKeys.Send("{PgDn}");
 			    	}
 			    }
-				base.WndProc(ref msg);
 			}
 		}
 		#endregion
