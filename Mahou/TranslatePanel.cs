@@ -160,7 +160,11 @@ namespace Mahou {
 //						Debug.WriteLine(au_se["^1", "src_translit"]);
 //						s = au_se["^0", "trans"];
 //						tr = s.Substring(1, s.Length-2);
-					    det_l = auri["ld_result", "srclangs", "^0"];;
+						try {
+							det_l = auri["ld_result", "srclangs", "^0"];
+						} catch (Exception EE) {
+							det_l = "????";
+						}
 					}
 					gtresp.source = src.Replace("𝕃𝔅", Environment.NewLine);
 					gtresp.translation = tr.Replace("𝕃𝔅", Environment.NewLine);
