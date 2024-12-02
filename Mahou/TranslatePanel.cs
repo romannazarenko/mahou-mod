@@ -163,7 +163,7 @@ namespace Mahou {
 						try {
 							det_l = auri["ld_result", "srclangs", "^0"];
 						} catch (Exception EE) {
-							det_l = "????";
+							det_l = Regex.Match(auri.raw, ".*?\"ld_result\":.*?\"srclangs\".*?\\[(.*?)\\]").Groups[1].Value;
 						}
 					}
 					gtresp.source = src.Replace("𝕃𝔅", Environment.NewLine);
