@@ -48,6 +48,10 @@ Mahou находится под [GPL v2+](https://gitea.com/BladeMight/Mahou/blo
 ### Связаться со мной
 Если Вы нашли ошибку или есть идея как улучшить Mahou, опишите её [здесь](https://gitea.com/BladeMight/Mahou/issues) или свяжитесь со мной через [эл. почту](mailto:BladeMight@gmail.com) (можете спрашивать о чём угодно).
 
+### Поддержать
+
+https://ko-fi.com/blademight
+
 ###### История изменений:
 
 <details><summary><b>v2.9.0.1 по 2.0.0.0</b></summary>
@@ -796,6 +800,10 @@ Mahou is under [GPL v2+](https://gitea.com/BladeMight/Mahou/blob/master/LICENSE.
 ### Contact
 If you found an issue or have an idea how to improve Mahou write [here](https://gitea.com/BladeMight/Mahou/issues)
 or contact me though [email](mailto:BladeMight@gmail.com) (You can ask anything)
+
+### Donate
+
+https://ko-fi.com/blademight
 
 ###### Change log:
 
