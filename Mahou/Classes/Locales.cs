@@ -134,6 +134,7 @@ namespace Mahou
 		/// Check if you have enough layouts(>2).
 		/// </summary>
 		public static void IfLessThan2() {
+			if (MMain.MyConfs.ReadBool("Hidden", "disablelessthan2layoutsnotification")) return;
 			if (AllList().Length < 2) {
             	MMain.mahou.icon.trIcon.BalloonTipClicked += (_, __) => Process.Start(@"C:\Windows\system32\rundll32.exe", "shell32.dll,Control_RunDLL input.dll");
 				MMain.mahou.icon.trIcon.ShowBalloonTip(4500, "You have too less layouts(locales/languages)!!", "This program switches texts by system's layouts(locales/languages), please add at least 2!", ToolTipIcon.Warning);

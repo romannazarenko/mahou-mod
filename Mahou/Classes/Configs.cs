@@ -210,6 +210,7 @@ namespace Mahou {
         	CreateConfigsFile();
         	ReadFromDisk();
         	#region Hidden
+			CheckBool("Hidden", "disablelessthan2layoutsnotification", "false");
 			CheckBool("Hidden", "cmdbackfix", "true");
 			CheckBool("Hidden", "DARKTHEME", "false");
 			CheckString("Hidden", "Layout_S_Modifier_Layout", "0");
