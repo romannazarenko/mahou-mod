@@ -2433,11 +2433,10 @@ namespace Mahou {
 				@"@ECHO OFF
 REM You should never see this file, if you are it means during restarting Mahou something went wrong. 
 chcp 65001
-SET MAHOUDIR=" + AppDomain.CurrentDomain.BaseDirectory + @"
 TASKKILL /PID " + MahouPID + @" /F
 TASKKILL /IM Mahou.exe /F
-START """" ""%MAHOUDIR%Mahou.exe""
-DEL "+restartMahouPath;
+START """" """+AppDomain.CurrentDomain.BaseDirectory+@"\Mahou.exe""
+DEL """+restartMahouPath + @"""";
 			Logging.Log("Writing restart script.");
 			File.WriteAllText(restartMahouPath, restartMahou);
 			var piRestartMahou = new ProcessStartInfo() { FileName = restartMahouPath, WindowStyle = ProcessWindowStyle.Hidden };
