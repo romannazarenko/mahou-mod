@@ -72,7 +72,7 @@ namespace Mahou {
 			if (_fwThr_id != _cThr_id) {
 				var gti = new WinAPI.GUITHREADINFO();
 				gti.cbSize = Marshal.SizeOf(gti);
-				if (!GetGuiInfo(0, ref gti))
+				if (!GetGuiInfo(_fwThr_id, ref gti))
 				    return LuckyNone;
 				_fwFCS = gti.hwndFocus;
 				Logging.Log("Gui thread info caret point: " + gti.rectCaret.Left + " x " + gti.rectCaret.Top);
