@@ -75,8 +75,8 @@ namespace Mahou {
 				if (!GetGuiInfo(_fwThr_id, ref gti))
 				    return LuckyNone;
 				_fwFCS = gti.hwndFocus;
-				Logging.Log("Gui thread info caret point: " + gti.rectCaret.Left + " x " + gti.rectCaret.Top);
 				WinAPI.GetClassName(_fw, _clsNMb, _clsNMb.Capacity);
+				Logging.Log("Gui thread info caret point: " + gti.rectCaret.Left + " x " + gti.rectCaret.Top + " on " + _clsNMb);
 				_clsNMfw = _clsNMb.ToString();
 				if (_fwFCS != IntPtr.Zero && _fwFCS != _fw) {
 					var _fwFCSThr_id = WinAPI.GetWindowThreadProcessId(_fwFCS, out dummy);
@@ -114,7 +114,6 @@ namespace Mahou {
 					Logging.Log("No way to get caret position information for " + _clsNMb + " window.", 2);
 					return LuckyNone;
 				}
-				Logging.Log("CaretPos = x["+_pntCR.X+"], y["+_pntCR.Y+"].");	
 				// Do not display caret for these classes:
 				if (_clsNM.Contains("listbox") || _clsNM.Contains("button") || 
 					_clsNM.Contains("checkbox") || _clsNM.Contains("combobox") || 
@@ -128,17 +127,25 @@ namespace Mahou {
 				    _clsNM == "systabcontrol32" || _clsNM == "directuihwnd" ||
 				    _clsNM == "static" ||  _clsNM == "netuihwnd" || _clsNMfw == "mspaintapp" ||
 				    _clsNM == "potplayer" || _clsNM == "mdiclient" || 
-				    (_clsNMfw == "#32770" && _clsNM != "edit"))
+				    (_clsNMfw == "#32770" && _clsNM != "edit")) {
+					Logging.Log("Window class matched exception rules: " + _clsNMb, 2);
 					return LuckyNone;
+				}
 				if (_clsNM.Contains("sharpdevelop.exe")) {
 					_pntCR.Y += 28; _pntCR.X += 3;
 				}
 				if (_clsNM == "px_window_class") { _pntCR.Y += 42; _pntCR.X += 4; }
 				if (_clsNM.Contains("mintty")) { _pntCR.Y += 31; _pntCR.X += 4; }
-				Logging.Log("Get caret position finished successfully.", 0);
 				caretOnlyPos = _pntCR;
-				System.Diagnostics.Debug.WriteLine(_fwFCS_Re.Left + _pntCR.X);
-				return new Point(_fwFCS_Re.Left + _pntCR.X, _fwFCS_Re.Top + _pntCR.Y);
+				var _pos = _pntCR;
+				Logging.Log("Get caret position finished successfully. Caret Pos: " + _pntCR.X + " x " + _pntCR.Y + " offset: " + _fwFCS_Re.Left + " x " + _fwFCS_Re.Top, 0);
+				// for some reason OleAcc returns caret pos with window coords as well for chromium
+				// so we skip adding the window's x and y
+				if (_clsNM != "chrome_widgetwin_1") { 
+					if (_fwFCS_Re.Left != _pntCR.X) { _pos.X += _fwFCS_Re.Left; }
+					if (_fwFCS_Re.Top != _pntCR.X) { _pos.Y += _fwFCS_Re.Top; }
+				}
+				return _pos;
 //				}
 			}
 			return LuckyNone;
