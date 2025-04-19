@@ -27,8 +27,21 @@ namespace Mahou {
 					viewID = GetMCDSValue("VID", info);
 				}
 			} catch (Exception e) {  
-				Logging.Log("Error during GetDataFromMCDS, details\r\b:" + e.Message + "\r\n" + e.StackTrace + "\r\n");
 			}
+		}
+		public static Point GetCaretPosFromOleAcc(IntPtr hwnd) {
+			var IID_IAcce = new Guid("618736E0-3C3D-11CF-810C-00AA00389B71");
+			Object ppvObject = null;
+			WinAPI.AccessibleObjectFromWindow(hwnd, (uint)WinAPI.OBJID.CARET, ref IID_IAcce, ref ppvObject);
+			var accessible = (Accessibility.IAccessible) ppvObject;
+			int x, y, w, h; x=y=w=h=0;
+			if (accessible == null) {
+				Logging.Log("OleAcc failed: " + Marshal.GetLastWin32Error(), 1);
+				return new Point(77777,77777);
+			}
+			accessible.accLocation(out x, out y, out w, out h, 0);
+			Logging.Log("Received CARET information from OleAcc: " + x + " x " + y);
+			return new Point(x, y);
 		}
 		public static bool GetGuiInfo(uint thread_id, ref WinAPI.GUITHREADINFO gui_info) {
 			if (!WinAPI.GetGUIThreadInfo(thread_id, ref gui_info)) {
@@ -59,12 +72,13 @@ namespace Mahou {
 			if (_fwThr_id != _cThr_id) {
 				var gti = new WinAPI.GUITHREADINFO();
 				gti.cbSize = Marshal.SizeOf(gti);
-				if (!GetGuiInfo(_fwThr_id, ref gti))
+				if (!GetGuiInfo(0, ref gti))
 				    return LuckyNone;
 				_fwFCS = gti.hwndFocus;
+				Logging.Log("Gui thread info caret point: " + gti.rectCaret.Left + " x " + gti.rectCaret.Top);
 				WinAPI.GetClassName(_fw, _clsNMb, _clsNMb.Capacity);
 				_clsNMfw = _clsNMb.ToString();
-					if (_fwFCS != IntPtr.Zero && _fwFCS != _fw) {
+				if (_fwFCS != IntPtr.Zero && _fwFCS != _fw) {
 					var _fwFCSThr_id = WinAPI.GetWindowThreadProcessId(_fwFCS, out dummy);
 					var gtiFCS = new WinAPI.GUITHREADINFO();
 					gtiFCS.cbSize = Marshal.SizeOf(gtiFCS);
@@ -79,48 +93,53 @@ namespace Mahou {
 					_pntCR = new Point(gti.rectCaret.Left, gti.rectCaret.Top);
 					WinAPI.GetWindowRect(_fw, out _fwFCS_Re);
 				}
-				if (_clsNMfw == "PX_WINDOW_CLASS" && MahouUI.MCDSSupport) {
-					System.Threading.Tasks.Task.Factory.StartNew(GetDataFromMCDS);
-					var CaretToScreen = new Point(_fwFCS_Re.Left, _fwFCS_Re.Top);
-					CaretToScreen.X += _CaretST3.X + SidebarWidth + MahouUI.MCDS_Xpos_temp;
-					if (viewID == 4) {
-						WinAPI.RECT clts = new WinAPI.RECT(0,0,0,0);
-						WinAPI.GetWindowRect(WinAPI.GetForegroundWindow(), out clts);
-						CaretToScreen.Y = clts.Bottom - MahouUI.MCDS_BottomIndent_temp - 45 + MahouUI.MCDS_Ypos_temp;
-						CaretToScreen.X -= 20;
-					} else 
-						CaretToScreen.Y += _CaretST3.Y + MahouUI.MCDS_TopIndent_temp + MahouUI.MCDS_Ypos_temp;
-					caretOnlyPos = _CaretST3;
-					return CaretToScreen;
-				} else {
-					if (_pntCR.Equals(new Point(0,0)))
-						return LuckyNone;
-					Logging.Log("CaretPos = x["+_pntCR.X+"], y["+_pntCR.Y+"].");	
-					var _clsNM = _clsNMb.ToString().ToLower();
-					System.Diagnostics.Debug.WriteLine(_clsNM);
-					// Do not display caret for these classes:
-					if (_clsNM.Contains("listbox") || _clsNM.Contains("button") || 
-						_clsNM.Contains("checkbox") || _clsNM.Contains("combobox") || 
-						_clsNM.Contains("listview") || _clsNM.Contains("pagecontrol") || 
-						(_clsNM.Contains("window") && !_clsNM.Contains("mozilla")) || _clsNM.Contains("syslink") ||
-						_clsNM.Contains("tree") || _clsNM.Contains("helpform") || 
-						_clsNM.Contains("tmainform") || _clsNM.Contains("btn") ||  
-						_clsNM.Contains("удалить") || _clsNM.Contains("delete") ||
-					    _clsNM.Contains("afx:") ||
-					    _clsNM == "msctls_trackbar32"|| _clsNM.Contains("wxwindow") ||
-					    _clsNM == "systabcontrol32" || _clsNM == "directuihwnd" ||
-					    _clsNM == "static" ||  _clsNM == "netuihwnd" || _clsNMfw == "mspaintapp" ||
-					    _clsNM == "potplayer" || _clsNM == "mdiclient" || 
-					    (_clsNMfw == "#32770" && _clsNM != "edit"))
-						return LuckyNone;
-					if (_clsNM.Contains("sharpdevelop.exe")) {
-						_pntCR.Y += 28; _pntCR.X += 3;
-					}
-					if (_clsNM.Contains("mintty")) { _pntCR.Y += 31; _pntCR.X += 4; }
-					Logging.Log("Get caret position finished successfully.", 0);
-					caretOnlyPos = _pntCR;
-					return new Point(_fwFCS_Re.Left + _pntCR.X, _fwFCS_Re.Top + _pntCR.Y);
+//				if (_clsNMfw == "PX_WINDOW_CLASS" && MahouUI.MCDSSupport) {
+//					System.Threading.Tasks.Task.Factory.StartNew(GetDataFromMCDS);
+//					var CaretToScreen = new Point(_fwFCS_Re.Left, _fwFCS_Re.Top);
+//					CaretToScreen.X += _CaretST3.X + SidebarWidth + MahouUI.MCDS_Xpos_temp;
+//					if (viewID == 4) {
+//						WinAPI.RECT clts = new WinAPI.RECT(0,0,0,0);
+//						WinAPI.GetWindowRect(WinAPI.GetForegroundWindow(), out clts);
+//						CaretToScreen.Y = clts.Bottom - MahouUI.MCDS_BottomIndent_temp - 45 + MahouUI.MCDS_Ypos_temp;
+//						CaretToScreen.X -= 20;
+//					} else 
+//						CaretToScreen.Y += _CaretST3.Y + MahouUI.MCDS_TopIndent_temp + MahouUI.MCDS_Ypos_temp;
+//					caretOnlyPos = _CaretST3;
+//					return CaretToScreen;
+//				} else {
+				var _clsNM = _clsNMb.ToString().ToLower();
+				if (_pntCR.Equals(new Point(0,0)))
+					_pntCR = GetCaretPosFromOleAcc(_fw);
+				if (_pntCR.Equals(new Point(0,0))) {
+					Logging.Log("No way to get caret position information for " + _clsNMb + " window.", 2);
+					return LuckyNone;
 				}
+				Logging.Log("CaretPos = x["+_pntCR.X+"], y["+_pntCR.Y+"].");	
+				// Do not display caret for these classes:
+				if (_clsNM.Contains("listbox") || _clsNM.Contains("button") || 
+					_clsNM.Contains("checkbox") || _clsNM.Contains("combobox") || 
+					_clsNM.Contains("listview") || _clsNM.Contains("pagecontrol") || 
+					(_clsNM.Contains("window") && !_clsNM.Contains("mozilla") && _clsNM != "px_window_class") || _clsNM.Contains("syslink") ||
+					_clsNM.Contains("tree") || _clsNM.Contains("helpform") || 
+					_clsNM.Contains("tmainform") || _clsNM.Contains("btn") ||  
+					_clsNM.Contains("удалить") || _clsNM.Contains("delete") ||
+				    _clsNM.Contains("afx:") ||
+				    _clsNM == "msctls_trackbar32"|| _clsNM.Contains("wxwindow") ||
+				    _clsNM == "systabcontrol32" || _clsNM == "directuihwnd" ||
+				    _clsNM == "static" ||  _clsNM == "netuihwnd" || _clsNMfw == "mspaintapp" ||
+				    _clsNM == "potplayer" || _clsNM == "mdiclient" || 
+				    (_clsNMfw == "#32770" && _clsNM != "edit"))
+					return LuckyNone;
+				if (_clsNM.Contains("sharpdevelop.exe")) {
+					_pntCR.Y += 28; _pntCR.X += 3;
+				}
+				if (_clsNM == "px_window_class") { _pntCR.Y += 42; _pntCR.X += 4; }
+				if (_clsNM.Contains("mintty")) { _pntCR.Y += 31; _pntCR.X += 4; }
+				Logging.Log("Get caret position finished successfully.", 0);
+				caretOnlyPos = _pntCR;
+				System.Diagnostics.Debug.WriteLine(_fwFCS_Re.Left + _pntCR.X);
+				return new Point(_fwFCS_Re.Left + _pntCR.X, _fwFCS_Re.Top + _pntCR.Y);
+//				}
 			}
 			return LuckyNone;
 		}

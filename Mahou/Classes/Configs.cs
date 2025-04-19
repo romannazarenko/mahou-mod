@@ -460,10 +460,10 @@ namespace Mahou {
             CheckBool("Appearence", "CaretLTUseFlags", "false");
             CheckBool("Appearence", "MouseLTUseFlags", "false");
 			// Language tooltips use flags
-			CheckInt("Appearence", "MCDS_Bottom", "45");
-			CheckInt("Appearence", "MCDS_Top", "60");
-			CheckInt("Appearence", "MCDS_Pos_Y", "13");
-			CheckInt("Appearence", "MCDS_Pos_X", "58");
+//			CheckInt("Appearence", "MCDS_Bottom", "45");
+//			CheckInt("Appearence", "MCDS_Top", "60");
+//			CheckInt("Appearence", "MCDS_Pos_Y", "13");
+//			CheckInt("Appearence", "MCDS_Pos_X", "58");
 			// Language tooltip positions for Mahou Cared Display Server
 			CheckInt("Appearence", "CaretLTPositionY", "12");
 			CheckInt("Appearence", "CaretLTPositionX", "8");
@@ -553,7 +553,7 @@ namespace Mahou {
             CheckBool("Functions", "AppDataConfigs", forceAppData.ToString());
             CheckBool("Functions", "GuessKeyCodeFix", "false");
             CheckBool("Functions", "OneLayoutWholeWord", "true");
-            CheckBool("Functions", "MCDServerSupport", "false");
+//            CheckBool("Functions", "MCDServerSupport", "false");
             CheckBool("Functions", "SymbolIgnoreModeEnabled", "false");
             CheckBool("Functions", "BlockMahouHotkeysWithCtrl", "false");
             CheckBool("Functions", "TrayFlags", "true");

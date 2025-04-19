@@ -111,6 +111,9 @@
     <StartAction>Project</StartAction>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Accessibility">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>

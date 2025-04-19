@@ -1063,6 +1063,7 @@ namespace Mahou
 			// lnk_plugin
 			// 
 			this.lnk_plugin.AutoSize = true;
+			this.lnk_plugin.Enabled = false;
 			this.lnk_plugin.Location = new System.Drawing.Point(493, 74);
 			this.lnk_plugin.Name = "lnk_plugin";
 			this.lnk_plugin.Size = new System.Drawing.Size(0, 15);
@@ -1073,6 +1074,7 @@ namespace Mahou
 			// chk_MCDS_support
 			// 
 			this.chk_MCDS_support.AutoSize = true;
+			this.chk_MCDS_support.Enabled = false;
 			this.chk_MCDS_support.Location = new System.Drawing.Point(302, 74);
 			this.chk_MCDS_support.Name = "chk_MCDS_support";
 			this.chk_MCDS_support.Size = new System.Drawing.Size(144, 19);

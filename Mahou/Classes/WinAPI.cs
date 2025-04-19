@@ -389,6 +389,23 @@ public static class WinAPI {
 	public static extern bool GetGUIThreadInfo(uint hTreadID, ref GUITHREADINFO lpgui);
 	[DllImport("imm32.dll")]
 	public static extern IntPtr ImmGetDefaultIMEWnd(IntPtr UnNamed);
+    [DllImport("oleacc.dll")]
+    public static extern int AccessibleObjectFromWindow(IntPtr hwnd, uint id, ref Guid iid,
+                                                        [In, Out, MarshalAs(UnmanagedType.IUnknown)] ref object ppvObject);
+    public enum OBJID : uint {
+        WINDOW = 0x00000000,
+        SYSMENU = 0xFFFFFFFF,
+        TITLEBAR = 0xFFFFFFFE,
+        MENU = 0xFFFFFFFD,
+        CLIENT = 0xFFFFFFFC,
+        VSCROLL = 0xFFFFFFFB,
+        HSCROLL = 0xFFFFFFFA,
+        SIZEGRIP = 0xFFFFFFF9,
+        CARET = 0xFFFFFFF8,
+        CURSOR = 0xFFFFFFF7,
+        ALERT = 0xFFFFFFF6,
+        SOUND = 0xFFFFFFF5,
+    }
 	#endregion
     #region NativeClipboard requires 
     [DllImport("shell32.dll", CharSet = CharSet.Auto)]
