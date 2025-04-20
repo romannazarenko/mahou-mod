@@ -893,7 +893,7 @@ namespace Mahou {
 		}
 		public static void LDEventHook(IntPtr hWinEventHook, uint eventType, IntPtr hwnd, int idObject,
 		                                     int idChild, uint dwEventThread, uint dwmsEventTime) {
-			if (MahouUI.LDUseWindowsMessages) {
+//			if (MahouUI.LDUseWindowsMessages) {
 				if (eventType == WinAPI.EVENT_OBJECT_FOCUS) {
 					if (MMain.mahou != null) {
 						if (MahouUI.CaretLangTooltipEnabled) {
@@ -908,7 +908,7 @@ namespace Mahou {
 					}
 					//MahouUI.CCReset("object-focus");
 				}
-			}
+//			}
 		}
 		public static void EventHookCallback(IntPtr hWinEventHook, uint eventType, IntPtr hwnd, int idObject,
 		                                       int idChild, uint dwEventThread, uint dwmsEventTime) {
