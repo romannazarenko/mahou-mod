@@ -895,8 +895,17 @@ namespace Mahou {
 		                                     int idChild, uint dwEventThread, uint dwmsEventTime) {
 			if (MahouUI.LDUseWindowsMessages) {
 				if (eventType == WinAPI.EVENT_OBJECT_FOCUS) {
-					if (MMain.mahou != null)
+					if (MMain.mahou != null) {
+						if (MahouUI.CaretLangTooltipEnabled) {
+							var _fw = WinAPI.GetForegroundWindow();
+							var _clsNMb = new StringBuilder(40);
+							WinAPI.GetClassName(_fw, _clsNMb, _clsNMb.Capacity);
+							var clsNM = _clsNMb.ToString();
+							if (clsNM != "MozillaWindowClass" || !clsNM.Contains("mozilla") || !clsNM.Contains("Chrome_WidgetWin"))
+								ff_chr_wheeled = false;
+						}
 						MMain.mahou.UpdateLDs();
+					}
 					//MahouUI.CCReset("object-focus");
 				}
 			}
