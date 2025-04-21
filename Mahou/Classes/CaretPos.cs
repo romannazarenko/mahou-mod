@@ -39,6 +39,13 @@ namespace Mahou {
 				Logging.Log("OleAcc failed: " + Marshal.GetLastWin32Error(), 1);
 				return new Point(77777,77777);
 			}
+			try {
+				uint state = UInt32.Parse(accessible.get_accState(0).ToString());
+				if (state == (uint)WinAPI.OBJECTSTATE.STATE_SYSTEM_INVISIBLE) {
+					Logging.Log("OleAcc says caret is invisible.");
+					return new Point(77777,77777);
+				}
+			} catch (Exception e) {}
 			accessible.accLocation(out x, out y, out w, out h, 0);
 			Logging.Log("Received CARET information from OleAcc: " + x + " x " + y);
 			return new Point(x, y);

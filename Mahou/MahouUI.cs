@@ -3147,7 +3147,7 @@ DEL """+restartMahouPath + @"""";
 				var x = false;
 				if (ExcludeCaretLD)
 					x = KMHook.ExcludedProgram();
-				if (KMHook.ff_chr_wheeled || caretLangDisplay.Empty || x)
+				if (/*KMHook.ff_chr_wheeled ||*/ caretLangDisplay.Empty || x)
 					caretLangDisplay.HideWnd();
 				else if (crtOnly.X != 77777 && crtOnly.Y != 77777) // 77777x77777 is null/none point
 					caretLangDisplay.ShowInactiveTopmost();

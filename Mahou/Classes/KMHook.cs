@@ -129,8 +129,8 @@ namespace Mahou {
 					return;
 				}
 			}
-			if (MahouUI.CaretLangTooltipEnabled)
-				ff_chr_wheeled = false;
+//			if (MahouUI.CaretLangTooltipEnabled)
+//				ff_chr_wheeled = false;
 			if (vkCode > 254) return;
 			var down = (MSG == WinAPI.WM_SYSKEYDOWN) || (MSG == WinAPI.WM_KEYDOWN);
 			var Key = (Keys)vkCode; // "Key" will further be used instead of "(Keys)vkCode"
@@ -755,16 +755,16 @@ namespace Mahou {
 					
 				}
 			}
-			if ((MSG == (ushort)WinAPI.RawMouseButtons.MouseWheel)) {
-				if (MMain.mahou.caretLangDisplay.Visible && MahouUI.CaretLangTooltipEnabled) {
-					var _fw = WinAPI.GetForegroundWindow();
-					var _clsNMb = new StringBuilder(40);
-					WinAPI.GetClassName(_fw, _clsNMb, _clsNMb.Capacity);
-					var clsNM = _clsNMb.ToString();
-					if (clsNM == "MozillaWindowClass" || clsNM.Contains("mozilla") || clsNM.Contains("Chrome_WidgetWin"))
-						ff_chr_wheeled = true;
-				}
-			}
+//			if ((MSG == (ushort)WinAPI.RawMouseButtons.MouseWheel)) {
+//				if (MMain.mahou.caretLangDisplay.Visible && MahouUI.CaretLangTooltipEnabled) {
+//					var _fw = WinAPI.GetForegroundWindow();
+//					var _clsNMb = new StringBuilder(40);
+//					WinAPI.GetClassName(_fw, _clsNMb, _clsNMb.Capacity);
+//					var clsNM = _clsNMb.ToString();
+//					if (clsNM == "MozillaWindowClass" || clsNM.Contains("mozilla") || clsNM.Contains("Chrome_WidgetWin"))
+//						ff_chr_wheeled = true;
+//				}
+//			}
 			if (MSG == (ushort)WinAPI.RawMouseButtons.LeftDown || MSG == (ushort)WinAPI.RawMouseButtons.RightDown) {
 				MahouUI.CCReset("mouse");
 				if (ctrl || ctrl_r)
@@ -871,11 +871,11 @@ namespace Mahou {
 						MMain.mahou.UpdateCaredLD();
 					}
 				}
-				if (MSG == (ushort)WinAPI.RawMouseButtons.LeftUp ||
-					MSG == (ushort)WinAPI.RawMouseButtons.RightUp ||
-					MSG == (ushort)WinAPI.RawMouseButtons.MiddleUp)
-					if (MahouUI.CaretLangTooltipEnabled)
-						ff_chr_wheeled = false;
+//				if (MSG == (ushort)WinAPI.RawMouseButtons.LeftUp ||
+//					MSG == (ushort)WinAPI.RawMouseButtons.RightUp ||
+//					MSG == (ushort)WinAPI.RawMouseButtons.MiddleUp)
+//					if (MahouUI.CaretLangTooltipEnabled)
+//						ff_chr_wheeled = false;
 				if (skip_mouse_events-- == 0 || skip_mouse_events == 0) {
 					skip_mouse_events = MahouUI.LD_MouseSkipMessagesCount;
 					if (MSG == (ushort)WinAPI.RawMouseFlags.MoveRelative) {
@@ -896,14 +896,14 @@ namespace Mahou {
 //			if (MahouUI.LDUseWindowsMessages) {
 				if (eventType == WinAPI.EVENT_OBJECT_FOCUS) {
 					if (MMain.mahou != null) {
-						if (MahouUI.CaretLangTooltipEnabled) {
-							var _fw = WinAPI.GetForegroundWindow();
-							var _clsNMb = new StringBuilder(40);
-							WinAPI.GetClassName(_fw, _clsNMb, _clsNMb.Capacity);
-							var clsNM = _clsNMb.ToString();
-							if (clsNM != "MozillaWindowClass" || !clsNM.Contains("mozilla") || !clsNM.Contains("Chrome_WidgetWin"))
-								ff_chr_wheeled = false;
-						}
+//						if (MahouUI.CaretLangTooltipEnabled) {
+//							var _fw = WinAPI.GetForegroundWindow();
+//							var _clsNMb = new StringBuilder(40);
+//							WinAPI.GetClassName(_fw, _clsNMb, _clsNMb.Capacity);
+//							var clsNM = _clsNMb.ToString();
+//							if (clsNM != "MozillaWindowClass" || !clsNM.Contains("mozilla") || !clsNM.Contains("Chrome_WidgetWin"))
+//								ff_chr_wheeled = false;
+//						}
 						MMain.mahou.UpdateLDs();
 					}
 					//MahouUI.CCReset("object-focus");
