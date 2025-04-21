@@ -2672,6 +2672,9 @@ DEL """+restartMahouPath + @"""";
 					Bitmap b = null;
 					if (FLAG != null) b = new Bitmap(FLAG);
 					if (TrayText && ITEXT != null) b = new Bitmap(ITEXT);
+					if (b.Size.Height != b.Size.Width) {
+						b = CenterImage(b, 16, 16);
+					}
 					Icon flagicon;
 					if (b != null)
 						flagicon = Icon.FromHandle(b.GetHicon());
@@ -2684,6 +2687,20 @@ DEL """+restartMahouPath + @"""";
 			} catch(Exception e) {
 				Logging.Log("[TrICON] > Can't change tray icon, error: " + e.Message + "\r\n" + e.StackTrace, 1);
 			}
+		}
+		public Bitmap CenterImage(Bitmap image, int maxWidth, int maxHeight) {
+		    var ratioX = (double)maxWidth / image.Width;
+		    var ratioY = (double)maxHeight / image.Height;
+		    var ratio = Math.Min(ratioX, ratioY);
+		    var newWidth = (int)(image.Width * ratio);
+		    var newHeight = (int)(image.Height * ratio);
+		    var newImage = new Bitmap(maxWidth, maxHeight);
+		    using (var graphics = Graphics.FromImage(newImage)) {
+		        int y = (maxHeight/2) - newHeight / 2;
+		        int x = (maxWidth / 2) - newWidth / 2;
+		        graphics.DrawImage(image, x, y, newWidth, newHeight);
+		    }
+		    return newImage;
 		}
 		/// <summary>
 		/// Initializes UI language.
