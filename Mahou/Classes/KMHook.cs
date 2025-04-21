@@ -895,6 +895,7 @@ namespace Mahou {
 		                                     int idChild, uint dwEventThread, uint dwmsEventTime) {
 //			if (MahouUI.LDUseWindowsMessages) {
 				if (eventType == WinAPI.EVENT_OBJECT_FOCUS) {
+					Logging.Log("[Event] EVENT_OBJECT_FOCUS");
 					if (MMain.mahou != null) {
 //						if (MahouUI.CaretLangTooltipEnabled) {
 //							var _fw = WinAPI.GetForegroundWindow();
@@ -904,6 +905,16 @@ namespace Mahou {
 //							if (clsNM != "MozillaWindowClass" || !clsNM.Contains("mozilla") || !clsNM.Contains("Chrome_WidgetWin"))
 //								ff_chr_wheeled = false;
 //						}
+						// Switching windows doesn't trigger layout switch event for some reason, or
+						// maybe it's just isn't received through JKL, that's why Mahou will think
+						// that layout is still the same as it was before switching windows,
+						// you can disable that in windows 10, i.e. uncheck the:						
+						// let me use a different input method for each app window
+						// this will revert the JKL's last result, so kind of forced
+						// ignore last JKL on focus change
+						var before = MahouUI.currentLayout;
+						MahouUI.currentLayout = Locales.GetCurrentLocale();
+						Logging.Log("Force update currentLayout on focus change: " + MahouUI.currentLayout + ", prev(possibly wrong if JKL enabled): " + before);
 						MMain.mahou.UpdateLDs();
 					}
 					//MahouUI.CCReset("object-focus");

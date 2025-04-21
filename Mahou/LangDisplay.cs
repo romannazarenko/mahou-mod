@@ -21,6 +21,8 @@ namespace Mahou
 		/// </summary>
 		/// <param name="to">Text to be changed to.</param>
 		public void ChangeLD(string to) {
+			Logging.Log("[LangDisplay] Changing lang to [" + to + "] (" + 
+			            (caretDisplay ? "caret" : (mouseDisplay ? "mouse" : "")) + ") last: " + lastText);
 			if (to == lastText) return;
 			lbLang.Text = lastText = to;
 			if (DisplayFlag) {

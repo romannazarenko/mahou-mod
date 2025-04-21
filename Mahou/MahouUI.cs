@@ -2672,8 +2672,10 @@ DEL """+restartMahouPath + @"""";
 					Bitmap b = null;
 					if (FLAG != null) b = new Bitmap(FLAG);
 					if (TrayText && ITEXT != null) b = new Bitmap(ITEXT);
-					if (b.Size.Height != b.Size.Width) {
-						b = CenterImage(b, 16, 16);
+					if (b != null) {
+						if (b.Size.Height != b.Size.Width) {
+							b = CenterImage(b, 16, 16);
+						}
 					}
 					Icon flagicon;
 					if (b != null)
@@ -3190,12 +3192,12 @@ DEL """+restartMahouPath + @"""";
 			}
 		}
 		public void UpdateLDs() {
-			if (LDUseWindowsMessages) {
+//			if (LDUseWindowsMessages) {
 				if (LDForCaret)
 					UpdateCaredLD();
 				if (LDForMouse)
 					UpdateMouseLD();
-			}
+//			}
 		}
 		public void PersistentLayoutCheck(string ProcessNames, uint Layout, string ProcName = "") {
 			try {
