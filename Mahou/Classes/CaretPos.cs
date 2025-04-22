@@ -45,8 +45,14 @@ namespace Mahou {
 					Logging.Log("OleAcc says caret is invisible.");
 					return new Point(77777,77777);
 				}
-			} catch (Exception e) {}
+			} catch (Exception e) { 
+				Logging.Log("get_accState error: " + e.Message + "\r\n" + e.StackTrace, 1);
+			}
+			try { 
 			accessible.accLocation(out x, out y, out w, out h, 0);
+			} catch (Exception e) { 
+				Logging.Log("accLocation error: " + e.Message + "\r\n" + e.StackTrace, 1);
+			}
 			Logging.Log("Received CARET information from OleAcc: " + x + " x " + y);
 			return new Point(x, y);
 		}
