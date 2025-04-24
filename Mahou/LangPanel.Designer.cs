@@ -91,7 +91,7 @@ namespace Mahou
 			this.Controls.Add(this.pct_Upper);
 			this.Controls.Add(this.pct_Flag);
 			this.Controls.Add(this.lbl_LayoutName);
-			this.Cursor = System.Windows.Forms.Cursors.SizeAll;
+			this.Cursor = System.Windows.Forms.Cursors.Arrow;
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 			this.MaximizeBox = false;
 			this.MaximumSize = new System.Drawing.Size(400, 24);

@@ -77,7 +77,8 @@ namespace Mahou {
 			mouseLocation = new Point(-e.X - left, -e.Y - top);
 		}
 		void LangPanelMouseMove(object sender, MouseEventArgs e) {
-			if (e.Button == MouseButtons.Left) {
+			if (e.Button == MouseButtons.Right || e.Button == MouseButtons.Middle) {
+				this.Cursor = Cursors.SizeAll;
 			    var mousePos = MousePosition;
 			    var mousePosR = MousePosition;
 			    mousePos.Offset(mouseLocation.X, mouseLocation.Y);
@@ -110,8 +111,14 @@ namespace Mahou {
 		}
 		
 		void Lbl_LayoutNameMouseUp(object sender, MouseEventArgs e) {
-			Logging.Log("Saved position of LangPanel");
-			MMain.MyConfs.WriteSave("LangPanel", "Position", "X" + Location.X + " Y" + Location.Y);
+			this.Cursor = Cursors.Arrow;
+			if (e.Button == MouseButtons.Left) {
+				Logging.Log("Changing layout.");
+				KMHook.ChangeLayout(true);
+			} else {
+				Logging.Log("Saved position of LangPanel");
+				MMain.MyConfs.WriteSave("LangPanel", "Position", "X" + Location.X + " Y" + Location.Y);
+			}
 		}
 		public void UpdateApperence(Color back, Color fore, int opacity, Font font) {
 			BackColor = back;
