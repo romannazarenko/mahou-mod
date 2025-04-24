@@ -2673,6 +2673,11 @@ DEL """+restartMahouPath + @"""";
 				}
 			} else
 				Logging.Log("Layout id was ["+lcid+"].", 2);
+			if (FLAG != null) {
+				if (FLAG.Size.Height != FLAG.Size.Width) {
+					FLAG = CenterImage(FLAG, 16, 16);
+				}
+			}
 		}
 		/// <summary>
 		/// Changes tray icon image to country flag based on current layout.
@@ -2692,11 +2697,6 @@ DEL """+restartMahouPath + @"""";
 					Bitmap b = null;
 					if (FLAG != null) b = new Bitmap(FLAG);
 					if (TrayText && ITEXT != null) b = new Bitmap(ITEXT);
-					if (b != null) {
-						if (b.Size.Height != b.Size.Width) {
-							b = CenterImage(b, 16, 16);
-						}
-					}
 					Icon flagicon;
 					if (b != null)
 						flagicon = Icon.FromHandle(b.GetHicon());
@@ -2710,7 +2710,7 @@ DEL """+restartMahouPath + @"""";
 				Logging.Log("[TrICON] > Can't change tray icon, error: " + e.Message + "\r\n" + e.StackTrace, 1);
 			}
 		}
-		public Bitmap CenterImage(Bitmap image, int maxWidth, int maxHeight) {
+		public static Bitmap CenterImage(Bitmap image, int maxWidth, int maxHeight) {
 		    var ratioX = (double)maxWidth / image.Width;
 		    var ratioY = (double)maxHeight / image.Height;
 		    var ratio = Math.Min(ratioX, ratioY);
