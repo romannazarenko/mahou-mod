@@ -96,7 +96,7 @@ namespace Mahou
 			this.MaximizeBox = false;
 			this.MaximumSize = new System.Drawing.Size(400, 24);
 			this.MinimizeBox = false;
-			this.MinimumSize = new System.Drawing.Size(40, 24);
+			this.MinimumSize = new System.Drawing.Size(24, 24);
 			this.Name = "LangPanel";
 			this.Opacity = 0.9D;
 			this.ShowIcon = false;

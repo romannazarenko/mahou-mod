@@ -2106,6 +2106,8 @@ namespace Mahou {
 			bool caps = Control.IsKeyLocked(Keys.CapsLock), shishift = (shift || shift_r);
 			if (MahouUI.CapsLockDisablerTimer)
 				caps = false;
+			if (ctrl || ctrl_r || alt || alt_r || win || win_r)
+				return false;
 			if (symbolic)
 				return shishift;
 			if ((shishift && !caps) || (!shishift && caps))

@@ -11,6 +11,7 @@ namespace Mahou
 		public string lastText = "NO";
 		Size lastsize = new Size(0,0);
 		public LangDisplay() {
+			this.Location = new Point(77777,77777);
 			InitializeComponent();
 			this.FormClosing += (s, e) => { e.Cancel = true; this.Hide(); };
 			SetVisInvis();

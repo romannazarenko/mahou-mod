@@ -301,6 +301,8 @@ namespace Mahou {
 			CheckString("Updates", "Delay", "5");
 			#endregion
 			#region Language Panel
+			CheckBool("LangPanel", "Flag", "true");
+			CheckBool("LangPanel", "LayoutText", "true");
 			CheckBool("LangPanel", "UpperArrow", "true");
 			CheckBool("LangPanel", "BorderAeroColor", "true");
 			CheckString("LangPanel", "BorderColor", "#8B5FFF");

@@ -1356,6 +1356,8 @@ namespace Mahou {
 				MMain.MyConfs.Write("LangPanel", "BorderAeroColor", chk_LPAeroColor.Checked.ToString());
 				MMain.MyConfs.Write("LangPanel", "Font", fcv.ConvertToString(btn_LPFont.Font));
 				MMain.MyConfs.Write("LangPanel", "UpperArrow", chk_LPUpperArrow.Checked.ToString());
+				MMain.MyConfs.Write("LangPanel", "Flag", chk_LPDisplayFlag.Checked.ToString());
+				MMain.MyConfs.Write("LangPanel", "LayoutText", chk_LPDisplayLayoutText.Checked.ToString());
 				#endregion
 				#region Translate Panel
 				MMain.MyConfs.Write("TranslatePanel", "Enabled", chk_TrEnable.Checked.ToString());
@@ -1886,6 +1888,8 @@ namespace Mahou {
 			LangPanelBorderAero = chk_LPAeroColor.Checked = MMain.MyConfs.ReadBool("LangPanel", "BorderAeroColor");
 			btn_LPFont.Font = LangPanelFont = GetFont(MMain.MyConfs.Read("LangPanel", "Font")); 
 			LangPanelUpperArrow = chk_LPUpperArrow.Checked = MMain.MyConfs.ReadBool("LangPanel", "UpperArrow");
+			LangPanel.display_flag =  chk_LPDisplayFlag.Checked = MMain.MyConfs.ReadBool("LangPanel", "Flag");
+			LangPanel.display_layoutname = chk_LPDisplayLayoutText.Checked = MMain.MyConfs.ReadBool("LangPanel", "LayoutText");
 			#endregion
 			#region Translate Panel
 			TrEnabled = chk_TrEnable.Checked = MMain.MyConfs.ReadBool("TranslatePanel", "Enabled");

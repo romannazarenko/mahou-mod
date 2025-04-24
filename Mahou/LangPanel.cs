@@ -7,8 +7,10 @@ namespace Mahou {
 	/// <summary> Language panel with display of flag, name, id of current layout. </summary>
 	public partial class LangPanel : Form {
 		int l = 4;
+		public static bool display_layoutname = true, display_flag = false;
 		public LangPanel() {
 			InitializeComponent();
+			Width = 24;
 			this.FormClosing += (s, e) => { e.Cancel = true; this.Hide(); };
 			Height = 24;
 			AeroCheck();
@@ -28,16 +30,33 @@ namespace Mahou {
 		public Point mouseLocation;
 		public bool snap_l, snap_r, snap_t, snap_b;
 		public void ChangeLayout(Bitmap flag, string layoutName) {
-			lbl_LayoutName.Text = layoutName;
-			pct_Flag.BackgroundImage = new Bitmap(flag);
-			Width = lbl_LayoutName.Left + lbl_LayoutName.Width + l;
+			lbl_LayoutName.Text = display_layoutname ? layoutName : "";
+			if (display_flag) {
+				pct_Flag.Width = 16;
+				pct_Flag.Height = 16;
+				pct_Flag.Visible = true;
+				pct_Flag.BackgroundImage = new Bitmap(flag);
+			} else {
+				pct_Flag.Width = 0;
+				pct_Flag.Height = 0;
+				pct_Flag.Visible = false;
+			}
+			if (display_layoutname) {
+				lbl_LayoutName.Left = l+pct_Flag.Width;
+				Width = lbl_LayoutName.Left + lbl_LayoutName.Width + l;
+			}
 			ReSnap();
 		}
 		public void DisplayUpper(bool Upper) {
 			pct_Upper.Visible = Upper;
-			var side = Upper ? l+pct_Flag.Width+pct_Upper.Width : l+pct_Flag.Width;
-			Width = side + lbl_LayoutName.Width + l;
-			lbl_LayoutName.Left = side;
+			if (!display_flag) {
+				pct_Upper.Left = l;
+			} else {
+				pct_Upper.Left = l+pct_Flag.Width;
+			}
+			var side = Upper ? (l+pct_Flag.Width+pct_Upper.Width) : (l+pct_Flag.Width);
+			Width = side + (display_layoutname ? lbl_LayoutName.Width : 0) + l;
+			lbl_LayoutName.Left = display_flag ? side : (Upper ? (pct_Upper.Width+l) : l);
 			ReSnap();
         }
 		void ReSnap() {

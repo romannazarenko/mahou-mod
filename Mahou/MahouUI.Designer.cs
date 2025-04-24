@@ -355,6 +355,8 @@ namespace Mahou
 		private System.Windows.Forms.Label Hlbl_LayoutModifier_S;
 		private System.Windows.Forms.CheckBox Hchk_DontToggleMWexe;
 		private System.Windows.Forms.CheckBox chk_TrSrc;
+		private System.Windows.Forms.CheckBox chk_LPDisplayLayoutText;
+		private System.Windows.Forms.CheckBox chk_LPDisplayFlag;
 		/// <summary>
 		/// Disposes resources used by the form.
 		/// </summary>
@@ -563,6 +565,8 @@ namespace Mahou
 			this.chk_EnableSnd = new System.Windows.Forms.CheckBox();
 			this.tab_LangPanel = new System.Windows.Forms.TabPage();
 			this.grb_LPConfig = new System.Windows.Forms.GroupBox();
+			this.chk_LPDisplayLayoutText = new System.Windows.Forms.CheckBox();
+			this.chk_LPDisplayFlag = new System.Windows.Forms.CheckBox();
 			this.chk_LPUpperArrow = new System.Windows.Forms.CheckBox();
 			this.lbl_LPFont = new System.Windows.Forms.Label();
 			this.btn_LPFont = new System.Windows.Forms.Button();
@@ -3060,6 +3064,8 @@ namespace Mahou
 			// 
 			// grb_LPConfig
 			// 
+			this.grb_LPConfig.Controls.Add(this.chk_LPDisplayLayoutText);
+			this.grb_LPConfig.Controls.Add(this.chk_LPDisplayFlag);
 			this.grb_LPConfig.Controls.Add(this.chk_LPUpperArrow);
 			this.grb_LPConfig.Controls.Add(this.lbl_LPFont);
 			this.grb_LPConfig.Controls.Add(this.btn_LPFont);
@@ -3080,10 +3086,30 @@ namespace Mahou
 			this.grb_LPConfig.TabIndex = 1;
 			this.grb_LPConfig.TabStop = false;
 			// 
+			// chk_LPDisplayLayoutText
+			// 
+			this.chk_LPDisplayLayoutText.AutoSize = true;
+			this.chk_LPDisplayLayoutText.Location = new System.Drawing.Point(292, 211);
+			this.chk_LPDisplayLayoutText.Name = "chk_LPDisplayLayoutText";
+			this.chk_LPDisplayLayoutText.Size = new System.Drawing.Size(123, 19);
+			this.chk_LPDisplayLayoutText.TabIndex = 39;
+			this.chk_LPDisplayLayoutText.Text = "Display layout text";
+			this.chk_LPDisplayLayoutText.UseVisualStyleBackColor = true;
+			// 
+			// chk_LPDisplayFlag
+			// 
+			this.chk_LPDisplayFlag.AutoSize = true;
+			this.chk_LPDisplayFlag.Location = new System.Drawing.Point(19, 211);
+			this.chk_LPDisplayFlag.Name = "chk_LPDisplayFlag";
+			this.chk_LPDisplayFlag.Size = new System.Drawing.Size(87, 19);
+			this.chk_LPDisplayFlag.TabIndex = 38;
+			this.chk_LPDisplayFlag.Text = "Display flag";
+			this.chk_LPDisplayFlag.UseVisualStyleBackColor = true;
+			// 
 			// chk_LPUpperArrow
 			// 
 			this.chk_LPUpperArrow.AutoSize = true;
-			this.chk_LPUpperArrow.Location = new System.Drawing.Point(19, 200);
+			this.chk_LPUpperArrow.Location = new System.Drawing.Point(19, 186);
 			this.chk_LPUpperArrow.Name = "chk_LPUpperArrow";
 			this.chk_LPUpperArrow.Size = new System.Drawing.Size(277, 19);
 			this.chk_LPUpperArrow.TabIndex = 37;
@@ -3093,7 +3119,7 @@ namespace Mahou
 			// lbl_LPFont
 			// 
 			this.lbl_LPFont.AutoSize = true;
-			this.lbl_LPFont.Location = new System.Drawing.Point(18, 177);
+			this.lbl_LPFont.Location = new System.Drawing.Point(18, 162);
 			this.lbl_LPFont.Name = "lbl_LPFont";
 			this.lbl_LPFont.Size = new System.Drawing.Size(34, 15);
 			this.lbl_LPFont.TabIndex = 36;
@@ -3101,7 +3127,7 @@ namespace Mahou
 			// 
 			// btn_LPFont
 			// 
-			this.btn_LPFont.Location = new System.Drawing.Point(457, 172);
+			this.btn_LPFont.Location = new System.Drawing.Point(457, 157);
 			this.btn_LPFont.Name = "btn_LPFont";
 			this.btn_LPFont.Size = new System.Drawing.Size(66, 25);
 			this.btn_LPFont.TabIndex = 35;
@@ -3112,7 +3138,7 @@ namespace Mahou
 			// chk_LPAeroColor
 			// 
 			this.chk_LPAeroColor.AutoSize = true;
-			this.chk_LPAeroColor.Location = new System.Drawing.Point(168, 147);
+			this.chk_LPAeroColor.Location = new System.Drawing.Point(168, 132);
 			this.chk_LPAeroColor.Name = "chk_LPAeroColor";
 			this.chk_LPAeroColor.Size = new System.Drawing.Size(145, 19);
 			this.chk_LPAeroColor.TabIndex = 34;
@@ -3123,7 +3149,7 @@ namespace Mahou
 			// lbl_LPBorderColor
 			// 
 			this.lbl_LPBorderColor.AutoSize = true;
-			this.lbl_LPBorderColor.Location = new System.Drawing.Point(18, 147);
+			this.lbl_LPBorderColor.Location = new System.Drawing.Point(18, 132);
 			this.lbl_LPBorderColor.Name = "lbl_LPBorderColor";
 			this.lbl_LPBorderColor.Size = new System.Drawing.Size(75, 15);
 			this.lbl_LPBorderColor.TabIndex = 33;
@@ -3131,7 +3157,7 @@ namespace Mahou
 			// 
 			// btn_LPBorderColor
 			// 
-			this.btn_LPBorderColor.Location = new System.Drawing.Point(475, 142);
+			this.btn_LPBorderColor.Location = new System.Drawing.Point(475, 127);
 			this.btn_LPBorderColor.Name = "btn_LPBorderColor";
 			this.btn_LPBorderColor.Size = new System.Drawing.Size(25, 25);
 			this.btn_LPBorderColor.TabIndex = 32;
@@ -3141,7 +3167,7 @@ namespace Mahou
 			// lbl_LPBack
 			// 
 			this.lbl_LPBack.AutoSize = true;
-			this.lbl_LPBack.Location = new System.Drawing.Point(17, 117);
+			this.lbl_LPBack.Location = new System.Drawing.Point(17, 102);
 			this.lbl_LPBack.Name = "lbl_LPBack";
 			this.lbl_LPBack.Size = new System.Drawing.Size(104, 15);
 			this.lbl_LPBack.TabIndex = 31;
@@ -3150,7 +3176,7 @@ namespace Mahou
 			// lbl_LPFore
 			// 
 			this.lbl_LPFore.AutoSize = true;
-			this.lbl_LPFore.Location = new System.Drawing.Point(17, 87);
+			this.lbl_LPFore.Location = new System.Drawing.Point(17, 72);
 			this.lbl_LPFore.Name = "lbl_LPFore";
 			this.lbl_LPFore.Size = new System.Drawing.Size(102, 15);
 			this.lbl_LPFore.TabIndex = 30;
@@ -3158,7 +3184,7 @@ namespace Mahou
 			// 
 			// btn_LPBack
 			// 
-			this.btn_LPBack.Location = new System.Drawing.Point(475, 113);
+			this.btn_LPBack.Location = new System.Drawing.Point(475, 98);
 			this.btn_LPBack.Name = "btn_LPBack";
 			this.btn_LPBack.Size = new System.Drawing.Size(25, 25);
 			this.btn_LPBack.TabIndex = 29;
@@ -3167,7 +3193,7 @@ namespace Mahou
 			// 
 			// btn_LPFore
 			// 
-			this.btn_LPFore.Location = new System.Drawing.Point(475, 83);
+			this.btn_LPFore.Location = new System.Drawing.Point(475, 68);
 			this.btn_LPFore.Name = "btn_LPFore";
 			this.btn_LPFore.Size = new System.Drawing.Size(25, 25);
 			this.btn_LPFore.TabIndex = 28;
@@ -3181,7 +3207,7 @@ namespace Mahou
 			0,
 			0,
 			0});
-			this.nud_LPTransparency.Location = new System.Drawing.Point(457, 55);
+			this.nud_LPTransparency.Location = new System.Drawing.Point(457, 40);
 			this.nud_LPTransparency.Minimum = new decimal(new int[] {
 			1,
 			0,
@@ -3199,7 +3225,7 @@ namespace Mahou
 			// lbl_LPTrasparency
 			// 
 			this.lbl_LPTrasparency.AutoSize = true;
-			this.lbl_LPTrasparency.Location = new System.Drawing.Point(17, 58);
+			this.lbl_LPTrasparency.Location = new System.Drawing.Point(17, 43);
 			this.lbl_LPTrasparency.Name = "lbl_LPTrasparency";
 			this.lbl_LPTrasparency.Size = new System.Drawing.Size(79, 15);
 			this.lbl_LPTrasparency.TabIndex = 26;
@@ -3212,7 +3238,7 @@ namespace Mahou
 			0,
 			0,
 			0});
-			this.nud_LPRefreshRate.Location = new System.Drawing.Point(457, 26);
+			this.nud_LPRefreshRate.Location = new System.Drawing.Point(457, 14);
 			this.nud_LPRefreshRate.Maximum = new decimal(new int[] {
 			2000,
 			0,
@@ -3235,7 +3261,7 @@ namespace Mahou
 			// lbl_LPRefreshRate
 			// 
 			this.lbl_LPRefreshRate.AutoSize = true;
-			this.lbl_LPRefreshRate.Location = new System.Drawing.Point(17, 30);
+			this.lbl_LPRefreshRate.Location = new System.Drawing.Point(17, 18);
 			this.lbl_LPRefreshRate.Name = "lbl_LPRefreshRate";
 			this.lbl_LPRefreshRate.Size = new System.Drawing.Size(72, 15);
 			this.lbl_LPRefreshRate.TabIndex = 24;
