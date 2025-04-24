@@ -42,7 +42,7 @@ namespace Mahou {
 				pct_Flag.Visible = false;
 			}
 			if (display_layoutname) {
-				lbl_LayoutName.Left = l+pct_Flag.Width;
+				lbl_LayoutName.Left = l+pct_Flag.Width + (pct_Upper.Visible ? pct_Upper.Width : 0);
 				Width = lbl_LayoutName.Left + lbl_LayoutName.Width + l;
 			}
 			ReSnap();

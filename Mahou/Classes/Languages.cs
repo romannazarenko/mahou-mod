@@ -161,6 +161,8 @@ public class Languages
 		BorderColor,
 		UseAeroColor,
 		DisplayUpperArrow,
+		DisplayFlag,
+		DisplayLayoutText,
 		Transcription,
 		#endregion
 		#region TranslatePanel
@@ -468,6 +470,8 @@ public class Languages
 		{ Element.BorderColor, "Border color:" },
 		{ Element.UseAeroColor, "Use Aero/Accent color." },
 		{ Element.DisplayUpperArrow, "Display up arrow icon when input is upper case." },
+		{ Element.DisplayFlag, "Display flag." },
+		{ Element.DisplayLayoutText, "Display text of the layout." },
 		{ Element.Transcription, "Transcription" },
 		#endregion
 		#region TranslatePanel
@@ -801,6 +805,8 @@ Specify layout code 0 to disable this feature." },
 		{ Element.BorderColor, "Цвет рамки:" },
 		{ Element.UseAeroColor, "Использовать Aero/Главный цвет." },
 		{ Element.DisplayUpperArrow, "Отображать стрелку при наборе в верхнем регистре." },
+		{ Element.DisplayFlag, "Отображать флаг." },
+		{ Element.DisplayLayoutText, "Отображать текст раскладки." },
 		{ Element.Transcription, "Транскрипция" },
 		#endregion
 		#region TranslatePanel

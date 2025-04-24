@@ -4863,6 +4863,8 @@ DEL ""ExtractASD.cmd""";
 			lbl_LPFont.Text = MMain.Lang[Languages.Element.LDFont] + ":";
 			btn_LPFont.Text = MMain.Lang[Languages.Element.LDFont];
 			chk_LPUpperArrow.Text = MMain.Lang[Languages.Element.DisplayUpperArrow];
+			chk_LPDisplayFlag.Text = MMain.Lang[Languages.Element.DisplayFlag];
+			chk_LPDisplayLayoutText.Text = MMain.Lang[Languages.Element.DisplayLayoutText];
 			lbl_TrMethod.Text = MMain.Lang[Languages.Element.Method] + ":";
 			chk_TrSrc.Text = MMain.Lang[Languages.Element.SourceText];
 			#endregion
