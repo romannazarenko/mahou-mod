@@ -269,7 +269,6 @@ namespace Mahou {
 			Text = "Mahou " + Assembly.GetExecutingAssembly().GetName().Version;
 			#endif
 			RegisterHotkeys();
-			RefreshAllIcons();
 			//Background startup check for updates
 			if (MMain.MyConfs.ReadBool("Functions", "StartupUpdatesCheck")) {
 				uche = new System.Threading.Thread(StartupCheck);
@@ -1734,6 +1733,9 @@ namespace Mahou {
 		/// </summary>
 		void LoadConfigs() {
 			configs_loading = true;
+			if (this.Visible) {
+				SuspendResumeDraw(this);
+			}
 			loadHidden();
 			decim = (string)Registry.GetValue(@"HKEY_CURRENT_USER\Control Panel\International", "sDecimal", null);
 			TrSetsValues = new Dictionary<string, string>();
@@ -2076,7 +2078,20 @@ namespace Mahou {
 			}
 			Memory.Flush();
 			configs_loading = false;
+			if (this.Visible) {
+				SuspendResumeDraw(this, false);
+			}
 			Logging.Log("All configurations loaded.");
+		}
+		public static void SuspendResumeDraw(Control c, bool suspend = true) {
+			int WM_SETREDRAW = 11;
+			var msg = Message.Create(c.Handle, WM_SETREDRAW, suspend ? IntPtr.Zero : new IntPtr(1), IntPtr.Zero); // new IntPtr(1) = true, IntPtr.Zero = false
+		    NativeWindow w = NativeWindow.FromHandle(c.Handle);
+		    w.DefWndProc(ref msg);
+		    if (!suspend) {
+			    c.Invalidate();
+			    c.Refresh();
+		    }
 		}
 		List<string[]> ParseSets(string raw_sets, char sep = '|', char sep2 = '/') {
 			if (raw_sets.Contains("set_0") || raw_sets.Contains("set0")) return new List<string[]>();
@@ -2774,7 +2789,7 @@ DEL """+restartMahouPath + @"""";
 				icon.Hide();
 				icon.trIcon.Dispose();
 			}
-			icon = new TrayIcon(MMain.MyConfs.ReadBool("Functions", "TrayIconVisible"));
+			icon = new TrayIcon();
 			icon.Exit += (_, __) => ExitProgram();
 			if (Hchk_LMBTrayLayoutChange.Checked) {
 				if (Hchk_LMBTrayLayoutChangeDC.Checked) {
