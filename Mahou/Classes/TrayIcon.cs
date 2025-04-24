@@ -12,9 +12,9 @@ namespace Mahou {
 		ToolStripMenuItem Clip, CConvert, CTransli, CLast;
         /// <summary>Initializes new tray icon.</summary>
         /// <param name="visible">State of tray icon's visibility on initialize.</param>
-        public TrayIcon() {
+        public TrayIcon(bool visible) {
             trIcon = new NotifyIcon();
-            trIcon.Visible = false;
+            trIcon.Visible = visible;
             cMenu = new ContextMenuStrip();
             trIcon.Icon = Properties.Resources.MahouTrayHD;
             CConvert = new ToolStripMenuItem("Convert",null,ConvertClipHandler);

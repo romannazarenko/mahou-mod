@@ -29,7 +29,7 @@ namespace Mahou {
 					hksOK, hklineOK, hkSIOK, hkExitOK, hkToglLPOK, hkShowTSOK, hkToggleMahouOK, hkUcOK, hklcOK, hkccOK,
 					hkSCCok, hkSCMUM, hkCLLCS_toOK;
 		public static string nPath = AppDomain.CurrentDomain.BaseDirectory, CustomSound, CustomSound2, Redefines;
-		public static int ACT_Match = 0, TrayHoverMahouMM = 0, explorer_pid, explorer_not_found_tries = 0;
+		public static int ACT_Match = 0, TrayHoverMahouMM = 0, explorer_pid = -1, explorer_not_found_tries = 0;
 		public static bool LoggingEnabled, dummy, CapsLockDisablerTimer, LangPanelUpperArrow, mouseLTUpperArrow, caretLTUpperArrow,
 						   ShiftInHotkey, AltInHotkey, CtrlInHotkey, WinInHotkey, AutoStartAsAdmin, UseJKL, AutoSwitchEnabled, ReadOnlyNA,
 						   SoundEnabled, UseCustomSound, SoundOnAutoSwitch, SoundOnConvLast, SoundOnSnippets, SoundOnLayoutSwitch,
@@ -1736,12 +1736,13 @@ namespace Mahou {
 			if (this.Visible) {
 				SuspendResumeDraw(this);
 			}
+			TrayIconVisible = chk_TrayIcon.Checked = MMain.MyConfs.ReadBool("Functions", "TrayIconVisible");
+			InitializeTrayIcon();
 			loadHidden();
 			decim = (string)Registry.GetValue(@"HKEY_CURRENT_USER\Control Panel\International", "sDecimal", null);
 			TrSetsValues = new Dictionary<string, string>();
 			chk_AppDataConfigs.Checked = (bool)DoInMainConfigs(() => MMain.MyConfs.ReadBool("Functions", "AppDataConfigs"));
 			UpdateSaveLoadPaths(chk_AppDataConfigs.Checked);
-			InitializeTrayIcon();
 			InitLanguage();
 			SnippetsExpKeyOther = MMain.MyConfs.Read("Snippets", "SnippetsExpKeyOther");
 			RefreshLanguage();
@@ -1751,7 +1752,6 @@ namespace Mahou {
 			chk_AutoStart.Checked = AutoStartExist(AutoStartAsAdmin);
 			lbl_TaskExist.Visible = AutoStartExist(true);
 			lbl_LinkExist.Visible = AutoStartExist(false);
-			TrayIconVisible = chk_TrayIcon.Checked = MMain.MyConfs.ReadBool("Functions", "TrayIconVisible");
 			ConvertSelectionLS = chk_CSLayoutSwitching.Checked = MMain.MyConfs.ReadBool("Functions", "ConvertSelectionLayoutSwitching");
 			ReSelect = chk_ReSelect.Checked = MMain.MyConfs.ReadBool("Functions", "ReSelect");
 			RePress = chk_RePress.Checked = MMain.MyConfs.ReadBool("Functions", "RePress");
@@ -2044,7 +2044,6 @@ namespace Mahou {
 			InitializeLangPanel();
 			ToggleDependentControlsEnabledState();
 			RefreshAllIcons(true);
-			icon.trIcon.Visible = TrayIconVisible;
 			if (_langPanel != null) {
 				_langPanel.UpdateApperence(LangPanelBackColor, LangPanelForeColor, LangPanelTransparency, LangPanelFont);
 				if(LangPanelDisplay)
@@ -2470,7 +2469,7 @@ DEL """+restartMahouPath + @"""";
 			var fong = false;
 			try {
 				var p = Process.GetProcessesByName("explorer");
-				if (explorer_pid != p[0].Id) {
+				if (explorer_pid != p[0].Id && explorer_pid != -1) {
 					fong = true;
 				}
 //				Debug.WriteLine(p[0].Id + " " + force);
@@ -2790,8 +2789,7 @@ DEL """+restartMahouPath + @"""";
 				icon.Hide();
 				icon.trIcon.Dispose();
 			}
-			icon = new TrayIcon();
-			icon.trIcon.Visible = TrayIconVisible;
+			icon = new TrayIcon(TrayIconVisible);
 			icon.Exit += (_, __) => ExitProgram();
 			if (Hchk_LMBTrayLayoutChange.Checked) {
 				if (Hchk_LMBTrayLayoutChangeDC.Checked) {
