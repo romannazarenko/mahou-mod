@@ -143,6 +143,7 @@ namespace Mahou {
 			get {
 				var Params = base.CreateParams;
 				Params.ExStyle |= WinAPI.WS_EX_TOOLWINDOW;
+				Params.ExStyle |= WinAPI.WS_EX_NOACTIVATE;
 //				Params.ExStyle |=  // WinAPI.WS_EX_LAYERED |
 //					WinAPI.WS_EX_TRANSPARENT;
 				return Params;

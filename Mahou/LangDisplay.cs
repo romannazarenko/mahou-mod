@@ -204,6 +204,7 @@ namespace Mahou
 				Params.ExStyle |= WinAPI.WS_EX_TOOLWINDOW;
 				// Add click through window ability.
 				Params.ExStyle |= WinAPI.WS_EX_LAYERED | WinAPI.WS_EX_TRANSPARENT;
+				Params.ExStyle |= WinAPI.WS_EX_NOACTIVATE;
 				return Params;
 			}
 		}

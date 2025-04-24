@@ -290,6 +290,7 @@ public static class WinAPI {
 	public const int WS_EX_TRANSPARENT = 0x20;
 	public const int WS_EX_LAYERED = 0x80000;
 	public const int WS_EX_TOOLWINDOW = 0x80;
+	public const int WS_EX_NOACTIVATE = 0x08000000;
 	public const uint WM_MOUSEWHEEL = 0x020A;
 	#endregion
 	#region EventHook
