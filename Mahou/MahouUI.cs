@@ -2044,6 +2044,7 @@ namespace Mahou {
 			InitializeLangPanel();
 			ToggleDependentControlsEnabledState();
 			RefreshAllIcons(true);
+			icon.trIcon.Visible = TrayIconVisible;
 			if (_langPanel != null) {
 				_langPanel.UpdateApperence(LangPanelBackColor, LangPanelForeColor, LangPanelTransparency, LangPanelFont);
 				if(LangPanelDisplay)
@@ -2790,6 +2791,7 @@ DEL """+restartMahouPath + @"""";
 				icon.trIcon.Dispose();
 			}
 			icon = new TrayIcon();
+			icon.trIcon.Visible = TrayIconVisible;
 			icon.Exit += (_, __) => ExitProgram();
 			if (Hchk_LMBTrayLayoutChange.Checked) {
 				if (Hchk_LMBTrayLayoutChangeDC.Checked) {
