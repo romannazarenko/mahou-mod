@@ -143,16 +143,14 @@ namespace Mahou {
 			Width = (display_flag ? 16 : 0)+(pct_Upper.Visible ? 16 : 0)+
 				((lbl_LayoutName.Text == "" || !display_layoutname) ? 0 : lbl_LayoutName.Width);
 			if (transparentBG) {
-				Height += (disableBorder ? 0 : 2);
-				Width += (disableBorder ? 0 : 2);
-				l = disableBorder ? 0 : 1;
+				l = disableBorder ? 0 : bg_padding;
 				TransparencyKey = BackColor = Color.PaleTurquoise;
 			} else {
 				l = bg_padding;
-				Height += l+l;
-				Width += l+l;
 				BackColor = back;
 			}
+			Height += l+l;
+			Width += l+l;
 			var m = new Message();
 			m.Msg = WinAPI.WM_NCPAINT;
 			WndProc(ref m);
