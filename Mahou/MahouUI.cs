@@ -150,7 +150,7 @@ namespace Mahou {
 		/// <summary> Temporary specific keys. </summary>
 		public int Key1, Key2, Key3, Key4;
 		/// <summary> LangPanel temporary bool variables. </summary>
-		public static bool LangPanelDisplay, LangPanelBorderAero;
+		public static bool LangPanelDisplay, LangPanelBorderAero, langPanelRefreshAfrerApply;
 		/// <summary> LangPanel temporary int variables. </summary>
 		public int LangPanelRefreshRate, LangPanelTransparency;
 		/// <summary> LangPanel temporary color variables. </summary>
@@ -1357,6 +1357,9 @@ namespace Mahou {
 				MMain.MyConfs.Write("LangPanel", "UpperArrow", chk_LPUpperArrow.Checked.ToString());
 				MMain.MyConfs.Write("LangPanel", "Flag", chk_LPDisplayFlag.Checked.ToString());
 				MMain.MyConfs.Write("LangPanel", "LayoutText", chk_LPDisplayLayoutText.Checked.ToString());
+				MMain.MyConfs.Write("LangPanel", "NoBorder", chk_LPDisableBorder.Checked.ToString());
+				MMain.MyConfs.Write("LangPanel", "TransparentBG", chk_LPTransparentBG.Checked.ToString());
+				MMain.MyConfs.Write("LangPanel", "BGPadding", nud_LPBGPadding.Value.ToString());
 				#endregion
 				#region Translate Panel
 				MMain.MyConfs.Write("TranslatePanel", "Enabled", chk_TrEnable.Checked.ToString());
@@ -1892,6 +1895,9 @@ namespace Mahou {
 			LangPanelUpperArrow = chk_LPUpperArrow.Checked = MMain.MyConfs.ReadBool("LangPanel", "UpperArrow");
 			LangPanel.display_flag =  chk_LPDisplayFlag.Checked = MMain.MyConfs.ReadBool("LangPanel", "Flag");
 			LangPanel.display_layoutname = chk_LPDisplayLayoutText.Checked = MMain.MyConfs.ReadBool("LangPanel", "LayoutText");
+			LangPanel.disableBorder = chk_LPDisableBorder.Checked = MMain.MyConfs.ReadBool("LangPanel", "NoBorder");
+			LangPanel.transparentBG = chk_LPTransparentBG.Checked = MMain.MyConfs.ReadBool("LangPanel", "TransparentBG");
+			nud_LPBGPadding.Value = LangPanel.bg_padding =  MMain.MyConfs.ReadInt("LangPanel", "BGPadding");
 			#endregion
 			#region Translate Panel
 			TrEnabled = chk_TrEnable.Checked = MMain.MyConfs.ReadBool("TranslatePanel", "Enabled");
@@ -2041,6 +2047,7 @@ namespace Mahou {
 				LLHook.UnSet();
 			InitializeHotkeys();
 			InitializeTimers();
+			langPanelRefreshAfrerApply = true;
 			InitializeLangPanel();
 			ToggleDependentControlsEnabledState();
 			RefreshAllIcons(true);
@@ -2407,6 +2414,9 @@ namespace Mahou {
 			// Translation tab
 			btn_TrBorderC.Enabled = !chk_TrUseAccent.Checked;
 			grb_TrConfs.Enabled = chk_TrEnable.Checked;
+			// Lang Panel tab
+			chk_LPAeroColor.Enabled = btn_LPBorderColor.Enabled = !chk_LPDisableBorder.Checked;
+			btn_LPBack.Enabled = !chk_LPTransparentBG.Checked;
 		}
 		/// <summary>
 		/// Toggles visibility of main window.
@@ -3114,7 +3124,8 @@ DEL """+restartMahouPath + @"""";
 						loc = currentLayout == 0 ? Locales.GetCurrentLocale() : currentLayout;
 					else
 						loc = GlobalLayout;
-					if (loc > 0 && loc != lastLayoutLangPanel) {
+					if (loc > 0 && loc != lastLayoutLangPanel || langPanelRefreshAfrerApply) {
+						if (langPanelRefreshAfrerApply) langPanelRefreshAfrerApply = false;
 						RefreshFLAG();
 						_langPanel.ChangeLayout(FLAG, MMain.locales[Array.FindIndex(MMain.locales, l => l.uId == loc)].Lang);
 						lastLayoutLangPanel = loc;
@@ -4880,6 +4891,9 @@ DEL ""ExtractASD.cmd""";
 			chk_LPUpperArrow.Text = MMain.Lang[Languages.Element.DisplayUpperArrow];
 			chk_LPDisplayFlag.Text = MMain.Lang[Languages.Element.DisplayFlag];
 			chk_LPDisplayLayoutText.Text = MMain.Lang[Languages.Element.DisplayLayoutText];
+			chk_LPTransparentBG.Text = MMain.Lang[Languages.Element.LDTransparentBG];
+			chk_LPDisableBorder.Text = MMain.Lang[Languages.Element.Disable];
+			lbl_LPBGPadding.Text = MMain.Lang[Languages.Element.BackgroundPadding];
 			lbl_TrMethod.Text = MMain.Lang[Languages.Element.Method] + ":";
 			chk_TrSrc.Text = MMain.Lang[Languages.Element.SourceText];
 			#endregion

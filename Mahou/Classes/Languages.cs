@@ -164,6 +164,7 @@ public class Languages
 		DisplayFlag,
 		DisplayLayoutText,
 		Transcription,
+		BackgroundPadding,
 		#endregion
 		#region TranslatePanel
 		EnableTranslatePanel,
@@ -246,6 +247,7 @@ public class Languages
 		InputHistoryBackSpaceWriteType1,
 		InputHistoryBackSpaceWriteType2,
 		Disabled,
+		Disable,
 		Enable,
 		Open,
 		#endregion
@@ -472,6 +474,7 @@ public class Languages
 		{ Element.DisplayUpperArrow, "Display up arrow icon when input is upper case." },
 		{ Element.DisplayFlag, "Display flag." },
 		{ Element.DisplayLayoutText, "Display text of the layout." },
+		{ Element.BackgroundPadding, "Background padding:" },
 		{ Element.Transcription, "Transcription" },
 		#endregion
 		#region TranslatePanel
@@ -562,6 +565,7 @@ public class Languages
 		{ Element.InputHistoryBackSpaceWriteType1, "Write <Back>(faster)" },
 		{ Element.InputHistoryBackSpaceWriteType2, "Delete last" },
 		{ Element.Disabled, "Disabled" },
+		{ Element.Disable, "Disable" },
 		{ Element.Enable, "Enable" },
 		{ Element.Open, "Open" },
 		#endregion
@@ -807,6 +811,7 @@ Specify layout code 0 to disable this feature." },
 		{ Element.DisplayUpperArrow, "Отображать стрелку при наборе в верхнем регистре." },
 		{ Element.DisplayFlag, "Отображать флаг." },
 		{ Element.DisplayLayoutText, "Отображать текст раскладки." },
+		{ Element.BackgroundPadding, "Отступ в фоне:" },
 		{ Element.Transcription, "Транскрипция" },
 		#endregion
 		#region TranslatePanel
@@ -895,6 +900,7 @@ Specify layout code 0 to disable this feature." },
 		{ Element.InputHistoryBackSpaceWriteType1, "Писать <Back>(быстрее)" },
 		{ Element.InputHistoryBackSpaceWriteType2, "Удалять символ" },
 		{ Element.Disabled, "Отключен" },
+		{ Element.Disable, "Отключить" },
 		{ Element.Enable, "Включить" },
 		{ Element.Open, "Открыть" },
 		#endregion

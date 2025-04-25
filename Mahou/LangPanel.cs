@@ -7,19 +7,23 @@ namespace Mahou {
 	/// <summary> Language panel with display of flag, name, id of current layout. </summary>
 	public partial class LangPanel : Form {
 		int l = 4;
-		public static bool display_layoutname = true, display_flag = false;
+		int moveevt = 0;
+		int moveevtmax = 8;
+		public static bool display_layoutname = true, display_flag = false, transparentBG, disableBorder;
+		public static int bg_padding = 4;
 		public LangPanel() {
 			InitializeComponent();
-			Width = 24;
+			Width = Height = 0;
 			this.FormClosing += (s, e) => { e.Cancel = true; this.Hide(); };
-			Height = 24;
 			AeroCheck();
 			MahouUI.DPISCALE(this);
-			l = Convert.ToInt32(MahouUI.xr*l);
+			l = Convert.ToInt32(MahouUI.xr*bg_padding);
 			outsidefix(pct_Flag);
 			outsidefix(pct_Upper);
+			outsidefix(lbl_LayoutName);
+			UpdateApperence(BackColor, ForeColor, (int)(Opacity*100), Font);
 		}
-		void outsidefix(PictureBox p) {
+		void outsidefix(Control p) {
 			var outside = p.Height;
 			if (outside >= this.Height) {
 				p.Height -= outside-this.Height+1+p.Location.Y;
@@ -30,6 +34,7 @@ namespace Mahou {
 		public Point mouseLocation;
 		public bool snap_l, snap_r, snap_t, snap_b;
 		public void ChangeLayout(Bitmap flag, string layoutName) {
+			l = bg_padding;
 			lbl_LayoutName.Text = display_layoutname ? layoutName : "";
 			if (display_flag) {
 				pct_Flag.Width = 16;
@@ -48,6 +53,7 @@ namespace Mahou {
 			ReSnap();
 		}
 		public void DisplayUpper(bool Upper) {
+			l = bg_padding;
 			pct_Upper.Visible = Upper;
 			if (!display_flag) {
 				pct_Upper.Left = l;
@@ -77,7 +83,10 @@ namespace Mahou {
 			mouseLocation = new Point(-e.X - left, -e.Y - top);
 		}
 		void LangPanelMouseMove(object sender, MouseEventArgs e) {
-			if (e.Button == MouseButtons.Right || e.Button == MouseButtons.Middle) {
+			if (e.Button == MouseButtons.Left && moveevt < moveevtmax) { 
+				moveevt++;
+			}
+			if (e.Button == MouseButtons.Right || e.Button == MouseButtons.Middle || (e.Button == MouseButtons.Left && moveevt == moveevtmax)) {
 				this.Cursor = Cursors.SizeAll;
 			    var mousePos = MousePosition;
 			    var mousePosR = MousePosition;
@@ -112,16 +121,42 @@ namespace Mahou {
 		
 		void Lbl_LayoutNameMouseUp(object sender, MouseEventArgs e) {
 			this.Cursor = Cursors.Arrow;
+			bool moved = false;
 			if (e.Button == MouseButtons.Left) {
-				Logging.Log("Changing layout.");
-				KMHook.ChangeLayout(true);
+				if (moveevt != moveevtmax) {
+					Logging.Log("Changing layout.");
+					KMHook.ChangeLayout(true);
+				} else {
+					moved = true;
+				}
+				moveevt = 0;
 			} else {
+				moved = true;
+			}
+			if (moved) {
 				Logging.Log("Saved position of LangPanel");
 				MMain.MyConfs.WriteSave("LangPanel", "Position", "X" + Location.X + " Y" + Location.Y);
 			}
 		}
 		public void UpdateApperence(Color back, Color fore, int opacity, Font font) {
-			BackColor = back;
+			Height = display_flag ? 16 : lbl_LayoutName.Height;
+			Width = (display_flag ? 16 : 0)+(pct_Upper.Visible ? 16 : 0)+
+				((lbl_LayoutName.Text == "" || !display_layoutname) ? 0 : lbl_LayoutName.Width);
+			if (transparentBG) {
+				Height += (disableBorder ? 0 : 2);
+				Width += (disableBorder ? 0 : 2);
+				l = disableBorder ? 0 : 1;
+				TransparencyKey = BackColor = Color.PaleTurquoise;
+			} else {
+				l = bg_padding;
+				Height += l+l;
+				Width += l+l;
+				BackColor = back;
+			}
+			var m = new Message();
+			m.Msg = WinAPI.WM_NCPAINT;
+			WndProc(ref m);
+			pct_Flag.Left = pct_Flag.Top = pct_Upper.Top = lbl_LayoutName.Top = l;
 			lbl_LayoutName.ForeColor = fore;
 			lbl_LayoutName.Font = font;
 			Opacity = (double)opacity / 100;
@@ -173,7 +208,7 @@ namespace Mahou {
 		}
 		protected override void WndProc(ref Message m) {
 			if (m.Msg == WinAPI.WM_NCPAINT && AeroEnabled) {
-				var v = 2;
+				var v = transparentBG ? 1 : 2; // 1=DWMNCRP_DISABLED, 2=DWMNCRP_ENABLED
 				WinAPI.DwmSetWindowAttribute(this.Handle, 2, ref v, 4);
 				var margins = new WinAPI.MARGINS(){ bH = 1, lW = 1, rW = 1, tH = 1 };
 				WinAPI.DwmExtendFrameIntoClientArea(this.Handle, ref margins);
@@ -181,7 +216,7 @@ namespace Mahou {
 			base.WndProc(ref m);
 		}
 		protected override void OnPaint(PaintEventArgs e) {
-			if (MMain.mahou == null) { base.OnPaint(e); return; }
+			if (MMain.mahou == null || disableBorder) { base.OnPaint(e); return; }
 			Graphics g = CreateGraphics();
 			var pn = new Pen(Color.Black);
 			if (AeroEnabled && MahouUI.LangPanelBorderAero)

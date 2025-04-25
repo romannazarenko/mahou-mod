@@ -301,6 +301,9 @@ namespace Mahou {
 			CheckString("Updates", "Delay", "5");
 			#endregion
 			#region Language Panel
+			CheckInt("LangPanel", "BGPadding", "4");
+			CheckBool("LangPanel", "NoBorder", "false");
+			CheckBool("LangPanel", "TransparentBG", "false");
 			CheckBool("LangPanel", "Flag", "true");
 			CheckBool("LangPanel", "LayoutText", "true");
 			CheckBool("LangPanel", "UpperArrow", "true");

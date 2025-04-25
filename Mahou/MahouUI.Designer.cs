@@ -357,6 +357,10 @@ namespace Mahou
 		private System.Windows.Forms.CheckBox chk_TrSrc;
 		private System.Windows.Forms.CheckBox chk_LPDisplayLayoutText;
 		private System.Windows.Forms.CheckBox chk_LPDisplayFlag;
+		private System.Windows.Forms.CheckBox chk_LPTransparentBG;
+		private System.Windows.Forms.CheckBox chk_LPDisableBorder;
+		private System.Windows.Forms.NumericUpDown nud_LPBGPadding;
+		private System.Windows.Forms.Label lbl_LPBGPadding;
 		/// <summary>
 		/// Disposes resources used by the form.
 		/// </summary>
@@ -565,6 +569,10 @@ namespace Mahou
 			this.chk_EnableSnd = new System.Windows.Forms.CheckBox();
 			this.tab_LangPanel = new System.Windows.Forms.TabPage();
 			this.grb_LPConfig = new System.Windows.Forms.GroupBox();
+			this.nud_LPBGPadding = new System.Windows.Forms.NumericUpDown();
+			this.lbl_LPBGPadding = new System.Windows.Forms.Label();
+			this.chk_LPTransparentBG = new System.Windows.Forms.CheckBox();
+			this.chk_LPDisableBorder = new System.Windows.Forms.CheckBox();
 			this.chk_LPDisplayLayoutText = new System.Windows.Forms.CheckBox();
 			this.chk_LPDisplayFlag = new System.Windows.Forms.CheckBox();
 			this.chk_LPUpperArrow = new System.Windows.Forms.CheckBox();
@@ -761,6 +769,7 @@ namespace Mahou
 			this.grb_SoundOn.SuspendLayout();
 			this.tab_LangPanel.SuspendLayout();
 			this.grb_LPConfig.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.nud_LPBGPadding)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.nud_LPTransparency)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.nud_LPRefreshRate)).BeginInit();
 			this.tab_translator.SuspendLayout();
@@ -3064,6 +3073,10 @@ namespace Mahou
 			// 
 			// grb_LPConfig
 			// 
+			this.grb_LPConfig.Controls.Add(this.nud_LPBGPadding);
+			this.grb_LPConfig.Controls.Add(this.lbl_LPBGPadding);
+			this.grb_LPConfig.Controls.Add(this.chk_LPTransparentBG);
+			this.grb_LPConfig.Controls.Add(this.chk_LPDisableBorder);
 			this.grb_LPConfig.Controls.Add(this.chk_LPDisplayLayoutText);
 			this.grb_LPConfig.Controls.Add(this.chk_LPDisplayFlag);
 			this.grb_LPConfig.Controls.Add(this.chk_LPUpperArrow);
@@ -3085,6 +3098,47 @@ namespace Mahou
 			this.grb_LPConfig.Size = new System.Drawing.Size(542, 240);
 			this.grb_LPConfig.TabIndex = 1;
 			this.grb_LPConfig.TabStop = false;
+			// 
+			// nud_LPBGPadding
+			// 
+			this.nud_LPBGPadding.Location = new System.Drawing.Point(213, 156);
+			this.nud_LPBGPadding.Name = "nud_LPBGPadding";
+			this.nud_LPBGPadding.Size = new System.Drawing.Size(41, 23);
+			this.nud_LPBGPadding.TabIndex = 43;
+			this.nud_LPBGPadding.Value = new decimal(new int[] {
+			25,
+			0,
+			0,
+			0});
+			// 
+			// lbl_LPBGPadding
+			// 
+			this.lbl_LPBGPadding.AutoSize = true;
+			this.lbl_LPBGPadding.Location = new System.Drawing.Point(17, 158);
+			this.lbl_LPBGPadding.Name = "lbl_LPBGPadding";
+			this.lbl_LPBGPadding.Size = new System.Drawing.Size(121, 15);
+			this.lbl_LPBGPadding.TabIndex = 42;
+			this.lbl_LPBGPadding.Text = "Background padding:";
+			// 
+			// chk_LPTransparentBG
+			// 
+			this.chk_LPTransparentBG.AutoSize = true;
+			this.chk_LPTransparentBG.Location = new System.Drawing.Point(331, 102);
+			this.chk_LPTransparentBG.Name = "chk_LPTransparentBG";
+			this.chk_LPTransparentBG.Size = new System.Drawing.Size(87, 19);
+			this.chk_LPTransparentBG.TabIndex = 41;
+			this.chk_LPTransparentBG.Text = "Transparent";
+			this.chk_LPTransparentBG.UseVisualStyleBackColor = true;
+			// 
+			// chk_LPDisableBorder
+			// 
+			this.chk_LPDisableBorder.AutoSize = true;
+			this.chk_LPDisableBorder.Location = new System.Drawing.Point(331, 131);
+			this.chk_LPDisableBorder.Name = "chk_LPDisableBorder";
+			this.chk_LPDisableBorder.Size = new System.Drawing.Size(64, 19);
+			this.chk_LPDisableBorder.TabIndex = 40;
+			this.chk_LPDisableBorder.Text = "Disable";
+			this.chk_LPDisableBorder.UseVisualStyleBackColor = true;
 			// 
 			// chk_LPDisplayLayoutText
 			// 
@@ -3119,7 +3173,7 @@ namespace Mahou
 			// lbl_LPFont
 			// 
 			this.lbl_LPFont.AutoSize = true;
-			this.lbl_LPFont.Location = new System.Drawing.Point(18, 162);
+			this.lbl_LPFont.Location = new System.Drawing.Point(350, 162);
 			this.lbl_LPFont.Name = "lbl_LPFont";
 			this.lbl_LPFont.Size = new System.Drawing.Size(34, 15);
 			this.lbl_LPFont.TabIndex = 36;
@@ -3138,7 +3192,7 @@ namespace Mahou
 			// chk_LPAeroColor
 			// 
 			this.chk_LPAeroColor.AutoSize = true;
-			this.chk_LPAeroColor.Location = new System.Drawing.Point(168, 132);
+			this.chk_LPAeroColor.Location = new System.Drawing.Point(110, 132);
 			this.chk_LPAeroColor.Name = "chk_LPAeroColor";
 			this.chk_LPAeroColor.Size = new System.Drawing.Size(145, 19);
 			this.chk_LPAeroColor.TabIndex = 34;
@@ -4949,6 +5003,7 @@ namespace Mahou
 			this.tab_LangPanel.PerformLayout();
 			this.grb_LPConfig.ResumeLayout(false);
 			this.grb_LPConfig.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.nud_LPBGPadding)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.nud_LPTransparency)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.nud_LPRefreshRate)).EndInit();
 			this.tab_translator.ResumeLayout(false);

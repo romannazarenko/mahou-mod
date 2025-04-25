@@ -44,9 +44,8 @@ namespace Mahou
 			this.lbl_LayoutName.AutoSize = true;
 			this.lbl_LayoutName.Location = new System.Drawing.Point(24, 4);
 			this.lbl_LayoutName.Name = "lbl_LayoutName";
-			this.lbl_LayoutName.Size = new System.Drawing.Size(70, 13);
+			this.lbl_LayoutName.Size = new System.Drawing.Size(0, 13);
 			this.lbl_LayoutName.TabIndex = 0;
-			this.lbl_LayoutName.Text = "Layout Name";
 			this.lbl_LayoutName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.lbl_LayoutName.MouseDown += new System.Windows.Forms.MouseEventHandler(this.LangPanelMouseDown);
 			this.lbl_LayoutName.MouseMove += new System.Windows.Forms.MouseEventHandler(this.LangPanelMouseMove);
@@ -94,9 +93,9 @@ namespace Mahou
 			this.Cursor = System.Windows.Forms.Cursors.Arrow;
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 			this.MaximizeBox = false;
-			this.MaximumSize = new System.Drawing.Size(400, 24);
+			this.MaximumSize = new System.Drawing.Size(400, 400);
 			this.MinimizeBox = false;
-			this.MinimumSize = new System.Drawing.Size(24, 24);
+			this.MinimumSize = new System.Drawing.Size(8, 8);
 			this.Name = "LangPanel";
 			this.Opacity = 0.9D;
 			this.ShowIcon = false;
