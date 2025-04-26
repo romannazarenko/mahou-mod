@@ -13,6 +13,7 @@ namespace Mahou {
 		public static int bg_padding = 4;
 		public LangPanel() {
 			InitializeComponent();
+			this.lbl_LayoutName.Visible = false;
 			Width = Height = 0;
 			this.FormClosing += (s, e) => { e.Cancel = true; this.Hide(); };
 			AeroCheck();
@@ -214,7 +215,16 @@ namespace Mahou {
 			base.WndProc(ref m);
 		}
 		protected override void OnPaint(PaintEventArgs e) {
-			if (MMain.mahou == null || disableBorder) { base.OnPaint(e); return; }
+			if (MMain.mahou == null) { base.OnPaint(e); return; }
+			if (transparentBG) {
+				e.Graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SingleBitPerPixelGridFit;
+			} else {
+				e.Graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SystemDefault;
+			}
+			if (display_layoutname) {
+				e.Graphics.DrawString(lbl_LayoutName.Text, lbl_LayoutName.Font, new SolidBrush(lbl_LayoutName.ForeColor), 
+				                      lbl_LayoutName.Location.X, lbl_LayoutName.Location.Y);
+			}
 			Graphics g = CreateGraphics();
 			var pn = new Pen(Color.Black);
 			if (AeroEnabled && MahouUI.LangPanelBorderAero)
