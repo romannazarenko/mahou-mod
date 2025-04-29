@@ -180,12 +180,11 @@ namespace Mahou
 		/// Show lang display form without activation.
 		/// </summary>
 		public void ShowInactiveTopmost() {
+			WinAPI.SetWindowPos(Handle.ToInt32(), WinAPI.HWND_TOPMOST, 0, 0, 0, 0,
+				WinAPI.SWP_NOACTIVATE | WinAPI.WS_EX_TOPMOST | WinAPI.SWP_NOMOVE | WinAPI.SWP_NOSIZE);
 			if (Visible) return;
 			try {
 				WinAPI.ShowWindow(Handle, WinAPI.SW_SHOWNOACTIVATE);
-				WinAPI.SetWindowPos(Handle.ToInt32(), WinAPI.HWND_TOPMOST,
-					Left, Top, Width, Height,
-					WinAPI.SWP_NOACTIVATE);
 			} catch (System.Exception e) {
 				Logging.Log(">> LD - Show error" + e.Message + e.StackTrace, 1);
 			}
@@ -205,6 +204,7 @@ namespace Mahou
 				// Add click through window ability.
 				Params.ExStyle |= WinAPI.WS_EX_LAYERED | WinAPI.WS_EX_TRANSPARENT;
 				Params.ExStyle |= WinAPI.WS_EX_NOACTIVATE;
+				Params.ExStyle |= WinAPI.WS_EX_TOPMOST;
 				return Params;
 			}
 		}
