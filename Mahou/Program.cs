@@ -160,8 +160,8 @@ namespace Mahou
 					}
 				}
 				MyConfs.WriteToDisk();
-				if (!string.IsNullOrEmpty(MahouUI.MainLayout1))
-					MahouUI.GlobalLayout = MahouUI.currentLayout = Locales.GetLocaleFromString(MahouUI.MainLayout1).uId;
+//				if (!string.IsNullOrEmpty(MahouUI.MainLayout1))
+				MahouUI.GlobalLayout = MahouUI.currentLayout = Locales.GetCurrentLocale();
 				Application.Run();
 			}
 		}
