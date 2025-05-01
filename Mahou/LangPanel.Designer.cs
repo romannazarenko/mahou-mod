@@ -49,7 +49,7 @@ namespace Mahou
 			this.lbl_LayoutName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.lbl_LayoutName.MouseDown += new System.Windows.Forms.MouseEventHandler(this.LangPanelMouseDown);
 			this.lbl_LayoutName.MouseMove += new System.Windows.Forms.MouseEventHandler(this.LangPanelMouseMove);
-			this.lbl_LayoutName.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Lbl_LayoutNameMouseUp);
+			this.lbl_LayoutName.MouseUp += new System.Windows.Forms.MouseEventHandler(this.LangPanelMouseUp);
 			// 
 			// pct_Flag
 			// 
@@ -63,7 +63,7 @@ namespace Mahou
 			this.pct_Flag.TabStop = false;
 			this.pct_Flag.MouseDown += new System.Windows.Forms.MouseEventHandler(this.LangPanelMouseDown);
 			this.pct_Flag.MouseMove += new System.Windows.Forms.MouseEventHandler(this.LangPanelMouseMove);
-			this.pct_Flag.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Lbl_LayoutNameMouseUp);
+			this.pct_Flag.MouseUp += new System.Windows.Forms.MouseEventHandler(this.LangPanelMouseUp);
 			// 
 			// pct_Upper
 			// 
@@ -78,7 +78,7 @@ namespace Mahou
 			this.pct_Upper.Visible = false;
 			this.pct_Upper.MouseDown += new System.Windows.Forms.MouseEventHandler(this.LangPanelMouseDown);
 			this.pct_Upper.MouseMove += new System.Windows.Forms.MouseEventHandler(this.LangPanelMouseMove);
-			this.pct_Upper.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Lbl_LayoutNameMouseUp);
+			this.pct_Upper.MouseUp += new System.Windows.Forms.MouseEventHandler(this.LangPanelMouseUp);
 			// 
 			// LangPanel
 			// 
@@ -106,7 +106,7 @@ namespace Mahou
 			this.TransparencyKey = System.Drawing.Color.Peru;
 			this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.LangPanelMouseDown);
 			this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.LangPanelMouseMove);
-			this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Lbl_LayoutNameMouseUp);
+			this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.LangPanelMouseUp);
 			((System.ComponentModel.ISupportInitialize)(this.pct_Flag)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.pct_Upper)).EndInit();
 			this.ResumeLayout(false);

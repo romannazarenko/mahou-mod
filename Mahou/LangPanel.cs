@@ -120,7 +120,7 @@ namespace Mahou {
 			}
 		}
 		
-		void Lbl_LayoutNameMouseUp(object sender, MouseEventArgs e) {
+		void LangPanelMouseUp(object sender, MouseEventArgs e) {
 			this.Cursor = Cursors.Arrow;
 			bool moved = false;
 			if (e.Button == MouseButtons.Left) {
@@ -231,7 +231,8 @@ namespace Mahou {
 				pn = new Pen(CurrentAeroColor());
 			else
 				pn.Color = MMain.mahou.LangPanelBorderColor;
-			g.DrawRectangle(pn, new Rectangle(0, 0, Size.Width - 1, Size.Height - 1));
+			if (!disableBorder)
+				g.DrawRectangle(pn, new Rectangle(0, 0, Size.Width - 1, Size.Height - 1));
 			g.Dispose();
 			pn.Dispose();
 			base.OnPaint(e);
