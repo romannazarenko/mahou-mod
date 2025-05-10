@@ -222,8 +222,10 @@ namespace Mahou {
 				e.Graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SystemDefault;
 			}
 			if (display_layoutname) {
+				int pixels = (int)Math.Round(e.Graphics.MeasureString(lbl_LayoutName.Text, lbl_LayoutName.Font).Height);
+				int ypos = (this.Height-pixels)/2;
 				e.Graphics.DrawString(lbl_LayoutName.Text, lbl_LayoutName.Font, new SolidBrush(lbl_LayoutName.ForeColor), 
-				                      lbl_LayoutName.Location.X, lbl_LayoutName.Location.Y);
+				                      lbl_LayoutName.Location.X, ypos);
 			}
 			Graphics g = CreateGraphics();
 			var pn = new Pen(Color.Black);
