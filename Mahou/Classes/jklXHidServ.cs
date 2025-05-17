@@ -120,7 +120,7 @@ namespace Mahou {
 									Thread.Sleep(50);
 								}
 							}
-//							File.Delete(umsgID);
+							File.Delete(umsgID);
 	//						KMHook.DoLater(() => CycleAllLayouts(Locales.ActiveWindow()), 350);
 							KMHook.DoLater(() => { MahouUI.GlobalLayout = MahouUI.currentLayout = Locales.GetCurrentLocale(); }, 200);
 							running = true;
