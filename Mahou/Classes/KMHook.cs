@@ -557,11 +557,12 @@ namespace Mahou {
 				}
 				if (printable && printable_mod) {
 					if (afterEOS) { //Clears word after Eat ONE space
-						ClearWord(true, false, false, "Clear last word after 1 space");
+						Debug.WriteLine("AFTER EOS: CLR");
+						ClearWord(true, false, true, "Clear last word after 1 space");
 						afterEOS = false;
 					}
 					if (afterEOL) { //Clears word after Eat ONE enter
-						ClearWord(true, false, false, "Clear last word after 1 enter");
+						ClearWord(true, false, true, "Clear last word after 1 enter");
 						afterEOL = false;
 					}
 					if (sym == '\0') { sym = getSym(vkCode); }
