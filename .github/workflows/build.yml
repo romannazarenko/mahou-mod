@@ -23,6 +23,6 @@ jobs:
         with:
           name: Mahou-Release
           path: |
-            Mahou/**/bin/Release/**/*.exe
-            Mahou/**/bin/Release/**/*.dll
+            Mahou/bin/Release_*/**/*.exe
+            Mahou/bin/Release_*/**/*.dll
           if-no-files-found: error
