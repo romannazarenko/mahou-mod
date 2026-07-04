@@ -1,0 +1,28 @@
+name: Build
+
+on:
+  push:
+    branches: [master, main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Build Release
+        run: msbuild Mahou/Mahou.sln /nologo /m /t:Build /p:Configuration=Release "/p:Platform=Any CPU"
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Mahou-Release
+          path: |
+            Mahou/**/bin/Release/**/*.exe
+            Mahou/**/bin/Release/**/*.dll
+          if-no-files-found: error
