@@ -1,0 +1,46 @@
+﻿# Dictionary that BladeMight write on its own. almost.
+->tcnm
+====>есть<====
+->скщц
+====>crow<====
+->htfkbcnbxysq
+====>реалистичный<====
+->lei
+====>душ<====
+->ыщккщц
+====>sorrow<====
+->афтефын
+====>fantasy<====
+->fybvt
+====>аниме<====
+->идшыы
+====>bliss<====
+->идуыыштп
+====>blessing<====
+->ищккщц
+====>borrow<====
+->зфкеув
+====>parted<====
+->k.,st
+====>любые<====
+->vfrcbv
+====>максим<====
+->here
+====>руку<====
+->herb
+====>руки<====
+->her
+====>рук<====
+->herjq
+====>рукой<====
+->herfvb
+====>руками<====
+->yjhvfkmyj
+====>нормально<====
+->plhfdcndeqnt
+====>здравствуйте<====
+# rule for programmers
+#->ж
+#====>;<====
+# to be continued...
+ 

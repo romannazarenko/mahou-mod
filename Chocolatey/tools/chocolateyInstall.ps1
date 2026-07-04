@@ -1,0 +1,1 @@
+Install-ChocolateyZipPackage 'Mahou' 'https://gitea.com/BladeMight/Mahou/releases/download/latest-commit/Release_x86_x64.zip' "$(Split-Path -parent $MyInvocation.MyCommand.Definition)"
