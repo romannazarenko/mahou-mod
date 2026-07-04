@@ -138,6 +138,7 @@
     <Compile Include="Classes\KMHook.cs" />
     <Compile Include="Classes\KInputs.cs" />
     <Compile Include="Classes\Languages.cs" />
+    <Compile Include="Classes\NgramScorer.cs" />
     <Compile Include="Classes\LLHook.cs" />
     <Compile Include="Classes\Locales.cs" />
     <Compile Include="Classes\Logging.cs" />
@@ -188,6 +189,13 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <!-- Trigram models, produced by Tools/ModelGen. Optional: if absent the app
+         silently falls back to the AS_dict word list. -->
+    <Content Include="ngram.bin" Condition="Exists('ngram.bin')">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">

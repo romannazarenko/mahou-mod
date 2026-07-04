@@ -12,8 +12,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
       - name: Setup MSBuild
         uses: microsoft/setup-msbuild@v2
+
+      - name: Train and validate n-gram models
+        run: dotnet run --project Tools/ModelGen -c Release -- Dictionaries-origin Mahou/ngram.bin
 
       - name: Build Release
         run: msbuild Mahou/Mahou.sln /nologo /m /t:Build /p:Configuration=Release "/p:Platform=Any CPU"
@@ -25,4 +33,5 @@ jobs:
           path: |
             Mahou/bin/Release_*/**/*.exe
             Mahou/bin/Release_*/**/*.dll
+            Mahou/bin/Release_*/**/ngram.bin
           if-no-files-found: error

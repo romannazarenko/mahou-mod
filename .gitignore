@@ -1,5 +1,3 @@
-/Mahou/bin/*
-/Mahou/obj/*
-/Mahou/*.suo
-/Mahou/*.user
-/Mahou/.vs/*
+ngram.bin
+bin/
+obj/
