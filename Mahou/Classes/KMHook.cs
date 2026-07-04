@@ -66,6 +66,9 @@ namespace Mahou {
 		public static NCR[] NCRules = new NCR[] { };
 		public static string[] as_wrongs;
 		public static string[] as_corrects;
+		// Snapshot of the snippet buffer taken when Enter is pressed, because Enter's
+		// ClearWord wipes c_snip before the auto-switch code downstream can read it.
+		static string asEnterSnip = "";
 		static DICT<string,string> DefaultTransliterationDict = new DICT<string, string>( new Dictionary<string,string>() {
 				{"Щ", "SCH"}, {"щ", "sch"}, {"Ч", "CH"}, {"Ш", "SH"}, {"Ё", "JO"}, {"ВВ", "W"},
 				{"Є", "EH"}, {"ю", "yu"}, {"я", "ya"}, {"є", "eh"}, {"Ж", "ZH"},
@@ -533,9 +536,13 @@ namespace Mahou {
 						}
 					}
 				}
-				if (Key == Keys.Enter) { 
+				if (Key == Keys.Enter) {
 					if (prevKEY != Keys.Enter) {
-						if (MahouUI.Add1NL && MMain.c_word.Count != 0 && 
+						// Preserve the word for auto-switch before ClearWord clears c_snip below.
+						var _essb = new StringBuilder();
+						foreach (var c in c_snip) _essb.Append(c);
+						asEnterSnip = _essb.ToString();
+						if (MahouUI.Add1NL && MMain.c_word.Count != 0 &&
 						    MMain.c_word[MMain.c_word.Count - 1].key != Keys.Enter) {
 							Logging.Log("[FUN] > Eat one New Line passed, next Enter will clear last word.");
 							MMain.c_word.Add(new YuKey() { key = Keys.Enter });
@@ -655,11 +662,16 @@ namespace Mahou {
 						if (IGN) { Logging.Log("[AS] > Ignore AutoSwitch by: B/D/LS: " + was_back + "/"+was_del+"/"+was_ls); }
 						Debug.WriteLine("Ignore AutoSwitch by: B/D/LS: " + was_back + "/"+was_del+"/"+was_ls);
 						Debug.WriteLine("IGN:"+IGN+"EVT"+MSG);
-						if (!matched && (as_wrongs != null || NgramScorer.Ready) && Key == Keys.Space && !IGN /*&& aseKeyDown == Keys.None*/) {
-							if (NCRule.rule == "\0" || (NCRule.rule != "\0" && !NCRule.iauto)) {
+						if (!matched && (as_wrongs != null || NgramScorer.Ready) && (Key == Keys.Space || Key == Keys.Enter) && !IGN /*&& aseKeyDown == Keys.None*/) {
+							// Enter ends a word just like Space; its snippet buffer was snapshotted
+							// before ClearWord wiped it, and its "eat one" flag is Add1NL.
+							var isEnter = (Key == Keys.Enter);
+							if (isEnter) snip = asEnterSnip;
+							var eatOne = isEnter ? MahouUI.Add1NL : MahouUI.AddOneSpace;
+							if ((NCRule.rule == "\0" || (NCRule.rule != "\0" && !NCRule.iauto)) && !(isEnter && String.IsNullOrEmpty(snip))) {
 								var CW = c_word_backup;
 								var CLW = c_word_backup_last;
-								if (MahouUI.AddOneSpace) {
+								if (eatOne) {
 									CW = MMain.c_word;
 									CLW = c_word_backup;
 								}
@@ -668,17 +680,17 @@ namespace Mahou {
 									Debug.WriteLine("[ASsymDiff] > ["+snip+"] => ["+ASsymDR+"].");
 									snip = ASsymDR;
 								}
-				            	asls = matched = CheckAutoSwitch(snip, CW);
+				            	asls = matched = CheckAutoSwitch(snip, CW, true, isEnter);
 				            	if (!matched) {
 				            		var snip2x = last_snip+" "+snip;
 				            		//Debug.WriteLine("SNIp2x! " + snip2x);
 				            		var SPace = new List<YuKey>(){ new YuKey() { key = Keys.Space, altnum = false, upper = false } };
 				            		var dash = new List<YuKey>(){ new YuKey() { key = Keys.OemMinus, altnum = false, upper = false } };
 				            		var last2words = CLW.Concat(dash).Concat(CW).ToList();
-				            		asls = matched = CheckAutoSwitch(snip2x, last2words);
+				            		asls = matched = CheckAutoSwitch(snip2x, last2words, true, isEnter);
 				            		if (!matched) {
-					            		last2words = CLW.Concat(MahouUI.AddOneSpace ? new List<YuKey>() : SPace).Concat(CW).ToList();
-					            		asls = matched = CheckAutoSwitch(snip2x, last2words);
+					            		last2words = CLW.Concat(eatOne ? new List<YuKey>() : SPace).Concat(CW).ToList();
+					            		asls = matched = CheckAutoSwitch(snip2x, last2words, true, isEnter);
 				            		}
 				            	}
 				            	if (!matched) {
@@ -1003,7 +1015,7 @@ namespace Mahou {
 			}
 			return false;
 		}
-		static bool CheckAutoSwitch(string snip, List<YuKey> word, bool single = true) {
+		static bool CheckAutoSwitch(string snip, List<YuKey> word, bool single = true, bool enterTrigger = false) {
 			var matched = false;
 			var corr = "";
 			var snil = snip.ToLowerInvariant();
@@ -1038,7 +1050,7 @@ namespace Mahou {
 							}
 							if (snip.Length == as_wrongs[i].Length || withsymbol) {
 								if (sncl == as_corrects[i].ToLowerInvariant() || withsymbol) {
-									if (DoAutoSwitch(snip, snil, snl, word, as_corrects[i], core, out corr))
+									if (DoAutoSwitch(snip, snil, snl, word, as_corrects[i], core, enterTrigger, out corr))
 										matched = true;
 									break;
 								}
@@ -1056,7 +1068,7 @@ namespace Mahou {
 				if (srcLang != dstLang && NgramScorer.Has(srcLang) && NgramScorer.Has(dstLang) &&
 				    NgramScorer.ShouldSwitch(snil, sncl, srcLang, dstLang)) {
 					Logging.Log("[AS] > n-gram switch ["+snil+"] => ["+sncl+"]");
-					if (DoAutoSwitch(snip, snil, snl, word, sncl, "", out corr))
+					if (DoAutoSwitch(snip, snil, snl, word, sncl, "", enterTrigger, out corr))
 						matched = true;
 				}
 			}
@@ -1073,7 +1085,10 @@ namespace Mahou {
 		/// Returns false (without switching) when the double-layout guard says to leave the word as-is.
 		/// </summary>
 		static bool DoAutoSwitch(string snip, string snil, uint snl, List<YuKey> word,
-		                         string correctWord, string endCore, out string corr) {
+		                         string correctWord, string endCore, bool enterTrigger, out string corr) {
+			// Enter ends a word like Space, but its "eat one" flag is Add1NL and its
+			// trailing delimiter is a newline, not a space.
+			var eatOne = enterTrigger ? MahouUI.Add1NL : MahouUI.AddOneSpace;
 			if (MahouUI.SoundOnAutoSwitch)
 				MahouUI.SoundPlay();
 			if (MahouUI.SoundOnAutoSwitch2)
@@ -1098,7 +1113,7 @@ namespace Mahou {
 					jklXHidServ.OnLayoutAction = asl;
 					var was = Locales.GetCurrentLocale();
 					jklXHidServ.ActionOnLayout = () => {
-						if (!MahouUI.AddOneSpace)
+						if (!eatOne)
 							DoSelf(() => KInputs.MakeInput(KInputs.AddPress(Keys.Back)), "jkl_autoswitch_back");
 						else if (!MahouUI.AutoSwitchSpaceAfter) {
 							DoSelf(() => KInputs.MakeInput(KInputs.AddPress(Keys.Back)), "jkl_autoswitch_back2");
@@ -1106,15 +1121,15 @@ namespace Mahou {
 						}
 						word = QWERTZ_wordFIX(word);
 						StartConvertWord(word.ToArray(), was, true, true);
-						ExpandSnippet(snip, correctWord, !MahouUI.AddOneSpace && MahouUI.AutoSwitchSpaceAfter,
-							MahouUI.AutoSwitchSwitchToGuessLayout, true, false, asl);
+						ExpandSnippet(snip, correctWord, !eatOne && MahouUI.AutoSwitchSpaceAfter,
+							MahouUI.AutoSwitchSwitchToGuessLayout, true, false, asl, enterTrigger);
 					};
 				} else ofk = true;
 				ChangeToLayout(Locales.ActiveWindow(), asl);
 				Debug.WriteLine("ASL"+asl);
 			} else ofk = true;
 			if (ofk) {
-				if (!MahouUI.AddOneSpace)
+				if (!eatOne)
 					DoSelf(() => KInputs.MakeInput(KInputs.AddPress(Keys.Back)), "autoswitch_back");
 				else if (!MahouUI.AutoSwitchSpaceAfter) {
 					DoSelf(() => KInputs.MakeInput(KInputs.AddPress(Keys.Back)), "autoswitch_back2");
@@ -1122,8 +1137,8 @@ namespace Mahou {
 				}
 				word = QWERTZ_wordFIX(word);
 				StartConvertWord(word.ToArray(), Locales.GetCurrentLocale(), true, true);
-				ExpandSnippet(snip, correctWord, !MahouUI.AddOneSpace && MahouUI.AutoSwitchSpaceAfter,
-					MahouUI.AutoSwitchSwitchToGuessLayout, true, false, asl);
+				ExpandSnippet(snip, correctWord, !eatOne && MahouUI.AutoSwitchSpaceAfter,
+					MahouUI.AutoSwitchSwitchToGuessLayout, true, false, asl, enterTrigger);
 			}
 			return true;
 		}
@@ -1522,7 +1537,7 @@ namespace Mahou {
 			} else { return ""; }
 			return input;
 		}
-		static void ExpandSnippet(string snip, string expand, bool spaceAft, bool switchLayout, bool ignoreExpand = false, bool x2 = false, uint guessl = 0) {
+		static void ExpandSnippet(string snip, string expand, bool spaceAft, bool switchLayout, bool ignoreExpand = false, bool x2 = false, uint guessl = 0, bool enterAfter = false) {
 			DoSelf(() => {
 				try {
 		       		Debug.WriteLine("Snippet: " +snip);
@@ -1568,7 +1583,10 @@ namespace Mahou {
 		       				Logging.Log("[SNI] > Switch layout skip due to __setlayout_FORCED");
 		       			}
 					}
-		       		if (spaceAft && !expand.Contains("__cursorhere"))
+		       		if (enterAfter && !expand.Contains("__cursorhere"))
+						// The triggering Enter was backspaced away with the word; put the newline back.
+						KInputs.MakeInput(KInputs.AddPress(Keys.Enter));
+					else if (spaceAft && !expand.Contains("__cursorhere"))
 						KInputs.MakeInput(KInputs.AddString(" "));
 					DoLater(() => MMain.mahou.Invoke((MethodInvoker)delegate {
 						MMain.mahou.UpdateLDs();
