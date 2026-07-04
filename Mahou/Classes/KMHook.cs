@@ -655,7 +655,7 @@ namespace Mahou {
 						if (IGN) { Logging.Log("[AS] > Ignore AutoSwitch by: B/D/LS: " + was_back + "/"+was_del+"/"+was_ls); }
 						Debug.WriteLine("Ignore AutoSwitch by: B/D/LS: " + was_back + "/"+was_del+"/"+was_ls);
 						Debug.WriteLine("IGN:"+IGN+"EVT"+MSG);
-						if (!matched && as_wrongs != null && Key == Keys.Space && !IGN /*&& aseKeyDown == Keys.None*/) { 
+						if (!matched && (as_wrongs != null || NgramScorer.Ready) && Key == Keys.Space && !IGN /*&& aseKeyDown == Keys.None*/) {
 							if (NCRule.rule == "\0" || (NCRule.rule != "\0" && !NCRule.iauto)) {
 								var CW = c_word_backup;
 								var CLW = c_word_backup_last;
@@ -1015,89 +1015,49 @@ namespace Mahou {
 			var sncl = gg.Item1.ToLowerInvariant();
 			var snl = gg.Item2;
 			Debug.WriteLine("Correct? ["+sncl+"]");
-			for (int i = 0; i < as_wrongs.Length; i++) {
-				if (as_corrects.Length > i) {
-//					if (snip == as_wrongs[i]) {
-//						ExpandSnippet(snip, as_corrects[i], MMain.mahou.AutoSwitchSpaceAfter, MMain.mahou.AutoSwitchSwitchToGuessLayout);
-//						break;
-//					} else {
-	    			if (as_wrongs[i] == null)
-	    				break;
-    					var withsymbol = false;
-    					var core = "";
-    					if (!String.IsNullOrEmpty(AS_END_symbols)) {
-	    					if (snip.Length == as_wrongs[i].Length+1) {
-    							for(int m = 0; m!= AS_END_symbols.Length; m++) {
-    								var asi = new StringBuilder(as_corrects[i]).Append(AS_END_symbols[m]).ToString().ToLower();
-    								if (sncl == asi.ToString()) {
-    									Debug.WriteLine("Word: " +as_corrects[i] + " with symbol ending: " + AS_END_symbols[m]);
-    									withsymbol = true;
-    									core = AS_END_symbols[m].ToString();
-    									break;
+			// 1) User word list (AS_dict) takes priority: explicit rules and exceptions.
+			if (as_wrongs != null) {
+				for (int i = 0; i < as_wrongs.Length; i++) {
+					if (as_corrects.Length > i) {
+		    			if (as_wrongs[i] == null)
+		    				break;
+	    					var withsymbol = false;
+	    					var core = "";
+	    					if (!String.IsNullOrEmpty(AS_END_symbols)) {
+		    					if (snip.Length == as_wrongs[i].Length+1) {
+	    							for(int m = 0; m!= AS_END_symbols.Length; m++) {
+	    								var asi = new StringBuilder(as_corrects[i]).Append(AS_END_symbols[m]).ToString().ToLower();
+	    								if (sncl == asi.ToString()) {
+	    									Debug.WriteLine("Word: " +as_corrects[i] + " with symbol ending: " + AS_END_symbols[m]);
+	    									withsymbol = true;
+	    									core = AS_END_symbols[m].ToString();
+	    									break;
+		    							}
 	    							}
-    							}
-	    					}
-						}
-						if (snip.Length == as_wrongs[i].Length || withsymbol) {
-							if (sncl == as_corrects[i].ToLowerInvariant() || withsymbol) {
-	        					if (MahouUI.SoundOnAutoSwitch)
-	        						MahouUI.SoundPlay();
-	        					if (MahouUI.SoundOnAutoSwitch2)
-	        						MahouUI.SoundPlay(true);
-	        					corr = as_corrects[i]+core;
-	        					Logging.Log("[AS] --- asl guess ---");
-	        					var asl = WordGuessLayout(corr,0,false).Item2;
-	        					Logging.Log("[AS] --- end guesses ---");
-        						if (snl == as_lword_layout) {
-		        					if (_hasKey(as_wrongs, as_corrects[i])) {
-		        						Logging.Log("[AS] > Double-layout autoswitch rule: " +as_wrongs[i] +"<=>" +as_corrects[i]);
-		        							Logging.Log("[AS] > Leave as it was: "+snil);
-		        							break;
-		        					}
-        						}
-    							as_lword_layout = asl;
-	        					var skipLS = (snl == asl);
-	        					Logging.Log("[AS] snl: " +snil + ", l:" +snl + "as_crI: " + as_corrects[i] + ", l: " +asl + "SKIP: " +skipLS);
-	        					var ofk = false;
-	        					if (!skipLS) {
-	        						if (MahouUI.UseJKL && MahouUI.SwitchBetweenLayouts && MahouUI.EmulateLS && !KMHook.JKLERR) {
-										jklXHidServ.OnLayoutAction = asl;
-										var was = Locales.GetCurrentLocale();
-	        							jklXHidServ.ActionOnLayout = () => {
-											if (!MahouUI.AddOneSpace)
-												DoSelf(() => KInputs.MakeInput(KInputs.AddPress(Keys.Back)), "jkl_autoswitch_back");
-											else if (!MahouUI.AutoSwitchSpaceAfter) {
-												DoSelf(() => KInputs.MakeInput(KInputs.AddPress(Keys.Back)), "jkl_autoswitch_back2");
-												word.RemoveAt(word.Count-1);
-											}
-											word = QWERTZ_wordFIX(word);
-				        					StartConvertWord(word.ToArray(), was, true, true);
-											ExpandSnippet(snip, as_corrects[i], !MahouUI.AddOneSpace && MahouUI.AutoSwitchSpaceAfter,
-				        						MahouUI.AutoSwitchSwitchToGuessLayout, true, false, asl);
-										};
-	        						} else ofk = true;
-        							ChangeToLayout(Locales.ActiveWindow(), asl);
-        							Debug.WriteLine("ASL"+asl);
-	        					} else ofk = true;
-	        					if (ofk) {
-									if (!MahouUI.AddOneSpace)
-										DoSelf(() => KInputs.MakeInput(KInputs.AddPress(Keys.Back)), "autoswitch_back");
-									else if (!MahouUI.AutoSwitchSpaceAfter) {
-										DoSelf(() => KInputs.MakeInput(KInputs.AddPress(Keys.Back)), "autoswitch_back2");
-										word.RemoveAt(word.Count-1);
-									}
-									word = QWERTZ_wordFIX(word);
-									 StartConvertWord(word.ToArray(), Locales.GetCurrentLocale(), true, true);
-									ExpandSnippet(snip, as_corrects[i], !MahouUI.AddOneSpace && MahouUI.AutoSwitchSpaceAfter,
-		        					              MahouUI.AutoSwitchSwitchToGuessLayout, true, false, asl);
-	        					}
-								matched = true;
-								break;
+		    					}
 							}
-						}
-//					}
-				} else {
-					Logging.Log("[AS] > word ["+snip+"] has no expansion, snippet is not finished or its expansion commented.", 1);
+							if (snip.Length == as_wrongs[i].Length || withsymbol) {
+								if (sncl == as_corrects[i].ToLowerInvariant() || withsymbol) {
+									if (DoAutoSwitch(snip, snil, snl, word, as_corrects[i], core, out corr))
+										matched = true;
+									break;
+								}
+							}
+					} else {
+						Logging.Log("[AS] > word ["+snip+"] has no expansion, snippet is not finished or its expansion commented.", 1);
+					}
+				}
+			}
+			// 2) No explicit rule matched: let the trigram models decide by statistics.
+			if (!matched && NgramScorer.Ready && snl != 0 && !String.IsNullOrEmpty(sncl) && sncl != snil) {
+				var asl = WordGuessLayout(sncl, 0, false).Item2;
+				var srcLang = NgramScorer.LangOf(snl);
+				var dstLang = NgramScorer.LangOf(asl);
+				if (srcLang != dstLang && NgramScorer.Has(srcLang) && NgramScorer.Has(dstLang) &&
+				    NgramScorer.ShouldSwitch(snil, sncl, srcLang, dstLang)) {
+					Logging.Log("[AS] > n-gram switch ["+snil+"] => ["+sncl+"]");
+					if (DoAutoSwitch(snip, snil, snl, word, sncl, "", out corr))
+						matched = true;
 				}
 			}
 			if (matched) {
@@ -1106,6 +1066,66 @@ namespace Mahou {
 				last_snip = corr;
 			}
 			return matched;
+		}
+		/// <summary>
+		/// Performs the actual auto-switch: converts the last word to <paramref name="correctWord"/>
+		/// and switches to its layout. Shared by the AS_dict path and the n-gram path.
+		/// Returns false (without switching) when the double-layout guard says to leave the word as-is.
+		/// </summary>
+		static bool DoAutoSwitch(string snip, string snil, uint snl, List<YuKey> word,
+		                         string correctWord, string endCore, out string corr) {
+			if (MahouUI.SoundOnAutoSwitch)
+				MahouUI.SoundPlay();
+			if (MahouUI.SoundOnAutoSwitch2)
+				MahouUI.SoundPlay(true);
+			corr = correctWord + endCore;
+			Logging.Log("[AS] --- asl guess ---");
+			var asl = WordGuessLayout(corr, 0, false).Item2;
+			Logging.Log("[AS] --- end guesses ---");
+			if (snl == as_lword_layout) {
+				if (as_wrongs != null && _hasKey(as_wrongs, correctWord)) {
+					Logging.Log("[AS] > Double-layout autoswitch rule: <=>" + correctWord);
+					Logging.Log("[AS] > Leave as it was: " + snil);
+					return false;
+				}
+			}
+			as_lword_layout = asl;
+			var skipLS = (snl == asl);
+			Logging.Log("[AS] snl: " + snil + ", l:" + snl + " corr: " + correctWord + ", l: " + asl + " SKIP: " + skipLS);
+			var ofk = false;
+			if (!skipLS) {
+				if (MahouUI.UseJKL && MahouUI.SwitchBetweenLayouts && MahouUI.EmulateLS && !KMHook.JKLERR) {
+					jklXHidServ.OnLayoutAction = asl;
+					var was = Locales.GetCurrentLocale();
+					jklXHidServ.ActionOnLayout = () => {
+						if (!MahouUI.AddOneSpace)
+							DoSelf(() => KInputs.MakeInput(KInputs.AddPress(Keys.Back)), "jkl_autoswitch_back");
+						else if (!MahouUI.AutoSwitchSpaceAfter) {
+							DoSelf(() => KInputs.MakeInput(KInputs.AddPress(Keys.Back)), "jkl_autoswitch_back2");
+							word.RemoveAt(word.Count-1);
+						}
+						word = QWERTZ_wordFIX(word);
+						StartConvertWord(word.ToArray(), was, true, true);
+						ExpandSnippet(snip, correctWord, !MahouUI.AddOneSpace && MahouUI.AutoSwitchSpaceAfter,
+							MahouUI.AutoSwitchSwitchToGuessLayout, true, false, asl);
+					};
+				} else ofk = true;
+				ChangeToLayout(Locales.ActiveWindow(), asl);
+				Debug.WriteLine("ASL"+asl);
+			} else ofk = true;
+			if (ofk) {
+				if (!MahouUI.AddOneSpace)
+					DoSelf(() => KInputs.MakeInput(KInputs.AddPress(Keys.Back)), "autoswitch_back");
+				else if (!MahouUI.AutoSwitchSpaceAfter) {
+					DoSelf(() => KInputs.MakeInput(KInputs.AddPress(Keys.Back)), "autoswitch_back2");
+					word.RemoveAt(word.Count-1);
+				}
+				word = QWERTZ_wordFIX(word);
+				StartConvertWord(word.ToArray(), Locales.GetCurrentLocale(), true, true);
+				ExpandSnippet(snip, correctWord, !MahouUI.AddOneSpace && MahouUI.AutoSwitchSpaceAfter,
+					MahouUI.AutoSwitchSwitchToGuessLayout, true, false, asl);
+			}
+			return true;
 		}
 		static NCR CheckNCS(string snip) {
 			for (int i = 0; i != NCRules.Length; i++) {
@@ -4482,6 +4502,17 @@ namespace Mahou {
 					if (MahouUI.AutoSwitchDictionaryTooBig) {
 						MahouUI.AutoSwitchDictionaryRaw = null;
 						Memory.Flush();
+					}
+					if (!NgramScorer.Ready) {
+						var ngramFile = System.IO.Path.Combine(MahouUI.nPath, "ngram.bin");
+						try {
+							if (NgramScorer.TryLoadFile(ngramFile))
+								Logging.Log("[AS] > n-gram models loaded from " + ngramFile);
+							else
+								Logging.Log("[AS] > n-gram models not found at " + ngramFile + ", using AS_dict only.", 2);
+						} catch (Exception e) {
+							Logging.Log("[AS] > n-gram models failed to load: " + e.Message, 1);
+						}
 					}
 				}
 				else {
