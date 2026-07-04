@@ -252,18 +252,6 @@ namespace Mahou {
 					}
 				}
 			}
-			// Hold Enter for auto-switch. Raw input (which drives ListenKeyboard) cannot
-			// suppress keys, so the app would act on the wrong-layout word before the async
-			// correction lands. Suppress the physical Enter here; ListenKeyboard still gets
-			// it via raw input, corrects the word, and re-emits Enter afterwards.
-			if (MahouUI.AutoSwitchEnabled && MahouUI.SnippetsEnabled &&
-			    wParam == (IntPtr)WinAPI.WM_KEYDOWN && Key == Keys.Enter &&
-			    !shift && !shift_r && !ctrl && !ctrl_r && !alt && !alt_r && !win && !win_r &&
-			    KMHook.c_snip.Count > 0 && (KMHook.as_wrongs != null || NgramScorer.Ready) &&
-			    !(KMHook.ExcludedProgram() && !MahouUI.ChangeLayoutInExcluded)) {
-				KMHook.asEnterHeld = true;
-				return (IntPtr)1; // suppressed; ListenKeyboard will re-emit after correcting
-			}
 			if (MahouUI.RemapCapslockAsF18) {
 				bool _shift = !shift, _alt = !alt, _ctrl = !ctrl, _win = !win, _shift_r = !shift_r, _alt_r = !alt_r, _ctrl_r = !ctrl_r, _win_r = !win_r;
 				if (Key == Keys.CapsLock) {

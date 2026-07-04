@@ -69,10 +69,6 @@ namespace Mahou {
 		// Snapshot of the snippet buffer taken when Enter is pressed, because Enter's
 		// ClearWord wipes c_snip before the auto-switch code downstream can read it.
 		static string asEnterSnip = "";
-		// True while an Enter has been suppressed by the low-level hook so auto-switch
-		// can correct the word before the app (e.g. a browser search box) acts on it.
-		// Raw input still delivers the Enter to ListenKeyboard; we re-emit it afterwards.
-		public static bool asEnterHeld = false;
 		static DICT<string,string> DefaultTransliterationDict = new DICT<string, string>( new Dictionary<string,string>() {
 				{"Щ", "SCH"}, {"щ", "sch"}, {"Ч", "CH"}, {"Ш", "SH"}, {"Ё", "JO"}, {"ВВ", "W"},
 				{"Є", "EH"}, {"ю", "yu"}, {"я", "ya"}, {"є", "eh"}, {"Ж", "ZH"},
@@ -708,12 +704,6 @@ namespace Mahou {
 //							aseKeyDown = Key;
 						}
 					}
-					// Deliver the Enter the low-level hook suppressed for auto-switch. Queued
-					// after any correction input above, so the app acts on the corrected word.
-					if (asEnterHeld) {
-						asEnterHeld = false;
-						DoSelf(() => { KeybdEvent(Keys.Enter, 0); KeybdEvent(Keys.Enter, 2); }, "autoswitch_enter_reemit");
-					}
 					if (Key == seKey && !asls) {
 						if (lsnip_noset <= 0) 
 							last_snip = snip;
@@ -1096,12 +1086,9 @@ namespace Mahou {
 		/// </summary>
 		static bool DoAutoSwitch(string snip, string snil, uint snl, List<YuKey> word,
 		                         string correctWord, string endCore, bool enterTrigger, out string corr) {
-			// Enter ends a word like Space, but its "eat one" flag is Add1NL. When the
-			// Enter was suppressed by the low-level hook the delimiter never reached the
-			// text, so it must not be backspaced; the Enter is re-emitted by ListenKeyboard.
+			// Enter ends a word like Space, but its "eat one" flag is Add1NL and its
+			// trailing delimiter is a newline, not a space.
 			var eatOne = enterTrigger ? MahouUI.Add1NL : MahouUI.AddOneSpace;
-			var delimTyped = !(enterTrigger && asEnterHeld);
-			var spaceAft = !enterTrigger && !eatOne && MahouUI.AutoSwitchSpaceAfter;
 			if (MahouUI.SoundOnAutoSwitch)
 				MahouUI.SoundPlay();
 			if (MahouUI.SoundOnAutoSwitch2)
@@ -1126,32 +1113,32 @@ namespace Mahou {
 					jklXHidServ.OnLayoutAction = asl;
 					var was = Locales.GetCurrentLocale();
 					jklXHidServ.ActionOnLayout = () => {
-						if (!eatOne) {
-							if (delimTyped) DoSelf(() => KInputs.MakeInput(KInputs.AddPress(Keys.Back)), "jkl_autoswitch_back");
-						} else if (!MahouUI.AutoSwitchSpaceAfter) {
-							if (delimTyped) DoSelf(() => KInputs.MakeInput(KInputs.AddPress(Keys.Back)), "jkl_autoswitch_back2");
+						if (!eatOne)
+							DoSelf(() => KInputs.MakeInput(KInputs.AddPress(Keys.Back)), "jkl_autoswitch_back");
+						else if (!MahouUI.AutoSwitchSpaceAfter) {
+							DoSelf(() => KInputs.MakeInput(KInputs.AddPress(Keys.Back)), "jkl_autoswitch_back2");
 							word.RemoveAt(word.Count-1);
 						}
 						word = QWERTZ_wordFIX(word);
 						StartConvertWord(word.ToArray(), was, true, true);
-						ExpandSnippet(snip, correctWord, spaceAft,
-							MahouUI.AutoSwitchSwitchToGuessLayout, true, false, asl, delimTyped);
+						ExpandSnippet(snip, correctWord, !eatOne && MahouUI.AutoSwitchSpaceAfter,
+							MahouUI.AutoSwitchSwitchToGuessLayout, true, false, asl, enterTrigger);
 					};
 				} else ofk = true;
 				ChangeToLayout(Locales.ActiveWindow(), asl);
 				Debug.WriteLine("ASL"+asl);
 			} else ofk = true;
 			if (ofk) {
-				if (!eatOne) {
-					if (delimTyped) DoSelf(() => KInputs.MakeInput(KInputs.AddPress(Keys.Back)), "autoswitch_back");
-				} else if (!MahouUI.AutoSwitchSpaceAfter) {
-					if (delimTyped) DoSelf(() => KInputs.MakeInput(KInputs.AddPress(Keys.Back)), "autoswitch_back2");
+				if (!eatOne)
+					DoSelf(() => KInputs.MakeInput(KInputs.AddPress(Keys.Back)), "autoswitch_back");
+				else if (!MahouUI.AutoSwitchSpaceAfter) {
+					DoSelf(() => KInputs.MakeInput(KInputs.AddPress(Keys.Back)), "autoswitch_back2");
 					word.RemoveAt(word.Count-1);
 				}
 				word = QWERTZ_wordFIX(word);
 				StartConvertWord(word.ToArray(), Locales.GetCurrentLocale(), true, true);
-				ExpandSnippet(snip, correctWord, spaceAft,
-					MahouUI.AutoSwitchSwitchToGuessLayout, true, false, asl, delimTyped);
+				ExpandSnippet(snip, correctWord, !eatOne && MahouUI.AutoSwitchSpaceAfter,
+					MahouUI.AutoSwitchSwitchToGuessLayout, true, false, asl, enterTrigger);
 			}
 			return true;
 		}
@@ -1550,7 +1537,7 @@ namespace Mahou {
 			} else { return ""; }
 			return input;
 		}
-		static void ExpandSnippet(string snip, string expand, bool spaceAft, bool switchLayout, bool ignoreExpand = false, bool x2 = false, uint guessl = 0, bool delimTyped = true) {
+		static void ExpandSnippet(string snip, string expand, bool spaceAft, bool switchLayout, bool ignoreExpand = false, bool x2 = false, uint guessl = 0, bool enterAfter = false) {
 			DoSelf(() => {
 				try {
 		       		Debug.WriteLine("Snippet: " +snip);
@@ -1559,8 +1546,6 @@ namespace Mahou {
 		       			var backs = snip.Length+1;
 		       			Debug.WriteLine("X2" + x2);
 		       			if ( /*x2||*/ MMain.mahou.SnippetsExpandType != "Space") backs--;
-		       			// A suppressed Enter never entered the text, so don't backspace the delimiter.
-		       			if (!delimTyped) backs = snip.Length;
 		       			KInputs.MakeInput(KInputs.AddPress(Keys.Back, backs));
 						Logging.Log("[SNI] > Expanding snippet [" + snip + "] to [" + expand + "].");
 		       			exsni = ExpandSnippetWithExpressions(expand);
@@ -1598,7 +1583,10 @@ namespace Mahou {
 		       				Logging.Log("[SNI] > Switch layout skip due to __setlayout_FORCED");
 		       			}
 					}
-		       		if (spaceAft && !expand.Contains("__cursorhere"))
+		       		if (enterAfter && !expand.Contains("__cursorhere"))
+						// The triggering Enter was backspaced away with the word; put the newline back.
+						KInputs.MakeInput(KInputs.AddPress(Keys.Enter));
+					else if (spaceAft && !expand.Contains("__cursorhere"))
 						KInputs.MakeInput(KInputs.AddString(" "));
 					DoLater(() => MMain.mahou.Invoke((MethodInvoker)delegate {
 						MMain.mahou.UpdateLDs();
