@@ -159,11 +159,31 @@ namespace Mahou
 							KMHook.DoLater(() => mahou.Invoke((MethodInvoker)delegate { mahou.icon.trIcon.Visible = false; }), 1005);
 					}
 				}
+				if (IsGameModeArg(args)) {
+					// Game mode: boot with input processing fully disabled so Mahou
+					// never touches keystrokes in a game. ToggleMahou() unregisters the
+					// hooks and flags the tray as [Disabled]; re-enable via hotkey/tray.
+					Logging.Log("Game mode: starting with input processing disabled.");
+					mahou.ToggleMahou();
+				}
 				MyConfs.WriteToDisk();
 //				if (!string.IsNullOrEmpty(MahouUI.MainLayout1))
 				MahouUI.GlobalLayout = MahouUI.currentLayout = Locales.GetCurrentLocale();
 				Application.Run();
 			}
+		}
+		/// <summary>
+		/// True if a game-mode flag (-g / -game / --game / /game) was passed, meaning
+		/// Mahou should start with input processing fully disabled.
+		/// </summary>
+		public static bool IsGameModeArg(string[] args) {
+			foreach (var a in args) {
+				switch (a.ToUpperInvariant()) {
+					case "-G": case "/G": case "-GAME": case "--GAME": case "/GAME":
+						return true;
+				}
+			}
+			return false;
 		}
         public static void RefreshLCnMID() {
         	MMain.locales = Locales.AllList();

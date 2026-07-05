@@ -1,6 +1,6 @@
 # Dev notes — resuming later
 
-Last Updated: 2026-07-04
+Last Updated: 2026-07-05
 
 Personal continuation notes for the n-gram auto-switch fork of Mahou.
 
@@ -22,6 +22,26 @@ models for the auto-switch decision.
 - Enter in a **browser search box** does not auto-correct: the page submits the
   wrong-layout word before the correction lands. Root cause is architectural —
   see below.
+
+## Game mode (exe arg)
+
+Launch `Mahou.exe -game` (also accepts `--game`, `/game`, `-g`, `/g`) to boot with
+input processing fully disabled, so Mahou never touches keystrokes in a game.
+`Program.cs` detects the flag (`IsGameModeArg`) after `mahou`/`rif` are constructed
+and calls the existing `MahouUI.ToggleMahou()`, which unregisters the hooks + raw
+input, stops timers, and marks the tray `[Disabled]`. Re-enable at any time via the
+ToggleMahou hotkey or the tray menu (normal enable path — symmetric).
+
+Why disabling is enough: every hook entry (`LLHook.cs`, `RawInputForm.cs`,
+`jklXHidServ.cs`) early-returns on `!MahouUI.ENABLED`, and `ToggleMahou` also
+unregisters raw-input devices, so keystrokes pass straight through.
+
+Caveat (inherent to the exe-arg approach): Mahou is single-instance (mutex). If it is
+**already running**, launching `Mahou.exe -game` just focuses the existing instance —
+it does NOT switch the running one to game mode. Exit Mahou first, or make the
+game-mode launch the primary instance. Switching mode = restart. A dynamic trigger
+(auto fullscreen-detect, per-exe list, or a Game Mode hotkey) would remove this
+caveat — see the earlier design discussion.
 
 ## The browser-Enter problem (dead end so far)
 
