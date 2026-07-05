@@ -25,23 +25,24 @@ models for the auto-switch decision.
 
 ## Game mode (exe arg)
 
-Launch `Mahou.exe -game` (also accepts `--game`, `/game`, `-g`, `/g`) to boot with
-input processing fully disabled, so Mahou never touches keystrokes in a game.
-`Program.cs` detects the flag (`IsGameModeArg`) after `mahou`/`rif` are constructed
-and calls the existing `MahouUI.ToggleMahou()`, which unregisters the hooks + raw
-input, stops timers, and marks the tray `[Disabled]`. Re-enable at any time via the
-ToggleMahou hotkey or the tray menu (normal enable path — symmetric).
+`Mahou.exe -game` (also `--game`, `/game`, `-g`, `/g`) drives game mode = input
+processing fully off, so Mahou never touches keystrokes in a game. Behaviour depends
+on whether Mahou is already running (single-instance mutex):
 
+- **Not running** → boots in the disabled state. `Program.cs` detects the flag
+  (`IsGameModeArg`) after `mahou`/`rif` are constructed and calls the existing
+  `MahouUI.ToggleMahou()`.
+- **Already running** (the usual autostart case) → the second launch does NOT start a
+  new process; it broadcasts the registered window message `ToggleGameModeMahou!`
+  (`MMain.gm`, mirrors `ao`/`re`) and exits. The live instance catches it in `WndProc`
+  and calls `ToggleMahou()` — so `-game` **toggles** game mode on/off with no restart.
+  Bind it to a shortcut/launcher and run it before and after gaming.
+
+`ToggleMahou()` unregisters the hooks + raw-input devices, stops timers, and marks the
+tray `[Disabled]`; it can also be flipped from the ToggleMahou hotkey/tray (symmetric).
 Why disabling is enough: every hook entry (`LLHook.cs`, `RawInputForm.cs`,
-`jklXHidServ.cs`) early-returns on `!MahouUI.ENABLED`, and `ToggleMahou` also
-unregisters raw-input devices, so keystrokes pass straight through.
-
-Caveat (inherent to the exe-arg approach): Mahou is single-instance (mutex). If it is
-**already running**, launching `Mahou.exe -game` just focuses the existing instance —
-it does NOT switch the running one to game mode. Exit Mahou first, or make the
-game-mode launch the primary instance. Switching mode = restart. A dynamic trigger
-(auto fullscreen-detect, per-exe list, or a Game Mode hotkey) would remove this
-caveat — see the earlier design discussion.
+`jklXHidServ.cs`) early-returns on `!MahouUI.ENABLED`, and raw-input devices are
+unregistered, so keystrokes pass straight through.
 
 ## The browser-Enter problem (dead end so far)
 

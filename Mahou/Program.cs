@@ -18,6 +18,7 @@ namespace Mahou
 		public static string GGPU_Mutex = "Global\\" +"ec511418-1d57-4dbe-a0c3-c6022b33735b_" + Environment.UserDomainName + "_" + Environment.UserName;
 		public static uint ao = RegisterWindowMessage("AlreadyOpenedMahou!");
 		public static uint re = RegisterWindowMessage("RestartMahou!");
+		public static uint gm = RegisterWindowMessage("ToggleGameModeMahou!");
 		#endregion
 		#region All Main variables, arrays etc.
 		public static List<KMHook.YuKey> c_word = new List<KMHook.YuKey>();
@@ -64,6 +65,11 @@ namespace Mahou
 							WinAPI.PostMessage((IntPtr)0xffff, re, 0, 0);
 							return;
 						}
+					}
+					if (IsGameModeArg(args)) {
+						// Mahou already runs: toggle its game mode instead of no-op'ing.
+						WinAPI.PostMessage((IntPtr)0xffff, gm, 0, 0);
+						return;
 					}
 					if (!MyConfs.ReadBool("Hidden", "IGNORE_exe_launch_show_window")) {
 						WinAPI.PostMessage((IntPtr)0xffff, ao, 0, 0);
