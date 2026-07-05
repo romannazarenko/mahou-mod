@@ -25,28 +25,26 @@ models for the auto-switch decision.
 
 ## Game mode (exe arg)
 
-The `-game` flag (also `--game`, `/game`, `-g`, `/g`) explicitly **sets** whether Mahou
-intercepts input — it is not a toggle:
+Two flags explicitly **set** whether Mahou intercepts input (not a toggle):
 
-- **With `-game`** → interception OFF (game mode), Mahou never touches keystrokes.
-- **Without any flag** → interception ON (normal operation).
+- **`-game`** (also `--game`, `/game`, `-g`, `/g`) → interception OFF (game mode).
+- **`-on`** (also `--on`, `/on`) → interception ON.
+- **No flag** → unchanged: a plain re-launch just shows the window as before; it never
+  changes the enabled state.
 
 Behaviour depends on whether Mahou is already running (single-instance mutex):
 
 - **Not running** → a `-game` launch boots in the disabled state (`Program.cs` detects
   the flag via `IsGameModeArg` after `mahou`/`rif` are constructed and calls
-  `MahouUI.ToggleMahou()`); a plain launch boots enabled as usual.
+  `MahouUI.ToggleMahou()`); a plain or `-on` launch boots enabled as usual (default).
 - **Already running** (the usual autostart case) → the second launch does NOT start a
-  new process; it broadcasts the registered window message `ToggleGameModeMahou!`
-  (`MMain.gm`, mirrors `ao`/`re`) with `WParam` = desired ENABLED state (0 = disable,
-  1 = enable) and exits. The live instance handles it in `WndProc`: if the current
-  state differs it calls `ToggleMahou()`, so the message is idempotent (re-sending the
-  same state is a no-op). A plain launch also posts enable=1 before the usual
-  show-window (`ao`). Net effect: run `Mahou.exe -game` before a game, `Mahou.exe`
-  after — deterministic, no restart, no guessing the current state.
-
-Note this makes a plain no-flag re-launch always re-enable interception (even if it was
-manually disabled via tray/hotkey) — intended per the explicit set semantics.
+  new process. `-game`/`-on` broadcast the registered window message
+  `ToggleGameModeMahou!` (`MMain.gm`, mirrors `ao`/`re`) with `WParam` = desired ENABLED
+  state (0 = disable, 1 = enable) and exit; a no-flag launch falls through to the usual
+  show-window (`ao`). The live instance handles `gm` in `WndProc`: it calls
+  `ToggleMahou()` only if the current state differs, so the message is idempotent
+  (re-sending the same state is a no-op). Net effect: run `Mahou.exe -game` before a
+  game and `Mahou.exe -on` after — deterministic, no restart, no guessing the state.
 
 `ToggleMahou()` unregisters the hooks + raw-input devices, stops timers, and marks the
 tray `[Disabled]`. Why disabling is enough: every hook entry (`LLHook.cs`,

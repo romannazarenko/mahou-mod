@@ -71,8 +71,11 @@ namespace Mahou
 						WinAPI.PostMessage((IntPtr)0xffff, gm, 0, 0);
 						return;
 					}
-					// No flag: turn interception back ON, then show window as usual.
-					WinAPI.PostMessage((IntPtr)0xffff, gm, 1, 0);
+					if (IsOnArg(args)) {
+						// -on: turn interception back ON on the already-running instance.
+						WinAPI.PostMessage((IntPtr)0xffff, gm, 1, 0);
+						return;
+					}
 					if (!MyConfs.ReadBool("Hidden", "IGNORE_exe_launch_show_window")) {
 						WinAPI.PostMessage((IntPtr)0xffff, ao, 0, 0);
 					} else {
@@ -188,6 +191,19 @@ namespace Mahou
 			foreach (var a in args) {
 				switch (a.ToUpperInvariant()) {
 					case "-G": case "/G": case "-GAME": case "--GAME": case "/GAME":
+						return true;
+				}
+			}
+			return false;
+		}
+		/// <summary>
+		/// True if an enable flag (-on / --on / /on) was passed, meaning Mahou should
+		/// (re)enable input interception. Only this flag turns it back on.
+		/// </summary>
+		public static bool IsOnArg(string[] args) {
+			foreach (var a in args) {
+				switch (a.ToUpperInvariant()) {
+					case "-ON": case "--ON": case "/ON":
 						return true;
 				}
 			}
