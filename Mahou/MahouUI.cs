@@ -454,9 +454,12 @@ namespace Mahou {
 				Logging.Log("Restarting Mahou from command line...");
 				Restart();
 			}
-			if (m.Msg == MMain.gm) { // Toggle game mode (input processing on/off)
-				Logging.Log("Toggling game mode from command line...");
-				ToggleMahou();
+			if (m.Msg == MMain.gm) { // Set game mode: WParam 0 = disable interception, 1 = enable
+				var wantEnabled = (m.WParam != IntPtr.Zero);
+				if (ENABLED != wantEnabled) {
+					Logging.Log("Setting Mahou enabled=" + wantEnabled + " from command line...");
+					ToggleMahou();
+				}
 			}
 			if (m.Msg == WinAPI.WM_MOUSEWHEEL) {
 				if (WinAPI.WindowFromPoint(Cursor.Position) == tabs.Handle) {

@@ -25,24 +25,33 @@ models for the auto-switch decision.
 
 ## Game mode (exe arg)
 
-`Mahou.exe -game` (also `--game`, `/game`, `-g`, `/g`) drives game mode = input
-processing fully off, so Mahou never touches keystrokes in a game. Behaviour depends
-on whether Mahou is already running (single-instance mutex):
+The `-game` flag (also `--game`, `/game`, `-g`, `/g`) explicitly **sets** whether Mahou
+intercepts input — it is not a toggle:
 
-- **Not running** → boots in the disabled state. `Program.cs` detects the flag
-  (`IsGameModeArg`) after `mahou`/`rif` are constructed and calls the existing
-  `MahouUI.ToggleMahou()`.
+- **With `-game`** → interception OFF (game mode), Mahou never touches keystrokes.
+- **Without any flag** → interception ON (normal operation).
+
+Behaviour depends on whether Mahou is already running (single-instance mutex):
+
+- **Not running** → a `-game` launch boots in the disabled state (`Program.cs` detects
+  the flag via `IsGameModeArg` after `mahou`/`rif` are constructed and calls
+  `MahouUI.ToggleMahou()`); a plain launch boots enabled as usual.
 - **Already running** (the usual autostart case) → the second launch does NOT start a
   new process; it broadcasts the registered window message `ToggleGameModeMahou!`
-  (`MMain.gm`, mirrors `ao`/`re`) and exits. The live instance catches it in `WndProc`
-  and calls `ToggleMahou()` — so `-game` **toggles** game mode on/off with no restart.
-  Bind it to a shortcut/launcher and run it before and after gaming.
+  (`MMain.gm`, mirrors `ao`/`re`) with `WParam` = desired ENABLED state (0 = disable,
+  1 = enable) and exits. The live instance handles it in `WndProc`: if the current
+  state differs it calls `ToggleMahou()`, so the message is idempotent (re-sending the
+  same state is a no-op). A plain launch also posts enable=1 before the usual
+  show-window (`ao`). Net effect: run `Mahou.exe -game` before a game, `Mahou.exe`
+  after — deterministic, no restart, no guessing the current state.
+
+Note this makes a plain no-flag re-launch always re-enable interception (even if it was
+manually disabled via tray/hotkey) — intended per the explicit set semantics.
 
 `ToggleMahou()` unregisters the hooks + raw-input devices, stops timers, and marks the
-tray `[Disabled]`; it can also be flipped from the ToggleMahou hotkey/tray (symmetric).
-Why disabling is enough: every hook entry (`LLHook.cs`, `RawInputForm.cs`,
-`jklXHidServ.cs`) early-returns on `!MahouUI.ENABLED`, and raw-input devices are
-unregistered, so keystrokes pass straight through.
+tray `[Disabled]`. Why disabling is enough: every hook entry (`LLHook.cs`,
+`RawInputForm.cs`, `jklXHidServ.cs`) early-returns on `!MahouUI.ENABLED`, and raw-input
+devices are unregistered, so keystrokes pass straight through.
 
 ## The browser-Enter problem (dead end so far)
 

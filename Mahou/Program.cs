@@ -67,10 +67,12 @@ namespace Mahou
 						}
 					}
 					if (IsGameModeArg(args)) {
-						// Mahou already runs: toggle its game mode instead of no-op'ing.
+						// -game: turn interception OFF on the already-running instance.
 						WinAPI.PostMessage((IntPtr)0xffff, gm, 0, 0);
 						return;
 					}
+					// No flag: turn interception back ON, then show window as usual.
+					WinAPI.PostMessage((IntPtr)0xffff, gm, 1, 0);
 					if (!MyConfs.ReadBool("Hidden", "IGNORE_exe_launch_show_window")) {
 						WinAPI.PostMessage((IntPtr)0xffff, ao, 0, 0);
 					} else {
