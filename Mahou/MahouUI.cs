@@ -6019,6 +6019,12 @@ DEL ""ExtractASD.cmd""";
 				//Downloads latest Mahou
 				using (var wc = new WebClient()) {
 					wc.DownloadProgressChanged += wc_DownloadProgressChanged;
+					wc.Headers[HttpRequestHeader.UserAgent] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36";
+					wc.DownloadFileCompleted += (s, ee) => {
+					    if (ee.Error != null) {
+					        Logging.Log("Download failed: " + ee.Error.ToString(), 1);
+						}
+					};
 					// Gets filename from url
 					var BDMText = btn_DownloadUpdate.Text;
 					var fn = Regex.Match(UpdInfo[3], @"[^\\\/]+$").Groups[0].Value;
