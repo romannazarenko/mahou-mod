@@ -563,8 +563,8 @@ namespace Mahou {
 				                }, "specific_keys_capslock");
 							}
 						} catch (Exception e) {
-							Logging.Log("Possibly layout switch type was not selected for " + OemReadable((SpecKeySetsValues["txt_key"+si+"_mods"].Replace(",", " +") + " + " +
-							                                                                               Remake(key)).Replace("None + ", "")) + ". Layout string: ["+type+"]. Exception: " + e.Message + "\r\n" + e.StackTrace, 2);
+							Logging.Log("Possibly layout switch type was not selected for " + HotkeyReadable(SpecKeySetsValues["txt_key"+si+"_mods"], key)
+							            + ". Layout string: ["+type+"]. Exception: " + e.Message + "\r\n" + e.StackTrace, 2);
 						}
 					}
 				}
@@ -3783,6 +3783,26 @@ DEL """+restartMahouPath + @"""";
 			}
 		}
 		/// <summary>
+		/// Converts hotkey data to readable representation.
+		/// </summary>
+		/// <param name="modifiers"></param>
+		/// <param name="key"></param>
+		/// <param name="oninit"></param>
+		/// <param name="Double"></param>
+		/// <returns>string</returns>
+		public string HotkeyReadable(string modifiers, Keys key, bool oninit = false, bool Double = false) {
+			var k = Remake((Keys)key, true, Double);
+			var m = modifiers.Replace(",", "").Replace(k, "");
+			var r = OemReadable(m + " " + k);
+			var t = Regex.Replace(r, // Win + or + None + or + from start or end 
+			    @"Win\s?\+?\s?|\s?\+?\s?None\s?\+?\s?|^[ +]+|\s?\+\s?$", "", RegexOptions.Multiline);
+			t = t.Replace("+", "");
+			t = Regex.Replace(t, @"\s+", " ", RegexOptions.Multiline);
+			t = t.Replace(" ", " + ");
+			Logging.Log("Readable hotkey: " + t + " raw: " +modifiers + " " + key);
+			return t;
+		}
+		/// <summary>
 		/// Converts Oem Keys string to readable string.
 		/// </summary>
 		/// <param name="inpt">String with oem keys.</param>
@@ -4024,9 +4044,7 @@ DEL """+restartMahouPath + @"""";
 		void UpdateHotkeyControls(bool enabled, bool Double, string modifiers, int key) {
 			chk_HotKeyEnabled.Checked = enabled;
 			chk_DoubleHotkey.Checked = Double;
-			txt_Hotkey.Text = Regex.Replace(OemReadable(modifiers.Replace(",", " +") +
-			                                            " + " + Remake((Keys)key, true, Double)), 
-			                                            @"Win\s?\+?\s?|\s?\+?\s?None\s?\+?\s?|^[ +]+|\s?\+\s?$", "", RegexOptions.Multiline);
+			txt_Hotkey.Text = HotkeyReadable(modifiers, (Keys)key, true, Double);
 			chk_WinInHotKey.Checked = modifiers.Contains("Win");
 			txt_Hotkey_tempKey = key;
 			txt_Hotkey_tempModifiers = Regex.Replace(modifiers.Replace("Win",""), @"^[ +]+", "", RegexOptions.Multiline);
@@ -4196,9 +4214,7 @@ DEL """+restartMahouPath + @"""";
 		}
 		void UpdateSetControls(int setIndex, int keyCode, string modifiers) {
 			var _set = pan_KeySets.Controls["set_"+setIndex];
-			_set.Controls["txt_key"+setIndex].Text = Regex.Replace(OemReadable(modifiers.Replace(",", " +") +
-			                                            " + " + Remake((Keys)keyCode, true, false)), 
-			                                            @"Win\s?\+?\s?|\s?\+?\s?None\s?\+?\s?|^[ +]+|\s?\+\s?$", "", RegexOptions.Multiline);
+			_set.Controls["txt_key"+setIndex].Text = HotkeyReadable(modifiers, (Keys)keyCode, true);
 			(_set.Controls["chk_win"+setIndex] as CheckBox).Checked = modifiers.Contains("Win");
 		}
 		void DeleteOrMove(string file) {
@@ -5910,8 +5926,7 @@ DEL ""ExtractASD.cmd""";
 					WinAPI.UnregisterHotKey(Handle, (int)Hotkey.HKID.Restart);
 					break;
 			}
-			txt_Hotkey.Text = OemReadable((e.Modifiers.ToString().Replace(",", " +") + " + " +
-										  Remake(e.KeyCode)).Replace("None + ", ""));
+			txt_Hotkey.Text = HotkeyReadable(e.Modifiers.ToString(), e.KeyCode);
 			txt_Hotkey_tempModifiers = e.Modifiers.ToString().Replace(",", " +");
 			switch ((int)e.KeyCode) {
 				case 16:
@@ -6240,8 +6255,7 @@ DEL ""ExtractASD.cmd""";
 				return;
 			}
 			Debug.WriteLine(e.KeyCode +" E");
-			t.Text = OemReadable((e.Modifiers.ToString().Replace(",", " +") + " + " +
-										  Remake(e.KeyCode)).Replace("None + ", ""));
+			t.Text = HotkeyReadable(e.Modifiers.ToString(), e.KeyCode);
 			SpecKeySetsValues[t.Name+"_key"] = ((int)e.KeyCode).ToString();
 			SpecKeySetsValues[t.Name+"_mods"] = e.Modifiers.ToString().Replace(",", " +");
 		}
