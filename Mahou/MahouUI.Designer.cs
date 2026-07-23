@@ -3645,6 +3645,7 @@ namespace Mahou
 			this.grb_restore.Controls.Add(this.btn_restore);
 			this.grb_restore.Controls.Add(this.txt_restoreId);
 			this.grb_restore.Controls.Add(this.lbl_restoreId);
+			this.grb_restore.Enabled = false;
 			this.grb_restore.Location = new System.Drawing.Point(8, 132);
 			this.grb_restore.Name = "grb_restore";
 			this.grb_restore.Size = new System.Drawing.Size(545, 130);
@@ -3786,6 +3787,7 @@ namespace Mahou
 			this.grb_backup.Controls.Add(this.chk_Stxt);
 			this.grb_backup.Controls.Add(this.chk_Mini);
 			this.grb_backup.Controls.Add(this.chk_ZxZ);
+			this.grb_backup.Enabled = false;
 			this.grb_backup.Location = new System.Drawing.Point(8, 3);
 			this.grb_backup.Name = "grb_backup";
 			this.grb_backup.Size = new System.Drawing.Size(545, 130);
