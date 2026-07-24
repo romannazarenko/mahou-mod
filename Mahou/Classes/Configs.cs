@@ -258,6 +258,7 @@ namespace Mahou {
 			CheckString("Sync", "RLast", "");
 			CheckString("Sync", "BLast", "");
 			CheckBool("Sync", "ZxZ", "false");
+			CheckString("Sync", "PixelDrainAPIKey", "");
 			#endregion
         	#region TranslatePanel
 			CheckString("TranslatePanel", "TextFont", "Microsoft Sans Serif; 8.25pt");

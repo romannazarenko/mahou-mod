@@ -361,6 +361,8 @@ namespace Mahou
 		private System.Windows.Forms.CheckBox chk_LPDisableBorder;
 		private System.Windows.Forms.NumericUpDown nud_LPBGPadding;
 		private System.Windows.Forms.Label lbl_LPBGPadding;
+		private System.Windows.Forms.TextBox txt_PDApiKey;
+		private System.Windows.Forms.Label lbl_PDApiKey;
 		/// <summary>
 		/// Disposes resources used by the form.
 		/// </summary>
@@ -617,6 +619,8 @@ namespace Mahou
 			this.btn_TrBG = new System.Windows.Forms.Button();
 			this.btn_TrFG = new System.Windows.Forms.Button();
 			this.tab_sync = new System.Windows.Forms.TabPage();
+			this.txt_PDApiKey = new System.Windows.Forms.TextBox();
+			this.lbl_PDApiKey = new System.Windows.Forms.Label();
 			this.grb_restore = new System.Windows.Forms.GroupBox();
 			this.chk_rMmm = new System.Windows.Forms.CheckBox();
 			this.chk_andPROXY2 = new System.Windows.Forms.CheckBox();
@@ -3622,6 +3626,9 @@ namespace Mahou
 			// 
 			// tab_sync
 			// 
+			this.tab_sync.AutoScroll = true;
+			this.tab_sync.Controls.Add(this.txt_PDApiKey);
+			this.tab_sync.Controls.Add(this.lbl_PDApiKey);
 			this.tab_sync.Controls.Add(this.grb_restore);
 			this.tab_sync.Controls.Add(this.grb_backup);
 			this.tab_sync.Location = new System.Drawing.Point(4, 44);
@@ -3631,6 +3638,22 @@ namespace Mahou
 			this.tab_sync.TabIndex = 14;
 			this.tab_sync.Text = "Sync";
 			this.tab_sync.UseVisualStyleBackColor = true;
+			// 
+			// txt_PDApiKey
+			// 
+			this.txt_PDApiKey.Location = new System.Drawing.Point(298, 6);
+			this.txt_PDApiKey.Name = "txt_PDApiKey";
+			this.txt_PDApiKey.PasswordChar = '+';
+			this.txt_PDApiKey.Size = new System.Drawing.Size(227, 23);
+			this.txt_PDApiKey.TabIndex = 3;
+			// 
+			// lbl_PDApiKey
+			// 
+			this.lbl_PDApiKey.Location = new System.Drawing.Point(14, 8);
+			this.lbl_PDApiKey.Name = "lbl_PDApiKey";
+			this.lbl_PDApiKey.Size = new System.Drawing.Size(278, 21);
+			this.lbl_PDApiKey.TabIndex = 2;
+			this.lbl_PDApiKey.Text = "PixelDrain API key:";
 			// 
 			// grb_restore
 			// 
@@ -3645,10 +3668,9 @@ namespace Mahou
 			this.grb_restore.Controls.Add(this.btn_restore);
 			this.grb_restore.Controls.Add(this.txt_restoreId);
 			this.grb_restore.Controls.Add(this.lbl_restoreId);
-			this.grb_restore.Enabled = false;
-			this.grb_restore.Location = new System.Drawing.Point(8, 132);
+			this.grb_restore.Location = new System.Drawing.Point(8, 165);
 			this.grb_restore.Name = "grb_restore";
-			this.grb_restore.Size = new System.Drawing.Size(545, 130);
+			this.grb_restore.Size = new System.Drawing.Size(523, 130);
 			this.grb_restore.TabIndex = 1;
 			this.grb_restore.TabStop = false;
 			this.grb_restore.Text = "Restore";
@@ -3678,7 +3700,7 @@ namespace Mahou
 			this.pctResPaste.BackgroundImage = global::Mahou.Properties.Resources.clip;
 			this.pctResPaste.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
 			this.pctResPaste.InitialImage = null;
-			this.pctResPaste.Location = new System.Drawing.Point(398, 55);
+			this.pctResPaste.Location = new System.Drawing.Point(374, 55);
 			this.pctResPaste.Name = "pctResPaste";
 			this.pctResPaste.Size = new System.Drawing.Size(23, 23);
 			this.pctResPaste.TabIndex = 14;
@@ -3693,7 +3715,7 @@ namespace Mahou
 			this.txt_restoreStatus.Name = "txt_restoreStatus";
 			this.txt_restoreStatus.ReadOnly = true;
 			this.txt_restoreStatus.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.txt_restoreStatus.Size = new System.Drawing.Size(533, 42);
+			this.txt_restoreStatus.Size = new System.Drawing.Size(517, 42);
 			this.txt_restoreStatus.TabIndex = 13;
 			this.txt_restoreStatus.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			this.txt_restoreStatus.Visible = false;
@@ -3749,7 +3771,7 @@ namespace Mahou
 			// 
 			// btn_restore
 			// 
-			this.btn_restore.Location = new System.Drawing.Point(425, 55);
+			this.btn_restore.Location = new System.Drawing.Point(403, 55);
 			this.btn_restore.Name = "btn_restore";
 			this.btn_restore.Size = new System.Drawing.Size(114, 23);
 			this.btn_restore.TabIndex = 2;
@@ -3761,7 +3783,7 @@ namespace Mahou
 			// 
 			this.txt_restoreId.Location = new System.Drawing.Point(33, 55);
 			this.txt_restoreId.Name = "txt_restoreId";
-			this.txt_restoreId.Size = new System.Drawing.Size(359, 23);
+			this.txt_restoreId.Size = new System.Drawing.Size(335, 23);
 			this.txt_restoreId.TabIndex = 1;
 			// 
 			// lbl_restoreId
@@ -3787,10 +3809,9 @@ namespace Mahou
 			this.grb_backup.Controls.Add(this.chk_Stxt);
 			this.grb_backup.Controls.Add(this.chk_Mini);
 			this.grb_backup.Controls.Add(this.chk_ZxZ);
-			this.grb_backup.Enabled = false;
-			this.grb_backup.Location = new System.Drawing.Point(8, 3);
+			this.grb_backup.Location = new System.Drawing.Point(8, 34);
 			this.grb_backup.Name = "grb_backup";
-			this.grb_backup.Size = new System.Drawing.Size(545, 130);
+			this.grb_backup.Size = new System.Drawing.Size(523, 130);
 			this.grb_backup.TabIndex = 0;
 			this.grb_backup.TabStop = false;
 			this.grb_backup.Text = "Backup";
@@ -3820,7 +3841,7 @@ namespace Mahou
 			this.pctBkpCopy.BackgroundImage = global::Mahou.Properties.Resources.clip;
 			this.pctBkpCopy.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
 			this.pctBkpCopy.InitialImage = null;
-			this.pctBkpCopy.Location = new System.Drawing.Point(398, 59);
+			this.pctBkpCopy.Location = new System.Drawing.Point(374, 59);
 			this.pctBkpCopy.Name = "pctBkpCopy";
 			this.pctBkpCopy.Size = new System.Drawing.Size(23, 23);
 			this.pctBkpCopy.TabIndex = 9;
@@ -3835,7 +3856,7 @@ namespace Mahou
 			this.txt_backupStatus.Name = "txt_backupStatus";
 			this.txt_backupStatus.ReadOnly = true;
 			this.txt_backupStatus.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.txt_backupStatus.Size = new System.Drawing.Size(533, 42);
+			this.txt_backupStatus.Size = new System.Drawing.Size(517, 42);
 			this.txt_backupStatus.TabIndex = 8;
 			this.txt_backupStatus.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			this.txt_backupStatus.Visible = false;
@@ -3855,12 +3876,12 @@ namespace Mahou
 			this.txt_backupId.Location = new System.Drawing.Point(33, 59);
 			this.txt_backupId.Name = "txt_backupId";
 			this.txt_backupId.ReadOnly = true;
-			this.txt_backupId.Size = new System.Drawing.Size(359, 23);
+			this.txt_backupId.Size = new System.Drawing.Size(335, 23);
 			this.txt_backupId.TabIndex = 5;
 			// 
 			// btn_backup
 			// 
-			this.btn_backup.Location = new System.Drawing.Point(427, 59);
+			this.btn_backup.Location = new System.Drawing.Point(403, 59);
 			this.btn_backup.Name = "btn_backup";
 			this.btn_backup.Size = new System.Drawing.Size(114, 23);
 			this.btn_backup.TabIndex = 4;
@@ -3914,12 +3935,13 @@ namespace Mahou
 			// chk_ZxZ
 			// 
 			this.chk_ZxZ.AutoSize = true;
-			this.chk_ZxZ.Location = new System.Drawing.Point(487, 41);
+			this.chk_ZxZ.Location = new System.Drawing.Point(450, 41);
 			this.chk_ZxZ.Name = "chk_ZxZ";
 			this.chk_ZxZ.Size = new System.Drawing.Size(56, 19);
 			this.chk_ZxZ.TabIndex = 12;
 			this.chk_ZxZ.Text = "0x0.st";
 			this.chk_ZxZ.UseVisualStyleBackColor = true;
+			this.chk_ZxZ.Visible = false;
 			this.chk_ZxZ.CheckedChanged += new System.EventHandler(this.Chk_ZxZCheckedChanged);
 			// 
 			// tab_updates
@@ -5014,6 +5036,7 @@ namespace Mahou
 			this.grb_TrConfs.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.nud_TrTransparency)).EndInit();
 			this.tab_sync.ResumeLayout(false);
+			this.tab_sync.PerformLayout();
 			this.grb_restore.ResumeLayout(false);
 			this.grb_restore.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pctResPaste)).EndInit();
