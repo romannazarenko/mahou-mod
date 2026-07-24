@@ -1740,8 +1740,8 @@ namespace Mahou {
 				SuspendResumeDraw(this);
 			}
 			TrayIconVisible = chk_TrayIcon.Checked = MMain.MyConfs.ReadBool("Functions", "TrayIconVisible");
-			InitializeTrayIcon();
 			loadHidden();
+			InitializeTrayIcon();
 			decim = (string)Registry.GetValue(@"HKEY_CURRENT_USER\Control Panel\International", "sDecimal", null);
 			TrSetsValues = new Dictionary<string, string>();
 			chk_AppDataConfigs.Checked = (bool)DoInMainConfigs(() => MMain.MyConfs.ReadBool("Functions", "AppDataConfigs"));
@@ -2534,7 +2534,7 @@ DEL """+restartMahouPath + @"""";
 			IfDispose(ref FLAG);
 			if (!ENABLED) {
 				Debug.WriteLine("NOT ENABLED");
-				FLAG = new Bitmap(Properties.Resources.MahouTrayHD.ToBitmap());
+				//FLAG = new Bitmap(Properties.Resources.MahouTrayHD.ToBitmap());
 				return;
 			}
 			if (force) {
@@ -2711,8 +2711,10 @@ DEL """+restartMahouPath + @"""";
 						flagicon = Icon.FromHandle(b.GetHicon());
 					else 
 						flagicon = Mahou.Properties.Resources.MahouTrayHD;
-					icon.trIcon.Icon = flagicon;
+					icon.trIcon.Icon = (Icon)flagicon.Clone();
 					WinAPI.DestroyIcon(flagicon.Handle);
+					flagicon.Dispose();
+					if (b != null) { b.Dispose(); }
 					lastTrayFlagLayout = lcid;
 				}
 			} catch(Exception e) {
@@ -2795,55 +2797,53 @@ DEL """+restartMahouPath + @"""";
 		/// Initializes tray icon.
 		/// </summary>
 		void InitializeTrayIcon() {
-			if (icon != null) {
-				icon.Hide();
-				icon.trIcon.Dispose();
-			}
-			icon = new TrayIcon(TrayIconVisible);
-			icon.Exit += (_, __) => ExitProgram();
-			if (Hchk_LMBTrayLayoutChange.Checked) {
-				if (Hchk_LMBTrayLayoutChangeDC.Checked) {
-					var cc = 0; bool tx = false; Timer t = null;
-					icon.MLBAct += (_, __) => {
-						cc++;
-						Debug.WriteLine("CC" + cc);
-						if (cc > 1) {
-							ToggleVisibility();
-							cc = 0;
-							if (t != null) {
-								t.Stop();
-								t.Dispose();
-								tx = false;
+			if (icon == null) {
+				icon = new TrayIcon(TrayIconVisible);
+				icon.Exit += (_, __) => ExitProgram();
+				if (Hchk_LMBTrayLayoutChange.Checked) {
+					if (Hchk_LMBTrayLayoutChangeDC.Checked) {
+						var cc = 0; bool tx = false; Timer t = null;
+						icon.MLBAct += (_, __) => {
+							cc++;
+							Debug.WriteLine("CC" + cc);
+							if (cc > 1) {
+								ToggleVisibility();
+								cc = 0;
+								if (t != null) {
+									t.Stop();
+									t.Dispose();
+									tx = false;
+								}
 							}
-						}
-						else if (!tx) {
-							tx = true;
-							t = new Timer(); bool fign = false;
-							t.Tick += (x, xx) => { 
-								if (!fign) { fign = true; return; }
-								if (cc == 1) { lastAltTabChangeLayout(); } 
-								cc = 0; 
-								t.Stop(); t.Dispose(); tx = false; };
-							t.Interval = SystemInformation.DoubleClickTime;
-							t.Start();
-						}
-					};
+							else if (!tx) {
+								tx = true;
+								t = new Timer(); bool fign = false;
+								t.Tick += (x, xx) => { 
+									if (!fign) { fign = true; return; }
+									if (cc == 1) { lastAltTabChangeLayout(); } 
+									cc = 0; 
+									t.Stop(); t.Dispose(); tx = false; };
+								t.Interval = SystemInformation.DoubleClickTime;
+								t.Start();
+							}
+						};
+					} else
+						icon.MLBAct += (_, __) => lastAltTabChangeLayout();
 				} else
-					icon.MLBAct += (_, __) => lastAltTabChangeLayout();
-			} else
-				icon.MLBAct += (_, __) => ToggleVisibility();
-			icon.ShowHide += (_, __) => ToggleVisibility();
-			icon.EnaDisable += (_, __) => ToggleMahou();
-			icon.Restart += (_, __) => Restart();
-			icon.ChangeLt += (_, __) => lastAltTabChangeLayout();
-			icon.ConvertClip += (_, __) => {
-				var t = KMHook.ConvertText(KMHook.GetClipboard(2));
-				KMHook.RestoreClipBoard(t);
-			};
-			icon.TransliClip += (_, __) => {
-				var t = KMHook.TransliterateText(KMHook.GetClipboard(2));
-				KMHook.RestoreClipBoard(t);
-			};
+					icon.MLBAct += (_, __) => ToggleVisibility();
+				icon.ShowHide += (_, __) => ToggleVisibility();
+				icon.EnaDisable += (_, __) => ToggleMahou();
+				icon.Restart += (_, __) => Restart();
+				icon.ChangeLt += (_, __) => lastAltTabChangeLayout();
+				icon.ConvertClip += (_, __) => {
+					var t = KMHook.ConvertText(KMHook.GetClipboard(2));
+					KMHook.RestoreClipBoard(t);
+				};
+				icon.TransliClip += (_, __) => {
+					var t = KMHook.TransliterateText(KMHook.GetClipboard(2));
+					KMHook.RestoreClipBoard(t);
+				};
+			}
 			var mm = Path.Combine(nPath, "Mahou.mm");
 			if (File.Exists(mm)) {
 				MahouMM = true;
@@ -2851,43 +2851,50 @@ DEL """+restartMahouPath + @"""";
 			} else MahouMM = false;
 			if (MahouMM && TrayHoverMahouMM > 0) {
 				var now_p = new Point(7777,7777);
+				if (thmm == null) {
+					thmm = new Timer();
+					thmm.Interval = TrayHoverMahouMM;
+					thmm.Tick += (_, __) => {
+						Debug.WriteLine("Tick tick tick");
+						thmm.Stop(); // doesn't work..
+						thmmr = false;  // either
+						if (now_p.Equals(Cursor.Position) && !icon.trIcon.ContextMenuStrip.Visible && !now_p.Equals(new Point(7777,7777))) {
+							Debug.WriteLine("You haven't moved from: " +now_p.X+"/"+now_p.Y+ " for "+TrayHoverMahouMM+"ms.");
+							ShowMahouMMMenuUnderMouse();
+							thmme = true; // prevents timer tick to go on and on
+							var t = new Timer(){Interval = 60}; // reset after 60ms
+							t.Tick += (z,zz) => { thmme = false; };
+							t.Start();
+						}
+						now_p = new Point(7777,7777);
+					};
+					icon.trIcon.MouseMove += (_, __) => {
+						if (thmme) { return; }
+						if (start_skip) { start_skip = false; return; }
+						Debug.WriteLine("MOMO:"+Cursor.Position.X);
+						now_p = Cursor.Position;
+						if (thmmr) {
+							thmmr = false;
+							thmm.Stop();
+						}
+						if (!thmmr) { 
+							thmm.Start();
+							thmmr = true;
+						} 
+					};
+					icon.trIcon.MouseClick += (_, __) => {
+						Debug.WriteLine("CLI");
+						thmm.Stop(); thmmr = false;
+					};
+				} else {
+					thmm.Start();
+					thmmr = true;
+				}
+			} else {
 				if (thmm != null) {
 					thmm.Stop();
-					thmm.Dispose();
+					thmmr = false;
 				}
-				thmm = new Timer();
-				thmm.Interval = TrayHoverMahouMM;
-				thmm.Tick += (_, __) => {
-					thmm.Stop(); // doesn't work..
-					thmmr = false;  // either
-					if (now_p.Equals(Cursor.Position) && !icon.trIcon.ContextMenuStrip.Visible && !now_p.Equals(new Point(7777,7777))) {
-						Debug.WriteLine("You haven't moved from: " +now_p.X+"/"+now_p.Y+ " for "+TrayHoverMahouMM+"ms.");
-						ShowMahouMMMenuUnderMouse();
-						thmme = true; // prevents timer tick to go on and on
-						var t = new Timer(){Interval = 60}; // reset after 60ms
-						t.Tick += (z,zz) => { thmme = false; };
-						t.Start();
-					}
-					now_p = new Point(7777,7777);
-				};
-				icon.trIcon.MouseMove += (_, __) => {
-					if (thmme) { return; }
-					if (start_skip) { start_skip = false; return; }
-					Debug.WriteLine("MOMO:"+Cursor.Position.X);
-					now_p = Cursor.Position;
-					if (thmmr) {
-						thmmr = false;
-						thmm.Stop();
-					}
-					if (!thmmr) { 
-						thmm.Start();
-						thmmr = true;
-					} 
-				};
-				icon.trIcon.MouseClick += (_, __) => {
-					Debug.WriteLine("CLI");
-					thmm.Stop(); thmmr = false;
-				};
 			}
 		}
 		/// <summary>
@@ -5590,6 +5597,7 @@ DEL ""ExtractASD.cmd""";
 				if (MMain.mahou != null) {
 					List<ToolStripMenuItem> lastitems = new List<ToolStripMenuItem>();
 					for(var i = 0; i != MMain.mahou.icon.trIcon.ContextMenuStrip.Items.Count; i++) {
+						if (mms.Text == MMain.mahou.icon.trIcon.ContextMenuStrip.Items[i].Text) continue;
 						lastitems.Add((ToolStripMenuItem)MMain.mahou.icon.trIcon.ContextMenuStrip.Items[i]);
 					}
 					MMain.mahou.icon.trIcon.ContextMenuStrip.Items.Clear();
