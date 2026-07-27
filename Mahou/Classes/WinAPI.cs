@@ -287,6 +287,8 @@ public static class WinAPI {
 	public const int SW_SHOWNOACTIVATE = 4;
 	public const int HWND_TOPMOST = -1;
 	public const uint SWP_NOACTIVATE = 0x0010;
+	public const uint SWP_HIDEWINDOW = 0x0080;
+	public const uint SWP_SHOWWINDOW = 0x0040;
 	public const int WS_EX_TOPMOST = 0x00000008;
 	public const int WS_EX_TRANSPARENT = 0x20;
 	public const int WS_EX_LAYERED = 0x80000;

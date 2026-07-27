@@ -2769,7 +2769,6 @@ DEL """+restartMahouPath + @"""";
 			if (LDForMouse) {
 				mouseLangDisplay.mouseDisplay = true;
 				mouseLangDisplay.DisplayFlag = LDMouseUseFlags_temp;
-				mouseLangDisplay.Visible = true;
 			} else if (lc) {
 				mouseLangDisplay.Visible = false;
 			}
@@ -3171,9 +3170,10 @@ DEL """+restartMahouPath + @"""";
 					res.Start();
 				} 
 			} else {
-				if ((ICheckings.IsICursor() || MouseTTAlways) && !mouseLangDisplay.Empty)
+				if ((ICheckings.IsICursor() || MouseTTAlways) && !mouseLangDisplay.Empty) {
 					mouseLangDisplay.ShowInactiveTopmost();
-				else
+					mouseLangDisplay.Visible = true;
+				} else
 					mouseLangDisplay.HideWnd();
 			}
 			if (mouseLangDisplay.Visible) {

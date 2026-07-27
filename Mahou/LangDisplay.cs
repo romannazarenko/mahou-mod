@@ -181,7 +181,8 @@ namespace Mahou
 		/// </summary>
 		public void ShowInactiveTopmost() {
 			WinAPI.SetWindowPos(Handle.ToInt32(), WinAPI.HWND_TOPMOST, 0, 0, 0, 0,
-				WinAPI.SWP_NOACTIVATE | WinAPI.WS_EX_TOPMOST | WinAPI.SWP_NOMOVE | WinAPI.SWP_NOSIZE);
+				WinAPI.SWP_NOACTIVATE | WinAPI.WS_EX_TOPMOST | WinAPI.SWP_NOMOVE | WinAPI.SWP_NOSIZE |
+			    WinAPI.SWP_SHOWWINDOW);
 			if (Visible) return;
 			try {
 				WinAPI.ShowWindow(Handle, WinAPI.SW_SHOWNOACTIVATE);
@@ -193,8 +194,12 @@ namespace Mahou
 		/// Hide lang display window.
 		/// </summary>
 		public void HideWnd() {
+			System.Diagnostics.Debug.WriteLine(Handle.ToString("X") + Visible);
 			if (!Visible) return;
-			WinAPI.ShowWindow(Handle, 0);
+			//WinAPI.ShowWindow(Handle, 0);
+			WinAPI.SetWindowPos(Handle.ToInt32(), 0, 0, 0, 0, 0, WinAPI.SWP_NOACTIVATE |
+			                    WinAPI.SWP_HIDEWINDOW | WinAPI.SWP_NOMOVE | WinAPI.SWP_NOSIZE |
+			                    WinAPI.SWP_NOZORDER);
 		}
 		protected override CreateParams CreateParams {
 			get {
