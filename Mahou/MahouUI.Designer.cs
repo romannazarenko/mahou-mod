@@ -363,6 +363,7 @@ namespace Mahou
 		private System.Windows.Forms.Label lbl_LPBGPadding;
 		private System.Windows.Forms.TextBox txt_PDApiKey;
 		private System.Windows.Forms.Label lbl_PDApiKey;
+		private System.Windows.Forms.CheckBox Hchk_LMBTrayToggleEnabled;
 		/// <summary>
 		/// Disposes resources used by the form.
 		/// </summary>
@@ -671,6 +672,7 @@ namespace Mahou
 			this.lnk_Site = new Mahou.MahouUI.LinkLabelNew();
 			this.lnk_Repository = new Mahou.MahouUI.LinkLabelNew();
 			this.tab_Hidden = new System.Windows.Forms.TabPage();
+			this.Hchk_LMBTrayToggleEnabled = new System.Windows.Forms.CheckBox();
 			this.Hchk_DontToggleMWexe = new System.Windows.Forms.CheckBox();
 			this.Htxt_LayoutModifier_S_LAYOUT = new System.Windows.Forms.TextBox();
 			this.Htxt_LayoutModifier_S = new System.Windows.Forms.TextBox();
@@ -4206,6 +4208,7 @@ namespace Mahou
 			// 
 			this.tab_Hidden.AutoScroll = true;
 			this.tab_Hidden.BackColor = System.Drawing.Color.DarkSlateGray;
+			this.tab_Hidden.Controls.Add(this.Hchk_LMBTrayToggleEnabled);
 			this.tab_Hidden.Controls.Add(this.Hchk_DontToggleMWexe);
 			this.tab_Hidden.Controls.Add(this.Htxt_LayoutModifier_S_LAYOUT);
 			this.tab_Hidden.Controls.Add(this.Htxt_LayoutModifier_S);
@@ -4273,6 +4276,16 @@ namespace Mahou
 			this.tab_Hidden.Size = new System.Drawing.Size(554, 268);
 			this.tab_Hidden.TabIndex = 15;
 			this.tab_Hidden.Text = "[Hidden]";
+			// 
+			// Hchk_LMBTrayToggleEnabled
+			// 
+			this.Hchk_LMBTrayToggleEnabled.AutoSize = true;
+			this.Hchk_LMBTrayToggleEnabled.Location = new System.Drawing.Point(8, 916);
+			this.Hchk_LMBTrayToggleEnabled.Name = "Hchk_LMBTrayToggleEnabled";
+			this.Hchk_LMBTrayToggleEnabled.Size = new System.Drawing.Size(358, 19);
+			this.Hchk_LMBTrayToggleEnabled.TabIndex = 65;
+			this.Hchk_LMBTrayToggleEnabled.Text = "Left Click on Tray Icon toggles Mahou\'s enabled/disabled state.";
+			this.Hchk_LMBTrayToggleEnabled.UseVisualStyleBackColor = true;
 			// 
 			// Hchk_DontToggleMWexe
 			// 
@@ -4911,7 +4924,7 @@ namespace Mahou
 			// 
 			// Hlbl_scrollpastcontent
 			// 
-			this.Hlbl_scrollpastcontent.Location = new System.Drawing.Point(229, 907);
+			this.Hlbl_scrollpastcontent.Location = new System.Drawing.Point(229, 921);
 			this.Hlbl_scrollpastcontent.Name = "Hlbl_scrollpastcontent";
 			this.Hlbl_scrollpastcontent.Size = new System.Drawing.Size(100, 23);
 			this.Hlbl_scrollpastcontent.TabIndex = 40;

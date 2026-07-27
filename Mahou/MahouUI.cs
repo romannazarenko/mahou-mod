@@ -1582,6 +1582,7 @@ namespace Mahou {
 			MMain.MyConfs.Write("Hidden", "cmdbackfix", Hchk_cmdbackfix.Checked.ToString());
 			MMain.MyConfs.Write("Hidden", "DARKTHEME", Hchk_DARK.Checked.ToString());
 			MMain.MyConfs.Write("Hidden", "ChangeLayoutOnTrayLMB", Hchk_LMBTrayLayoutChange.Checked.ToString());
+			MMain.MyConfs.Write("Hidden", "ToggleEnabledOnTrayLMB", Hchk_LMBTrayToggleEnabled.Checked.ToString());
 			MMain.MyConfs.Write("Hidden", "DisableMemoryFlush", Hchk_DisableMemFlush.Checked.ToString());
 			MMain.MyConfs.Write("Hidden", "SymbolClear", Htxt_SymbolClear.Text);
 			MMain.MyConfs.Write("Hidden", "LibreCtrlAltShiftV", Hchk_LibrePasteFixCASV.Checked.ToString());
@@ -1653,6 +1654,7 @@ namespace Mahou {
 		}
 		void loadHidden() {
 			Hchk_LMBTrayLayoutChange.Checked = MMain.MyConfs.ReadBool("Hidden", "ChangeLayoutOnTrayLMB");
+			Hchk_LMBTrayToggleEnabled.Checked = MMain.MyConfs.ReadBool("Hidden", "ToggleEnabledOnTrayLMB");
 			Hchk_DisableMemFlush.Checked = nomemoryflush = MMain.MyConfs.ReadBool("Hidden", "DisableMemoryFlush");
 			Htxt_SymbolClear.Text = KMHook.symbolclear = MMain.MyConfs.Read("Hidden", "SymbolClear");
 			Hchk_LibrePasteFixCASV.Checked = LibreCtrlAltShiftV = MMain.MyConfs.ReadBool("Hidden", "LibreCtrlAltShiftV");
@@ -2803,7 +2805,21 @@ DEL """+restartMahouPath + @"""";
 			if (icon == null) {
 				icon = new TrayIcon(TrayIconVisible);
 				icon.Exit += (_, __) => ExitProgram();
-				if (Hchk_LMBTrayLayoutChange.Checked) {
+				icon.ShowHide += (_, __) => ToggleVisibility();
+				icon.EnaDisable += (_, __) => ToggleMahou();
+				icon.Restart += (_, __) => Restart();
+				icon.ChangeLt += (_, __) => lastAltTabChangeLayout();
+				icon.ConvertClip += (_, __) => {
+					var t = KMHook.ConvertText(KMHook.GetClipboard(2));
+					KMHook.RestoreClipBoard(t);
+				};
+				icon.TransliClip += (_, __) => {
+					var t = KMHook.TransliterateText(KMHook.GetClipboard(2));
+					KMHook.RestoreClipBoard(t);
+				};
+			}
+			icon.MLBActReset();
+			if (Hchk_LMBTrayLayoutChange.Checked) {
 					if (Hchk_LMBTrayLayoutChangeDC.Checked) {
 						var cc = 0; bool tx = false; Timer t = null;
 						icon.MLBAct += (_, __) => {
@@ -2832,21 +2848,10 @@ DEL """+restartMahouPath + @"""";
 						};
 					} else
 						icon.MLBAct += (_, __) => lastAltTabChangeLayout();
-				} else
+				} else if (Hchk_LMBTrayToggleEnabled.Checked)
+					icon.MLBAct += (_, __) => ToggleMahou();
+				else
 					icon.MLBAct += (_, __) => ToggleVisibility();
-				icon.ShowHide += (_, __) => ToggleVisibility();
-				icon.EnaDisable += (_, __) => ToggleMahou();
-				icon.Restart += (_, __) => Restart();
-				icon.ChangeLt += (_, __) => lastAltTabChangeLayout();
-				icon.ConvertClip += (_, __) => {
-					var t = KMHook.ConvertText(KMHook.GetClipboard(2));
-					KMHook.RestoreClipBoard(t);
-				};
-				icon.TransliClip += (_, __) => {
-					var t = KMHook.TransliterateText(KMHook.GetClipboard(2));
-					KMHook.RestoreClipBoard(t);
-				};
-			}
 			var mm = Path.Combine(nPath, "Mahou.mm");
 			if (File.Exists(mm)) {
 				MahouMM = true;

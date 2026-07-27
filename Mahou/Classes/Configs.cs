@@ -234,6 +234,7 @@ namespace Mahou {
         	CheckBool("Hidden", "DisableMemoryFlush", "false");
         	CheckBool("Hidden", "ChangeLayoutOnTrayLMB+DoubleClick", "false");
         	CheckBool("Hidden", "ChangeLayoutOnTrayLMB", "false");
+        	CheckBool("Hidden", "ToggleEnabledOnTrayLMB", "false");
         	CheckString("Hidden", "AutoCopyTranslation", "");
         	CheckString("Hidden", "ReSelectCustoms", "tTRSULCN");
         	CheckBool("Hidden", "LibreCtrlAltShiftV", "false");
