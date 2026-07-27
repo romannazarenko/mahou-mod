@@ -5282,6 +5282,9 @@ DEL ""ExtractASD.cmd""";
 		void Lnk_pluginLinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
 			__lopen("https://gitea.com/BladeMight/MahouCaretDisplayServer", "http", false, e.Button == MouseButtons.Right);
 		}
+		void Lnk_PixelDrainAPIKeyHowto(object sender, LinkLabelLinkClickedEventArgs e) {
+			__lopen("https://postimg.cc/gallery/R0Y0K6p", "http", false, e.Button == MouseButtons.Right);
+		}
 		void Lnk_SnipOpenLinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
 			__lopen(snipfile, "txt");
 			reload_snip = true;

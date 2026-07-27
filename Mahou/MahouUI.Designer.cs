@@ -364,6 +364,7 @@ namespace Mahou
 		private System.Windows.Forms.TextBox txt_PDApiKey;
 		private System.Windows.Forms.Label lbl_PDApiKey;
 		private System.Windows.Forms.CheckBox Hchk_LMBTrayToggleEnabled;
+		private Mahou.MahouUI.LinkLabelNew lnk_PixelDrainAPIKeyHowto;
 		/// <summary>
 		/// Disposes resources used by the form.
 		/// </summary>
@@ -620,6 +621,7 @@ namespace Mahou
 			this.btn_TrBG = new System.Windows.Forms.Button();
 			this.btn_TrFG = new System.Windows.Forms.Button();
 			this.tab_sync = new System.Windows.Forms.TabPage();
+			this.lnk_PixelDrainAPIKeyHowto = new Mahou.MahouUI.LinkLabelNew();
 			this.txt_PDApiKey = new System.Windows.Forms.TextBox();
 			this.lbl_PDApiKey = new System.Windows.Forms.Label();
 			this.grb_restore = new System.Windows.Forms.GroupBox();
@@ -3629,6 +3631,7 @@ namespace Mahou
 			// tab_sync
 			// 
 			this.tab_sync.AutoScroll = true;
+			this.tab_sync.Controls.Add(this.lnk_PixelDrainAPIKeyHowto);
 			this.tab_sync.Controls.Add(this.txt_PDApiKey);
 			this.tab_sync.Controls.Add(this.lbl_PDApiKey);
 			this.tab_sync.Controls.Add(this.grb_restore);
@@ -3640,6 +3643,17 @@ namespace Mahou
 			this.tab_sync.TabIndex = 14;
 			this.tab_sync.Text = "Sync";
 			this.tab_sync.UseVisualStyleBackColor = true;
+			// 
+			// lnk_PixelDrainAPIKeyHowto
+			// 
+			this.lnk_PixelDrainAPIKeyHowto.AutoSize = true;
+			this.lnk_PixelDrainAPIKeyHowto.Location = new System.Drawing.Point(172, 9);
+			this.lnk_PixelDrainAPIKeyHowto.Name = "lnk_PixelDrainAPIKeyHowto";
+			this.lnk_PixelDrainAPIKeyHowto.Size = new System.Drawing.Size(37, 15);
+			this.lnk_PixelDrainAPIKeyHowto.TabIndex = 33;
+			this.lnk_PixelDrainAPIKeyHowto.TabStop = true;
+			this.lnk_PixelDrainAPIKeyHowto.Text = "??????";
+			this.lnk_PixelDrainAPIKeyHowto.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.Lnk_PixelDrainAPIKeyHowto);
 			// 
 			// txt_PDApiKey
 			// 
