@@ -365,6 +365,7 @@ namespace Mahou
 		private System.Windows.Forms.Label lbl_PDApiKey;
 		private System.Windows.Forms.CheckBox Hchk_LMBTrayToggleEnabled;
 		private Mahou.MahouUI.LinkLabelNew lnk_PixelDrainAPIKeyHowto;
+		private Mahou.MahouUI.LinkLabelNew lnk_PixelDrain;
 		/// <summary>
 		/// Disposes resources used by the form.
 		/// </summary>
@@ -621,6 +622,7 @@ namespace Mahou
 			this.btn_TrBG = new System.Windows.Forms.Button();
 			this.btn_TrFG = new System.Windows.Forms.Button();
 			this.tab_sync = new System.Windows.Forms.TabPage();
+			this.lnk_PixelDrain = new Mahou.MahouUI.LinkLabelNew();
 			this.lnk_PixelDrainAPIKeyHowto = new Mahou.MahouUI.LinkLabelNew();
 			this.txt_PDApiKey = new System.Windows.Forms.TextBox();
 			this.lbl_PDApiKey = new System.Windows.Forms.Label();
@@ -3631,6 +3633,7 @@ namespace Mahou
 			// tab_sync
 			// 
 			this.tab_sync.AutoScroll = true;
+			this.tab_sync.Controls.Add(this.lnk_PixelDrain);
 			this.tab_sync.Controls.Add(this.lnk_PixelDrainAPIKeyHowto);
 			this.tab_sync.Controls.Add(this.txt_PDApiKey);
 			this.tab_sync.Controls.Add(this.lbl_PDApiKey);
@@ -3643,6 +3646,17 @@ namespace Mahou
 			this.tab_sync.TabIndex = 14;
 			this.tab_sync.Text = "Sync";
 			this.tab_sync.UseVisualStyleBackColor = true;
+			// 
+			// lnk_PixelDrain
+			// 
+			this.lnk_PixelDrain.AutoSize = true;
+			this.lnk_PixelDrain.Location = new System.Drawing.Point(215, 9);
+			this.lnk_PixelDrain.Name = "lnk_PixelDrain";
+			this.lnk_PixelDrain.Size = new System.Drawing.Size(59, 15);
+			this.lnk_PixelDrain.TabIndex = 34;
+			this.lnk_PixelDrain.TabStop = true;
+			this.lnk_PixelDrain.Text = "pixeldrain";
+			this.lnk_PixelDrain.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.Lnk_PixelDrain);
 			// 
 			// lnk_PixelDrainAPIKeyHowto
 			// 
@@ -3662,6 +3676,7 @@ namespace Mahou
 			this.txt_PDApiKey.PasswordChar = '+';
 			this.txt_PDApiKey.Size = new System.Drawing.Size(227, 23);
 			this.txt_PDApiKey.TabIndex = 3;
+			this.txt_PDApiKey.TextChanged += new System.EventHandler(this.Txt_PDApiKeyTextChanged);
 			// 
 			// lbl_PDApiKey
 			// 

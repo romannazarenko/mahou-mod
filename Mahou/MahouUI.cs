@@ -2044,6 +2044,7 @@ namespace Mahou {
 				txt_restoreId.Text = rlast;
 			chk_ZxZ.Checked = ZxZ = MMain.MyConfs.ReadBool("Sync", "ZxZ");
 			txt_PDApiKey.Text = Safify(MMain.MyConfs.Read("Sync", "PixelDrainAPIKey"));
+			grb_backup.Enabled = txt_PDApiKey.Text != "";
 			#endregion
 			LLHook._ACTIVE = (RemapCapslockAsF18 || SnippetsExpandType != "Space" || MahouMM || LLHook.redefines.len > 0);
 			if (LLHook._ACTIVE)
@@ -5285,6 +5286,9 @@ DEL ""ExtractASD.cmd""";
 		void Lnk_PixelDrainAPIKeyHowto(object sender, LinkLabelLinkClickedEventArgs e) {
 			__lopen("https://postimg.cc/gallery/R0Y0K6p", "http", false, e.Button == MouseButtons.Right);
 		}
+		void Lnk_PixelDrain(object sender, LinkLabelLinkClickedEventArgs e) {
+			__lopen("https://pixeldrain.com/user/api_keys", "http", false, e.Button == MouseButtons.Right);
+		}
 		void Lnk_SnipOpenLinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
 			__lopen(snipfile, "txt");
 			reload_snip = true;
@@ -5814,6 +5818,9 @@ DEL ""ExtractASD.cmd""";
 		}
 		#endregion
 		#region Mahou UI controls events
+		void Txt_PDApiKeyTextChanged(object sender, EventArgs e) {
+			grb_backup.Enabled = txt_PDApiKey.Text != "";
+		}
 		void Hchk_DARKCheckedChanged(object sender, EventArgs e) {
 			ToggleDark(Hchk_DARK.Checked);
 		}
