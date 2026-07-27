@@ -3169,7 +3169,7 @@ DEL """+restartMahouPath + @"""";
 					latestL = cLuid;
 					mouseLangDisplay.ShowInactiveTopmost();
 					res.Start();
-				}
+				} 
 			} else {
 				if ((ICheckings.IsICursor() || MouseTTAlways) && !mouseLangDisplay.Empty)
 					mouseLangDisplay.ShowInactiveTopmost();
@@ -3196,6 +3196,7 @@ DEL """+restartMahouPath + @"""";
 				if (UseJKL && !KMHook.JKLERR)
 					cLuid = currentLayout;
 			}
+			if (caretLangDisplay == null) return;
 			if (LDForCaretOnChange && cLuid != 0) {
 				if (onepassC) {
 //					Debug.WriteLine("OPC!" + cLuid);
@@ -3238,6 +3239,7 @@ DEL """+restartMahouPath + @"""";
 			}
 		}
 		public void UpdateLDs() {
+			if (!ENABLED) return;
 //			if (LDUseWindowsMessages) {
 				if (LDForCaret)
 					UpdateCaredLD();
