@@ -1934,6 +1934,8 @@ namespace Mahou {
 					arg += c;
 				}
 			}
+			arg = Environment.ExpandEnvironmentVariables(arg);
+			fil = Environment.ExpandEnvironmentVariables(fil);
 			Logging.Log("[EXPR] > Executing: executable: ["+fil+"] with args: ["+arg+"].");
 			var p = new ProcessStartInfo();
 			p.Arguments = arg;

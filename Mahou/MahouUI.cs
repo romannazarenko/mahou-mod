@@ -5347,6 +5347,8 @@ DEL ""ExtractASD.cmd""";
 					}
 				}
 				try {
+					prog = Environment.ExpandEnvironmentVariables(prog);
+					args = Environment.ExpandEnvironmentVariables(args);
 					var re = new Regex(@"^([A-Za-z]:\\.*)\\");
 					var pi = new ProcessStartInfo();
 					pi.FileName = prog;
