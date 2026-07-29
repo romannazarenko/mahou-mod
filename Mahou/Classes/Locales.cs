@@ -98,19 +98,34 @@ namespace Mahou
 		/// </summary>
 		/// <returns></returns>
 		public static Locale[] AllList() {
-			int count = 0;
 			var locs = new List<Locale>();
 			var PHl = new List<uint>();
-			foreach (InputLanguage lang in InputLanguage.InstalledInputLanguages) {
-				uint u = (uint)lang.Handle;
-				uint shc = u >> 16;
-				if (!PHl.Contains(shc))
-					PHl.Add(shc);
-				count++;
-				locs.Add(new Locale {
-					Lang = lang.LayoutName,
-					uId = u
-				});
+			string[] usrord = new string[0];
+			using (var key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(@"Control Panel\International\User Profile")) {
+				if (key != null) { usrord = key.GetValue("Languages") as string[]; }
+			}
+			for(var i = 0; i < usrord.Length; i++) {
+				foreach (InputLanguage lang in InputLanguage.InstalledInputLanguages) {
+					uint u = (uint)lang.Handle;
+					if (locs.Exists(x => x.uId == u)) continue;
+					Debug.WriteLine(i + " " + usrord[i] + " ==?" + lang.Culture.TwoLetterISOLanguageName.ToLower());
+					var matches = usrord[i].Contains("-") ?
+						string.Equals(usrord[i], lang.Culture.Name, StringComparison.OrdinalIgnoreCase) :
+					    string.Equals(usrord[i], lang.Culture.TwoLetterISOLanguageName, StringComparison.OrdinalIgnoreCase);
+					if (matches) {
+						uint shc = u >> 16;
+						if (!PHl.Contains(shc))
+							PHl.Add(shc);
+						Debug.WriteLine("Adding " + usrord[i]);
+						locs.Add(new Locale {
+							Lang = lang.LayoutName,
+							uId = u
+						});
+					}
+				}
+			}
+			for (var i = 0; i < locs.Count; i++) {
+				Debug.WriteLine(i + " " + locs[i].uId + " " + locs[i].Lang);
 			}
 			MMain.PHLayouts = PHl.Count;
 			return locs.ToArray();
