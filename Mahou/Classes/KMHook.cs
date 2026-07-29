@@ -1566,8 +1566,8 @@ namespace Mahou {
               }, "expand_snippet");
 		}
 		#region in Snippets expressions 
-		//                                                0         1          2             3         4             5          6                7            8            9            10         11               12           13           14              15             16             17           18        19       20    21      22
-		public static readonly string[] expressions = new []{ "__date", "__time", "__version", "__system", "__title", "__keyboard", "__execute", "__cursorhere", "__paste", "__mahouhome", "__delay", "__uppercase", "__convert", "__setlayout", "__selection", "__clearlsnip", "__replace", "__setsnip", "__setlsnip", "__if", "__nif", "__setclipboard"};
+		//                                                0         1          2             3         4             5          6                7            8            9            10         11               12           13           14              15             16             17           18        19       20    21      22               23
+		public static readonly string[] expressions = new []{ "__date", "__time", "__version", "__system", "__title", "__keyboard", "__execute", "__cursorhere", "__paste", "__mahouhome", "__delay", "__uppercase", "__convert", "__setlayout", "__selection", "__clearlsnip", "__replace", "__setsnip", "__setlsnip", "__if", "__nif", "__setclipboard", "__sendstring"};
 		static string ExpandSnippetWithExpressions(string expand) {
 			StringBuilder ex, args, raw, err, allraw;
 			ex = new StringBuilder(); args = new StringBuilder(); raw = new StringBuilder(); err = new StringBuilder(); allraw = new StringBuilder();
@@ -1918,7 +1918,26 @@ namespace Mahou {
 					Logging.Log("[__setclipboard] Set clipboard to [" + args + "]");
 					RestoreClipBoard(args);
 					break;
+				case "__sendstring":
+					Logging.Log("[__sendstring] trying to send  [" + args + "]");
+					SendString(args);
+					break;
 			}
+		}
+		public static void SendString(string str) {
+			var m = Regex.Match(str, @"\[(0?[xX])?(\d+)\]");
+			while (m.Groups.Count > 1) {
+				int code = -1;
+				bool ok = false;
+				if (m.Groups[1].Value != "") {
+					ok = Int32.TryParse(m.Groups[2].Value, System.Globalization.NumberStyles.HexNumber, null, out code);
+				} else {
+					ok = Int32.TryParse(m.Groups[2].Value, out code);
+				}
+				str = Regex.Replace(str, @"\[(0?[xX])?(\d+)\]", char.ConvertFromUtf32(code));
+				m = Regex.Match(str, @"\[(0?[xX])?(\d+)\]");
+			}
+			KInputs.MakeInput(KInputs.AddString(str));
 		}
 		static void Execute(string args) {
 			string fil = "", arg ="";
