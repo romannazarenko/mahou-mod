@@ -100,22 +100,22 @@ namespace Mahou
 		public static Locale[] AllList() {
 			var locs = new List<Locale>();
 			var PHl = new List<uint>();
-			string[] usrord = new string[0];
+			string[] usrord = null;
 			using (var key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(@"Control Panel\International\User Profile")) {
 				if (key != null) { usrord = key.GetValue("Languages") as string[]; }
-				else {
-					using (var key2 = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(@"Keyboard Layout\Preload")) {
-						if (key2 != null) {
-							int i = 1;
-							var vl = new List<string>();
-							while (true) {
-								var v = key2.GetValue(i.ToString()) as string;
-								if (string.IsNullOrEmpty(v)) break;
-								i++;
-								vl.Add(v);
-							}
-							usrord = vl.ToArray();
+			}
+			if (usrord == null || usrord.Length == 0) {
+				using (var key2 = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(@"Keyboard Layout\Preload")) {
+					if (key2 != null) {
+						int i = 1;
+						var vl = new List<string>();
+						while (true) {
+							var v = key2.GetValue(i.ToString()) as string;
+							if (string.IsNullOrEmpty(v)) break;
+							i++;
+							vl.Add(v);
 						}
+						usrord = vl.ToArray();
 					}
 				}
 			}
