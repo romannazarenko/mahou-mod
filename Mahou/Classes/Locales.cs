@@ -103,13 +103,32 @@ namespace Mahou
 			string[] usrord = new string[0];
 			using (var key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(@"Control Panel\International\User Profile")) {
 				if (key != null) { usrord = key.GetValue("Languages") as string[]; }
+				else {
+					using (var key2 = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(@"Keyboard Layout\Preload")) {
+						if (key2 != null) {
+							int i = 1;
+							var vl = new List<string>();
+							while (true) {
+								var v = key2.GetValue(i.ToString()) as string;
+								if (string.IsNullOrEmpty(v)) break;
+								i++;
+								vl.Add(v);
+							}
+							usrord = vl.ToArray();
+						}
+					}
+				}
 			}
 			Logging.Log("[Locales] Locales installed: " + usrord.Length);
 			for(var i = 0; i < usrord.Length; i++) {
 				foreach (InputLanguage lang in InputLanguage.InstalledInputLanguages) {
 					uint u = (uint)lang.Handle;
 					if (locs.Exists(x => x.uId == u)) continue;
-					var matches = usrord[i].Contains("-") ?
+					var matches = false;
+					uint hex = 0;
+					if (uint.TryParse(usrord[i], System.Globalization.NumberStyles.HexNumber, null, out hex)) {
+						matches = (hex == u) || ((hex & 0xffff) == (u & 0xffff));
+					} else matches = usrord[i].Contains("-") ?
 						string.Equals(usrord[i], lang.Culture.Name, StringComparison.OrdinalIgnoreCase) :
 					    string.Equals(usrord[i], lang.Culture.TwoLetterISOLanguageName, StringComparison.OrdinalIgnoreCase);
 					if (matches) {
