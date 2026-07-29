@@ -181,8 +181,7 @@ namespace Mahou
 		/// </summary>
 		public void ShowInactiveTopmost() {
 			WinAPI.SetWindowPos(Handle.ToInt32(), WinAPI.HWND_TOPMOST, 0, 0, 0, 0,
-				WinAPI.SWP_NOACTIVATE | WinAPI.WS_EX_TOPMOST | WinAPI.SWP_NOMOVE | WinAPI.SWP_NOSIZE |
-			    WinAPI.SWP_SHOWWINDOW);
+				WinAPI.SWP_NOACTIVATE | WinAPI.WS_EX_TOPMOST | WinAPI.SWP_NOMOVE | WinAPI.SWP_NOSIZE);
 			if (Visible) return;
 			try {
 				WinAPI.ShowWindow(Handle, WinAPI.SW_SHOWNOACTIVATE);
