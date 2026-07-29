@@ -104,11 +104,11 @@ namespace Mahou
 			using (var key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(@"Control Panel\International\User Profile")) {
 				if (key != null) { usrord = key.GetValue("Languages") as string[]; }
 			}
+			Logging.Log("[Locales] Locales installed: " + usrord.Length);
 			for(var i = 0; i < usrord.Length; i++) {
 				foreach (InputLanguage lang in InputLanguage.InstalledInputLanguages) {
 					uint u = (uint)lang.Handle;
 					if (locs.Exists(x => x.uId == u)) continue;
-					Debug.WriteLine(i + " " + usrord[i] + " ==?" + lang.Culture.TwoLetterISOLanguageName.ToLower());
 					var matches = usrord[i].Contains("-") ?
 						string.Equals(usrord[i], lang.Culture.Name, StringComparison.OrdinalIgnoreCase) :
 					    string.Equals(usrord[i], lang.Culture.TwoLetterISOLanguageName, StringComparison.OrdinalIgnoreCase);
@@ -116,7 +116,7 @@ namespace Mahou
 						uint shc = u >> 16;
 						if (!PHl.Contains(shc))
 							PHl.Add(shc);
-						Debug.WriteLine("Adding " + usrord[i]);
+						Logging.Log("[Locales] Adding " + usrord[i] + " as #" + (i+1));
 						locs.Add(new Locale {
 							Lang = lang.LayoutName,
 							uId = u
@@ -124,9 +124,11 @@ namespace Mahou
 					}
 				}
 			}
+			var locsstr = "";
 			for (var i = 0; i < locs.Count; i++) {
-				Debug.WriteLine(i + " " + locs[i].uId + " " + locs[i].Lang);
+				locsstr += "[" + locs[i].uId + " " + locs[i].Lang + "]" + (i+1 != locs.Count ? "," : "");
 			}
+			Logging.Log("[Locales] Final layouts: " + locs.Count + ": " + locsstr);
 			MMain.PHLayouts = PHl.Count;
 			return locs.ToArray();
 		}
