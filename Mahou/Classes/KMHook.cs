@@ -3725,7 +3725,7 @@ namespace Mahou {
 									nowLocale = MahouUI.currentLayout;
 								if (last == nowLocale && nowLocale != 0) {
 									nowLocale = MahouUI.currentLayout;
-									desired = 0;
+//									desired = 0;
 								}
 							}
 							if (CompareLayouts(nowLocale, desired))
