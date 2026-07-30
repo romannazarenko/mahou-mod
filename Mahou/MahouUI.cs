@@ -3401,19 +3401,32 @@ DEL """+restartMahouPath + @"""";
 				byte[] snd = second ? Properties.Resources.snd2 : Properties.Resources.snd;
 				bool ucs = second ? UseCustomSound2 : UseCustomSound;
 				string csf = second ? CustomSound2 : CustomSound;
-				var sms = new MemoryStream(snd);
-				var sp = new System.Media.SoundPlayer(sms);
-				try {
-					csf = replaceenv(csf, "%mahou_dir%", () => nPath);
-					if (ucs) if (File.Exists(csf))
-						sp = new System.Media.SoundPlayer(csf);
-				} catch(Exception e) {
-					Logging.Log("Error during loading of the custom sound file: "+e.Message + "\n" + e.StackTrace, 1);
-					Logging.Log("Fallback to default sound...");
+				if (!KMHook.IfNW7()) {
+					var sms = new MemoryStream(snd);
+					var sp = new System.Media.SoundPlayer(sms);
+					try {
+						csf = replaceenv(csf, "%mahou_dir%", () => nPath);
+						if (ucs) if (File.Exists(csf))
+							sp = new System.Media.SoundPlayer(csf);
+					} catch(Exception e) {
+						Logging.Log("[Sound] Error during loading of the custom sound file: "+e.Message + "\n" + e.StackTrace, 1);
+						Logging.Log("[Sound] Fallback to default sound...");
+					}
+					sp.Play();
+					sp.Dispose();
+					sms.Dispose();
+				} else {
+					var fn = "Mahou-sound" + GetRandomString(4) +".wav";
+					var tff = Path.Combine(Path.GetTempPath(), fn);
+					var tf = tff;
+					if (!File.Exists(csf)) {
+						File.WriteAllBytes(tf, snd);
+					} else tf = csf;
+					Logging.Log("[Sound] Playing sound file: [" + tf + "] using mciSendString...");
+					WinAPI.mciSendString("play \"" + tf + "\" wait", null, 0, 0);
+					WinAPI.mciSendString("close \"" + tf + "\"", null, 0, 0);
+					if (File.Exists(tff)) File.Delete(tff);
 				}
-				sp.Play();
-				sp.Dispose();
-				sms.Dispose();
 			}
 		}
 		public string SelectGetWavFile() {

@@ -476,6 +476,8 @@ public static class WinAPI {
     public static extern IntPtr GlobalSize(IntPtr hMem);
     #endregion
     #region MahouForm requires
+    [DllImport("winmm.dll", CharSet = CharSet.Auto)]
+    public static extern long mciSendString(string command, StringBuilder returnString, int returnLength, IntPtr hwndCallback);
     [DllImport("user32.dll", CharSet = CharSet.Auto)]
 	public extern static bool DestroyIcon(IntPtr handle);
 	[DllImport("user32.dll")]
