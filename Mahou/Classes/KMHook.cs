@@ -1737,6 +1737,11 @@ namespace Mahou {
 				case "__time":
 					var now = DateTime.Now;
 					var format = args;
+					if (args.Contains("UTC")) {
+						now = DateTime.UtcNow;
+						var p = format.IndexOf("UTC");
+						format = format.Substring(0, p) + format.Substring(p+3, format.Length-3-p);
+					}
 					if (string.IsNullOrEmpty(args)) {
 						if (expr == "__date")
 							format = "dd/MM/yyyy";
