@@ -323,9 +323,9 @@ namespace Mahou.Properties {
 		/// <summary>
 		///   Looks up a localized resource of type System.Byte[].
 		/// </summary>
-		public static byte[] snd {
+		public static byte[] snd2pcm16 {
 			get {
-				object obj = ResourceManager.GetObject("snd", resourceCulture);
+				object obj = ResourceManager.GetObject("snd2pcm16", resourceCulture);
 				return ((byte[])(obj));
 			}
 		}
@@ -333,9 +333,9 @@ namespace Mahou.Properties {
 		/// <summary>
 		///   Looks up a localized resource of type System.Byte[].
 		/// </summary>
-		public static byte[] snd2 {
+		public static byte[] sndpcm16 {
 			get {
-				object obj = ResourceManager.GetObject("snd2", resourceCulture);
+				object obj = ResourceManager.GetObject("sndpcm16", resourceCulture);
 				return ((byte[])(obj));
 			}
 		}

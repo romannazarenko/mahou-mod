@@ -3398,7 +3398,7 @@ DEL """+restartMahouPath + @"""";
 		}
 		public static void SoundPlay(bool second = false) {
 			if (SoundEnabled) {
-				byte[] snd = second ? Properties.Resources.snd2 : Properties.Resources.snd;
+				byte[] snd = second ? Properties.Resources.snd2pcm16 : Properties.Resources.sndpcm16;
 				bool ucs = second ? UseCustomSound2 : UseCustomSound;
 				string csf = second ? CustomSound2 : CustomSound;
 				if (!KMHook.IfNW7()) {
