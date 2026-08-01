@@ -3396,36 +3396,67 @@ DEL """+restartMahouPath + @"""";
 			}
 			File.Delete(xml_path);
 		}
+		static Assembly _NAudio;
 		public static void SoundPlay(bool second = false) {
 			if (SoundEnabled) {
 				byte[] snd = second ? Properties.Resources.snd2pcm16 : Properties.Resources.sndpcm16;
 				bool ucs = second ? UseCustomSound2 : UseCustomSound;
 				string csf = second ? CustomSound2 : CustomSound;
-				if (!KMHook.IfNW7()) {
-					var sms = new MemoryStream(snd);
-					var sp = new System.Media.SoundPlayer(sms);
-					try {
-						csf = replaceenv(csf, "%mahou_dir%", () => nPath);
-						if (ucs) if (File.Exists(csf))
-							sp = new System.Media.SoundPlayer(csf);
-					} catch(Exception e) {
-						Logging.Log("[Sound] Error during loading of the custom sound file: "+e.Message + "\n" + e.StackTrace, 1);
-						Logging.Log("[Sound] Fallback to default sound...");
-					}
-					sp.Play();
-					sp.Dispose();
-					sms.Dispose();
+				if (ucs) { if (File.Exists(csf)) { snd = File.ReadAllBytes(csf); } }
+				var audio = new MemoryStream(snd);
+				var NAudio = Path.Combine(nPath, "NAudio.dll");
+				if (!File.Exists(NAudio)) NAudio = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "NAudio.dll");
+				if (File.Exists(NAudio)) {
+					if (_NAudio == null)
+						_NAudio = Assembly.Load(File.ReadAllBytes(NAudio));
+					Logging.Log("[Sound] Using: [" + NAudio + "] [" + _NAudio.FullName + "] to play audio...");
+					Type readerType = _NAudio.GetType("NAudio.Wave.WaveFileReader");
+					Type waveOutType = _NAudio.GetType("NAudio.Wave.WaveOutEvent");
+					object reader = Activator.CreateInstance(readerType,
+											new object[] { audio });
+					object waveOut = Activator.CreateInstance(waveOutType);
+					MethodInfo initMethod = waveOutType.GetMethod("Init", new[]
+											{ _NAudio.GetType("NAudio.Wave.IWaveProvider") });
+					EventInfo stoppedEvent = waveOutType.GetEvent("PlaybackStopped");
+					Type handlerType = stoppedEvent.EventHandlerType;
+					Action<object, object> cleanupAction = (s, e) => {
+						Debug.WriteLine("Cleanup!");
+					    var m = waveOutType.GetMethod("Dispose"); if (m != null) m.Invoke(waveOut, null);
+					    var k = readerType.GetMethod("Dispose"); if (k != null) k.Invoke(reader, null);
+					    audio.Dispose();
+					};
+					Delegate dynamicHandler = Delegate.CreateDelegate(handlerType, cleanupAction.Target, cleanupAction.Method);
+					stoppedEvent.AddEventHandler(waveOut, dynamicHandler);
+					initMethod.Invoke(waveOut, new[] { reader });
+					MethodInfo playMethod = waveOutType.GetMethod("Play");
+					playMethod.Invoke(waveOut, null);
 				} else {
-					var fn = "Mahou-sound" + GetRandomString(4) +".wav";
-					var tff = Path.Combine(Path.GetTempPath(), fn);
-					var tf = tff;
-					if (!File.Exists(csf)) {
-						File.WriteAllBytes(tf, snd);
-					} else tf = csf;
-					Logging.Log("[Sound] Playing sound file: [" + tf + "] using mciSendString...");
-					WinAPI.mciSendString("play \"" + tf + "\" wait", null, 0, 0);
-					WinAPI.mciSendString("close \"" + tf + "\"", null, 0, 0);
-					if (File.Exists(tff)) File.Delete(tff);
+					if (!KMHook.IfNW7()) {
+						Logging.Log("[Sound] Using: [System.Media.Soundplayer] to play audio...");
+						var sp = new System.Media.SoundPlayer(audio);
+						try {
+							csf = replaceenv(csf, "%mahou_dir%", () => nPath);
+							if (ucs) if (File.Exists(csf))
+								sp = new System.Media.SoundPlayer(csf);
+						} catch(Exception e) {
+							Logging.Log("[Sound] Error during loading of the custom sound file: "+e.Message + "\n" + e.StackTrace, 1);
+							Logging.Log("[Sound] Fallback to default sound...");
+						}
+						sp.Play();
+						sp.Dispose();
+					} else {
+						var fn = "Mahou-sound" + GetRandomString(4) +".wav";
+						var tff = Path.Combine(Path.GetTempPath(), fn);
+						var tf = tff;
+						if (!File.Exists(csf)) {
+							File.WriteAllBytes(tf, snd);
+						} else tf = csf;
+						Logging.Log("[Sound] Using: [mciSendString] to play the file: [" + tf + "]");
+						WinAPI.mciSendString("play \"" + tf + "\" wait", null, 0, 0);
+						WinAPI.mciSendString("close \"" + tf + "\"", null, 0, 0);
+						if (File.Exists(tff)) File.Delete(tff);
+					}
+					audio.Dispose();
 				}
 			}
 		}
