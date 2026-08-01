@@ -953,7 +953,7 @@ namespace Mahou {
 			            "] ProcessName: [" + procname + "] Class: [" + s + 
 			            "] Layout: [" + hwndLayout + "] Mahou layout: [" + MahouUI.GlobalLayout + "]");
 			if (!string.IsNullOrEmpty(t.ToString())) {
-				if (!string.Equals(s.ToString(), "Shell_TrayWnd", StringComparison.OrdinalIgnoreCase) &&
+				if (/*!string.Equals(s.ToString(), "Shell_TrayWnd", StringComparison.OrdinalIgnoreCase) && */
 				    !string.Equals(procname, "Mahou", StringComparison.OrdinalIgnoreCase)) {
 					Logging.Log("[LastWindow] Setting...");
 					Last_non_taskbar_hwnd = hwnd;
