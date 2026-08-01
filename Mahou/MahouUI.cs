@@ -4273,9 +4273,13 @@ DEL """+restartMahouPath + @"""";
 			return false;
 		}
 		void UpdateSetControls(int setIndex, int keyCode, string modifiers) {
-			var _set = pan_KeySets.Controls["set_"+setIndex];
-			_set.Controls["txt_key"+setIndex].Text = HotkeyReadable(modifiers, (Keys)keyCode, true);
-			(_set.Controls["chk_win"+setIndex] as CheckBox).Checked = modifiers.Contains("Win");
+			try {
+				var _set = pan_KeySets.Controls["set_"+setIndex];
+				_set.Controls["txt_key"+setIndex].Text = HotkeyReadable(modifiers, (Keys)keyCode, true);
+				(_set.Controls["chk_win"+setIndex] as CheckBox).Checked = modifiers.Contains("Win");
+			} catch (Exception e) {
+				Logging.Log("Error updating set controls: " + setIndex + " key: " + keyCode + " mods: " + modifiers, 1);
+			}
 		}
 		void DeleteOrMove(string file) {
 			try {
