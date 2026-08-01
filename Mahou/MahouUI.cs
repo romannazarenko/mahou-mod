@@ -3452,9 +3452,11 @@ DEL """+restartMahouPath + @"""";
 							File.WriteAllBytes(tf, snd);
 						} else tf = csf;
 						Logging.Log("[Sound] Using: [mciSendString] to play the file: [" + tf + "]");
-						WinAPI.mciSendString("play \"" + tf + "\" wait", null, 0, 0);
-						WinAPI.mciSendString("close \"" + tf + "\"", null, 0, 0);
-						if (File.Exists(tff)) File.Delete(tff);
+						System.Threading.Tasks.Task.Run(() => {
+							WinAPI.mciSendString("play \"" + tf + "\" wait", null, 0, 0);
+							WinAPI.mciSendString("close \"" + tf + "\"", null, 0, 0);
+							if (File.Exists(tff)) File.Delete(tff);
+						});
 					}
 					audio.Dispose();
 				}
