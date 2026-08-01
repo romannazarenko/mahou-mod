@@ -949,7 +949,7 @@ namespace Mahou {
 			if (prc != null) procname = prc.ProcessName;
 			var t = new StringBuilder(251);
 			WinAPI.GetWindowText(hwnd, t, 250);
-			Logging.Log("[FOCUS] Hwnd: [" + hwnd + "] Title: [" + t + 
+			Logging.Log("[FOCUS] Hwnd: [" + hwnd.ToString("X") + "] Title: [" + t +
 			            "] ProcessName: [" + procname + "] Class: [" + s + 
 			            "] Layout: [" + hwndLayout + "] Mahou layout: [" + MahouUI.GlobalLayout + "]");
 			if (!string.IsNullOrEmpty(t.ToString())) {

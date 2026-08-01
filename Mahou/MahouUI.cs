@@ -2785,8 +2785,15 @@ DEL """+restartMahouPath + @"""";
 		}
 		void LastWindowChangeLayout() {
 			if (KMHook.Last_non_taskbar_hwnd != IntPtr.Zero) {
-				Logging.Log("Last-non-taskbar-hwnd: " + KMHook.Last_non_taskbar_hwnd.ToString("X"));
+				Logging.Log("[LastWindow]: " + KMHook.Last_non_taskbar_hwnd.ToString("X"));
 				WinAPI.SetForegroundWindow(KMHook.Last_non_taskbar_hwnd);
+				var limit = 10;
+				while (limit > 0) {
+					if (Locales.ActiveWindow() == KMHook.Last_non_taskbar_hwnd) break;
+					System.Threading.Thread.Sleep(5);
+					limit--;
+				}
+				Logging.Log("[LastWindow]: Found window: " + (limit == 10) + " limit: " + limit);
 			}
 			KMHook.ChangeLayout(true);
 		}
