@@ -3399,7 +3399,7 @@ DEL """+restartMahouPath + @"""";
 		static Assembly _NAudio;
 		public static void SoundPlay(bool second = false) {
 			if (SoundEnabled) {
-				byte[] snd = second ? Properties.Resources.snd2pcm16 : Properties.Resources.sndpcm16;
+				byte[] snd = second ? Properties.Resources.snd2 : Properties.Resources.snd;
 				bool ucs = second ? UseCustomSound2 : UseCustomSound;
 				string csf = second ? CustomSound2 : CustomSound;
 				if (ucs) { if (File.Exists(csf)) { snd = File.ReadAllBytes(csf); } }
@@ -3445,6 +3445,8 @@ DEL """+restartMahouPath + @"""";
 						sp.Play();
 						sp.Dispose();
 					} else {
+						// Most likely won't be able to play non-PCM WAV on windows 7 through mciSS
+						snd = second ? Properties.Resources.snd2pcm16 : Properties.Resources.sndpcm16;
 						var fn = "Mahou-sound" + GetRandomString(4) +".wav";
 						var tff = Path.Combine(Path.GetTempPath(), fn);
 						var tf = tff;
