@@ -3431,7 +3431,7 @@ DEL """+restartMahouPath + @"""";
 					MethodInfo playMethod = waveOutType.GetMethod("Play");
 					playMethod.Invoke(waveOut, null);
 				} else {
-					if (!KMHook.IfNW7()) {
+					if (KMHook.IfNW7()) {
 						Logging.Log("[Sound] Using: [System.Media.Soundplayer] to play audio...");
 						var sp = new System.Media.SoundPlayer(audio);
 						try {
