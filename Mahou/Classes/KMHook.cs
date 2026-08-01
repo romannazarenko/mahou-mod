@@ -922,7 +922,7 @@ namespace Mahou {
 				}
 //			}
 		}
-		public static IntPtr Last_non_taskbar_hwnd = IntPtr.Zero;
+		public static List<LastWindow> LastWindows = new List<LastWindow>();
 		public static void EventHookCallback(IntPtr hWinEventHook, uint eventType, IntPtr hwnd, int idObject,
 		                                       int idChild, uint dwEventThread, uint dwmsEventTime) {
 				MahouUI.CCReset("fg-window-change");
@@ -952,12 +952,36 @@ namespace Mahou {
 			Logging.Log("[FOCUS] Hwnd: [" + hwnd.ToString("X") + "] Title: [" + t +
 			            "] ProcessName: [" + procname + "] Class: [" + s + 
 			            "] Layout: [" + hwndLayout + "] Mahou layout: [" + MahouUI.GlobalLayout + "]");
-			if (/*!string.Equals(s.ToString(), "Shell_TrayWnd", StringComparison.OrdinalIgnoreCase) && */
-			    (!string.Equals(procname, "Mahou", StringComparison.OrdinalIgnoreCase) && string.IsNullOrEmpty(t.ToString()))) {
-				Logging.Log("[LastWindow] Setting...");
-				Last_non_taskbar_hwnd = hwnd;
-			} else {
+			if (LastWindows.Count >= 2) {
+				if (string.Equals(procname, "Mahou", StringComparison.OrdinalIgnoreCase)
+				    && string.IsNullOrEmpty(t.ToString())) {
+					var lw = LastWindows[LastWindows.Count-1];
+					if (string.IsNullOrEmpty(lw.title) && 
+					    (string.Equals(lw.cls, "Shell_TrayWnd", StringComparison.OrdinalIgnoreCase))) {
+						Logging.Log("[LastWindow] Removing last window, because it was triggered right before showing Mahou menu: " + 
+						            lw.cls + "/" + lw.hwnd.ToString("X"));
+						LastWindows.RemoveAt(LastWindows.Count-1);
+					}
+				}
+			}
+//			if (string.Equals(s.ToString(), "Shell_TrayWnd", StringComparison.OrdinalIgnoreCase)) {
+//			}
+			if (string.Equals(procname, "Mahou", StringComparison.OrdinalIgnoreCase)
+			     && string.IsNullOrEmpty(t.ToString())) {
 				Logging.Log("[LastWindow] Skipping setting last window.");
+			} else {
+				Logging.Log("[LastWindow] Adding...");
+				if (LastWindows.Count > 0) {
+					if (LastWindows.Exists((e) => e.hwnd == hwnd)) {
+						LastWindows.RemoveAt(LastWindows.FindIndex((e) => e.hwnd == hwnd));
+					}
+				}
+				LastWindows.Add(new LastWindow() {
+									title = t.ToString(),
+									cls = s.ToString(),
+									hwnd = hwnd,
+									proc = prc 
+                });
 			}
 			as_lword_layout = 0;
 			bool conhost = false;
@@ -4554,6 +4578,12 @@ namespace Mahou {
 			public string rule;
 			public bool isnip;
 			public bool iauto;
+		}
+		public struct LastWindow {
+			public string title;
+			public string cls;
+			public IntPtr hwnd;
+			public Process proc;
 		}
 		#endregion
 	}

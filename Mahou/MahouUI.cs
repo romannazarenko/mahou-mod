@@ -1882,6 +1882,7 @@ namespace Mahou {
 			KMHook.AS_NOT_EXCLUDED_HWNDs.Clear();
 			KMHook.SNI_EXCLUDED_HWNDs.Clear();
 			KMHook.SNI_NOT_EXCLUDED_HWNDs.Clear();
+			KMHook.LastWindows.Clear();
 			ChangeLayoutInExcluded = chk_Change1KeyL.Checked = MMain.MyConfs.ReadBool("Timings", "ChangeLayoutInExcluded");
 			ConvertSWLinExcl = chk_ConvSWL.Checked = MMain.MyConfs.ReadBool("Timings", "ConvertSWLinExcl");
 			#endregion
@@ -2784,16 +2785,19 @@ DEL """+restartMahouPath + @"""";
 			}
 		}
 		void LastWindowChangeLayout() {
-			if (KMHook.Last_non_taskbar_hwnd != IntPtr.Zero) {
-				Logging.Log("[LastWindow]: " + KMHook.Last_non_taskbar_hwnd.ToString("X"));
-				WinAPI.SetForegroundWindow(KMHook.Last_non_taskbar_hwnd);
-				var limit = 10;
-				while (limit > 0) {
-					if (Locales.ActiveWindow() == KMHook.Last_non_taskbar_hwnd) break;
-					System.Threading.Thread.Sleep(5);
-					limit--;
+			if (KMHook.LastWindows.Count > 0) {
+				KMHook.LastWindow lw = KMHook.LastWindows[KMHook.LastWindows.Count-1];
+				if (lw.hwnd != IntPtr.Zero) {
+					Logging.Log("[LastWindow]: " + lw.hwnd.ToString("X"));
+					WinAPI.SetForegroundWindow(lw.hwnd);
+					var limit = 10;
+					while (limit > 0) {
+						if (Locales.ActiveWindow() == lw.hwnd) break;
+						System.Threading.Thread.Sleep(5);
+						limit--;
+					}
+					Logging.Log("[LastWindow]: Found window: " + (limit == 10) + " limit: " + limit + " title: " + lw.title + " class: " + lw.cls);
 				}
-				Logging.Log("[LastWindow]: Found window: " + (limit == 10) + " limit: " + limit);
 			}
 			KMHook.ChangeLayout(true);
 		}
