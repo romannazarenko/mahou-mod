@@ -922,6 +922,7 @@ namespace Mahou {
 				}
 //			}
 		}
+		public static IntPtr Last_non_taskbar_hwnd = IntPtr.Zero;
 		public static void EventHookCallback(IntPtr hWinEventHook, uint eventType, IntPtr hwnd, int idObject,
 		                                       int idChild, uint dwEventThread, uint dwmsEventTime) {
 				MahouUI.CCReset("fg-window-change");
@@ -938,6 +939,28 @@ namespace Mahou {
 					PLC_HWNDs.Add(hwnd);
 			}
 			uint hwndLayout = Locales.GetCurrentLocale(hwnd);
+			var s = new StringBuilder(251);
+			var procname = "???";
+			WinAPI.GetClassName(hwnd, s, 250);
+			uint pid;
+			WinAPI.GetWindowThreadProcessId(hwnd, out pid);
+			Process prc = null;
+			prc = Process.GetProcessById((int)pid);
+			if (prc != null) procname = prc.ProcessName;
+			var t = new StringBuilder(251);
+			WinAPI.GetWindowText(hwnd, t, 250);
+			Logging.Log("[FOCUS] Hwnd: [" + hwnd + "] Title: [" + t + 
+			            "] ProcessName: [" + procname + "] Class: [" + s + 
+			            "] Layout: [" + hwndLayout + "] Mahou layout: [" + MahouUI.GlobalLayout + "]");
+			if (!string.IsNullOrEmpty(t.ToString())) {
+				if (!string.Equals(s.ToString(), "Shell_TrayWnd", StringComparison.OrdinalIgnoreCase) &&
+				    !string.Equals(procname, "Mahou", StringComparison.OrdinalIgnoreCase)) {
+					Logging.Log("[LastWindow] Setting...");
+					Last_non_taskbar_hwnd = hwnd;
+				}
+			} else {
+				Logging.Log("[LastWindow] Skipping setting last window.");
+			}
 			as_lword_layout = 0;
 			bool conhost = false;
 			if (MahouUI.UseJKL && !KMHook.JKLERR) {
@@ -946,14 +969,12 @@ namespace Mahou {
 					Logging.Log("[JKL] > Known ConHost window: " + hwnd);
 					jklXHidServ.CycleAllLayouts(hwnd);
 				} else {
-					var strb = new StringBuilder(350);
-					WinAPI.GetClassName(hwnd, strb, strb.Capacity);
-					if (strb.ToString() == "Shell_InputSwitchTopLevelWindow") {
+					if (s.ToString() == "Shell_InputSwitchTopLevelWindow") {
 						Logging.Log("[WND_CHANGE] > Ignore layout-select window "+hwnd);
 						return;
 					}
-					if (strb.ToString() == "ConsoleWindowClass" 
-					    //|| strb.ToString() == "Chrome_WidgetWin_1"
+					if (s.ToString() == "ConsoleWindowClass" 
+					    //|| s.ToString() == "Chrome_WidgetWin_1"
 					   ) {
 						conhost = true;
 						Logging.Log("[JKL] > ["+hwnd+"] = ConHost window, remembering...");
@@ -967,13 +988,10 @@ namespace Mahou {
 				MahouUI.currentLayout = /*MahouUI.GlobalLayout =*/ conhost ? Locales.GetCurrentLocale() : hwndLayout;
 				Logging.Log("[FOCUS] > Updating currentLayout on window activate to ["+MahouUI.currentLayout+"]...");
 			}
-			Logging.Log("Hwnd " + hwnd + ", layout: " + hwndLayout + ", Mahou layout: " + MahouUI.GlobalLayout);		
 			if (MahouUI.OneLayout)
 				if (hwndLayout != MahouUI.GlobalLayout) {
-					var title = new StringBuilder(128);
-					WinAPI.GetWindowText(hwnd, title, 127);
 					DoLater(() => {
-						Logging.Log("[ONEL] > Layout in this window ["+title+"] was different, changing layout to Mahou global layout.");
+						Logging.Log("[ONEL] > Layout in this window ["+t+"] was different, changing layout to Mahou global layout.");
 						ChangeToLayout(hwnd, MahouUI.GlobalLayout);
 			       	 }, 100);
 				}

@@ -2783,18 +2783,12 @@ DEL """+restartMahouPath + @"""";
 				caretLangDisplay.Visible = false;
 			}
 		}
-		void lastAltTabChangeLayout() {
-			KInputs.MakeInput(new [] { KInputs.AddKey(Keys.LMenu, true), KInputs.AddKey(Keys.Tab, true) });
-			System.Threading.Thread.Sleep(1);
-			KInputs.MakeInput(new [] { KInputs.AddKey(Keys.LMenu, false), KInputs.AddKey(Keys.Tab, false) });
-			var t = new Timer();
-			t.Tick += (x, xx) => {
-				KMHook.ChangeLayout(true);
-				t.Stop();
-				t.Dispose();
-			};
-			t.Interval = 300;
-			t.Start();
+		void LastWindowChangeLayout() {
+			if (KMHook.Last_non_taskbar_hwnd != IntPtr.Zero) {
+				Logging.Log("Last-non-taskbar-hwnd: " + KMHook.Last_non_taskbar_hwnd.ToString("X"));
+				WinAPI.SetForegroundWindow(KMHook.Last_non_taskbar_hwnd);
+			}
+			KMHook.ChangeLayout(true);
 		}
 		static Timer thmm;
 		static bool thmmr, thmme, start_skip = true;
@@ -2808,7 +2802,7 @@ DEL """+restartMahouPath + @"""";
 				icon.ShowHide += (_, __) => ToggleVisibility();
 				icon.EnaDisable += (_, __) => ToggleMahou();
 				icon.Restart += (_, __) => Restart();
-				icon.ChangeLt += (_, __) => lastAltTabChangeLayout();
+				icon.ChangeLt += (_, __) => LastWindowChangeLayout();
 				icon.ConvertClip += (_, __) => {
 					var t = KMHook.ConvertText(KMHook.GetClipboard(2));
 					KMHook.RestoreClipBoard(t);
@@ -2839,7 +2833,7 @@ DEL """+restartMahouPath + @"""";
 								t = new Timer(); bool fign = false;
 								t.Tick += (x, xx) => { 
 									if (!fign) { fign = true; return; }
-									if (cc == 1) { lastAltTabChangeLayout(); } 
+									if (cc == 1) { LastWindowChangeLayout(); }
 									cc = 0; 
 									t.Stop(); t.Dispose(); tx = false; };
 								t.Interval = SystemInformation.DoubleClickTime;
@@ -2847,7 +2841,7 @@ DEL """+restartMahouPath + @"""";
 							}
 						};
 					} else
-						icon.MLBAct += (_, __) => lastAltTabChangeLayout();
+						icon.MLBAct += (_, __) => LastWindowChangeLayout();
 				} else if (Hchk_LMBTrayToggleEnabled.Checked)
 					icon.MLBAct += (_, __) => ToggleMahou();
 				else
