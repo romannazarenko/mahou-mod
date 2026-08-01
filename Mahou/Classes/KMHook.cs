@@ -952,12 +952,10 @@ namespace Mahou {
 			Logging.Log("[FOCUS] Hwnd: [" + hwnd.ToString("X") + "] Title: [" + t +
 			            "] ProcessName: [" + procname + "] Class: [" + s + 
 			            "] Layout: [" + hwndLayout + "] Mahou layout: [" + MahouUI.GlobalLayout + "]");
-			if (!string.IsNullOrEmpty(t.ToString())) {
-				if (/*!string.Equals(s.ToString(), "Shell_TrayWnd", StringComparison.OrdinalIgnoreCase) && */
-				    !string.Equals(procname, "Mahou", StringComparison.OrdinalIgnoreCase)) {
-					Logging.Log("[LastWindow] Setting...");
-					Last_non_taskbar_hwnd = hwnd;
-				}
+			if (/*!string.Equals(s.ToString(), "Shell_TrayWnd", StringComparison.OrdinalIgnoreCase) && */
+			    (!string.Equals(procname, "Mahou", StringComparison.OrdinalIgnoreCase) && string.IsNullOrEmpty(t.ToString()))) {
+				Logging.Log("[LastWindow] Setting...");
+				Last_non_taskbar_hwnd = hwnd;
 			} else {
 				Logging.Log("[LastWindow] Skipping setting last window.");
 			}
