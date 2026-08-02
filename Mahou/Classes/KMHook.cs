@@ -2371,10 +2371,16 @@ namespace Mahou {
 					{6, "L-Alt"},          {7, "R-Alt"},
 					{9, "AltGr"},          {10, "Alt+Shift"},
 					{11, "Ctrl+Shift"},    {12, "Tab"},
-					{13, "LShift+RShift"}, {14, "LCtrl+LAlt"}
+					{13, "LShift+RShift"}, {14, "LCtrl+LAlt"},
+					{15, "RCtrl+RShift"}
 				};
 				Logging.Log("[SPKEY] > Layout: " + speclayout + " Key: " + Key + " SpecKey: " + _keys[specificKey] + " Mods: " + _mods + " npre: " + npre + " keyafter: c" + keyAfterCTRL);
 				if (speclayout == MMain.Lang[Languages.Element.SwitchBetween]) {
+					if (specificKey == 15 && ((Key == Keys.RShiftKey && ctrl_r) ||
+					                          (Key == Keys.RControlKey && shift_r)) &&
+                      	!win && !win_r && !alt && !alt_r && !shift && !ctrl) {
+				    	_good = true;
+				    }
 					if (specificKey == 12 && Key == Keys.Tab && !ctrl && !ctrl_r && !shift_r && !shift && !win && !win_r && !alt && !alt_r) {
 						_good = true;
 					}

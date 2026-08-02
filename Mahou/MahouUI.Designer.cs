@@ -1337,7 +1337,8 @@ namespace Mahou
 			"Ctrl + Shift",
 			"Tab",
 			"Left Shift + Right Shift",
-			"Left Control + Left Alt"});
+			"Left Control + Left Alt",
+			"Right Control + Right Shift"});
 			this.cbb_Key4.Location = new System.Drawing.Point(6, 105);
 			this.cbb_Key4.Name = "cbb_Key4";
 			this.cbb_Key4.Size = new System.Drawing.Size(250, 23);
@@ -1362,8 +1363,9 @@ namespace Mahou
 			"Alt + Shift",
 			"Ctrl + Shift",
 			"Tab",
-			"Left Shift +Right Shift",
-			"Left Control + Left Alt"});
+			"Left Shift + Right Shift",
+			"Left Control + Left Alt",
+			"Right Control + Right Shift"});
 			this.cbb_Key3.Location = new System.Drawing.Point(6, 76);
 			this.cbb_Key3.Name = "cbb_Key3";
 			this.cbb_Key3.Size = new System.Drawing.Size(250, 23);
@@ -1388,8 +1390,9 @@ namespace Mahou
 			"Alt + Shift",
 			"Ctrl + Shift",
 			"Tab",
-			"Left Shift +Right Shift",
-			"Left Control + Left Alt"});
+			"Left Shift + Right Shift",
+			"Left Control + Left Alt",
+			"Right Control + Right Shift"});
 			this.cbb_Key2.Location = new System.Drawing.Point(6, 47);
 			this.cbb_Key2.Name = "cbb_Key2";
 			this.cbb_Key2.Size = new System.Drawing.Size(250, 23);
@@ -1414,8 +1417,9 @@ namespace Mahou
 			"Alt + Shift",
 			"Ctrl + Shift",
 			"Tab",
-			"Left Shift +Right Shift",
-			"Left Control + Left Alt"});
+			"Left Shift + Right Shift",
+			"Left Control + Left Alt",
+			"Right Control + Right Shift"});
 			this.cbb_Key1.Location = new System.Drawing.Point(6, 18);
 			this.cbb_Key1.Name = "cbb_Key1";
 			this.cbb_Key1.Size = new System.Drawing.Size(250, 23);
