@@ -542,7 +542,7 @@ namespace Mahou {
 			CheckInt("Layouts", "SpecificKey1", "1");
 			CheckString("Layouts", "MainLayout2", "");
 			CheckString("Layouts", "MainLayout1", "");
-			CheckBool("Layouts", "ChangeToSpecificLayoutByKey", "true");
+			CheckBool("Layouts", "ChangeToSpecificLayoutByKey", "false");
             CheckString("Layouts", "EmulateLayoutSwitchType", "Alt+Shift");
 			CheckBool("Layouts", "EmulateLayoutSwitch", "false");
 			CheckBool("Layouts", "OneLayout", "false");
@@ -556,7 +556,7 @@ namespace Mahou {
             CheckBool("Functions", "WriteInputHistoryHourly", "false");
             CheckBool("Functions", "ReadOnlyNA", "false");
             CheckBool("Functions", "UseJKL", "true");
-            CheckBool("Functions", "RemapCapslockAsF18", "true");
+            CheckBool("Functions", "RemapCapslockAsF18", "false");
             CheckBool("Functions", "AppDataConfigs", forceAppData.ToString());
             CheckBool("Functions", "GuessKeyCodeFix", "false");
             CheckBool("Functions", "OneLayoutWholeWord", "true");
