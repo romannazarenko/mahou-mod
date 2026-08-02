@@ -355,22 +355,22 @@ namespace Mahou {
 			CheckBool("Hotkeys", "ExitMahou_Enabled", "true");
 			// Exit Mahou hotkey
 			CheckInt("Hotkeys", "SelectedToLower_Key", "88");
-			CheckString("Hotkeys", "SelectedToLower_Modifiers", "Win");
+			CheckString("Hotkeys", "SelectedToLower_Modifiers", "Win + Alt");
 			CheckBool("Hotkeys", "SelectedToLower_Double", "false");
 			CheckBool("Hotkeys", "SelectedToLower_Enabled", "false");
 			// Selected text To Lower hotkey
 			CheckInt("Hotkeys", "SelectedToUpper_Key", "90");
-			CheckString("Hotkeys", "SelectedToUpper_Modifiers", "Win");
+			CheckString("Hotkeys", "SelectedToUpper_Modifiers", "Win + Alt");
 			CheckBool("Hotkeys", "SelectedToUpper_Double", "false");
 			CheckBool("Hotkeys", "SelectedToUpper_Enabled", "false");
 			// Selected text To Upper hotkey
 			CheckInt("Hotkeys", "SelectedTextTransliteration_Key", "191");
-			CheckString("Hotkeys", "SelectedTextTransliteration_Modifiers", "Win");
+			CheckString("Hotkeys", "SelectedTextTransliteration_Modifiers", "Win + Alt");
 			CheckBool("Hotkeys", "SelectedTextTransliteration_Double", "false");
 			CheckBool("Hotkeys", "SelectedTextTransliteration_Enabled", "false");
 			// Selected text Transliteration hotkey
 			CheckInt("Hotkeys", "SelectedTextToSwapCase_Key", "190");
-			CheckString("Hotkeys", "SelectedTextToSwapCase_Modifiers", "Win");
+			CheckString("Hotkeys", "SelectedTextToSwapCase_Modifiers", "Win + Alt");
 			CheckBool("Hotkeys", "SelectedTextToSwapCase_Double", "false");
 			CheckBool("Hotkeys", "SelectedTextToSwapCase_Enabled", "false");
 			// Selected text to swap case hotkey
@@ -392,12 +392,12 @@ namespace Mahou {
 			CheckInt("Hotkeys", "ToggleSymbolIgnoreMode_Key", "122");
 			CheckString("Hotkeys", "ToggleSymbolIgnoreMode_Modifiers", "Shift + Control");
 			CheckBool("Hotkeys", "ToggleSymbolIgnoreMode_Double", "false");
-			CheckBool("Hotkeys", "ToggleSymbolIgnoreMode_Enabled", "true");
+			CheckBool("Hotkeys", "ToggleSymbolIgnoreMode_Enabled", "false");
 			// Toggle symbol ignore mode hotkey
 			CheckInt("Hotkeys", "ConvertLastWords_Key", "122");
 			CheckString("Hotkeys", "ConvertLastWords_Modifiers", "Shift");
 			CheckBool("Hotkeys", "ConvertLastWords_Double", "false");
-			CheckBool("Hotkeys", "ConvertLastWords_Enabled", "true");
+			CheckBool("Hotkeys", "ConvertLastWords_Enabled", "false");
 			// Convert last words hotkey
 			CheckInt("Hotkeys", "ConvertLastLine_Key", "19");
 			CheckString("Hotkeys", "ConvertLastLine_Modifiers", "Shift");
@@ -414,8 +414,8 @@ namespace Mahou {
 			CheckBool("Hotkeys", "ConvertLastWord_Double", "false");
 			CheckBool("Hotkeys", "ConvertLastWord_Enabled", "true");
 			// Convert last word hotkey
-			CheckInt("Hotkeys", "ToggleMainWindow_Key", "45");
-			CheckString("Hotkeys", "ToggleMainWindow_Modifiers", "Win + Control + Shift + Alt");
+			CheckInt("Hotkeys", "ToggleMainWindow_Key", "77");
+			CheckString("Hotkeys", "ToggleMainWindow_Modifiers", "Win + Alt");
 			CheckBool("Hotkeys", "ToggleMainWindow_Double", "false");
 			CheckBool("Hotkeys", "ToggleMainWindow_Enabled", "true");
 			// Toggle main window hotkey
