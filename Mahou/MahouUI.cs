@@ -3863,7 +3863,8 @@ DEL """+restartMahouPath + @"""";
 		/// <returns>string</returns>
 		public string HotkeyReadable(string modifiers, Keys key, bool oninit = false, bool Double = false) {
 			var k = Remake((Keys)key, true, Double);
-			var m = modifiers.Replace(",", "").Replace(k, "");
+			var m = modifiers.Replace(",", "");
+			if (!string.IsNullOrEmpty(k)) m = m.Replace(k, "");
 			var r = OemReadable(m + " " + k);
 			var t = Regex.Replace(r, // Win + or + None + or + from start or end 
 			    @"Win\s?\+?\s?|\s?\+?\s?None\s?\+?\s?|^[ +]+|\s?\+\s?$", "", RegexOptions.Multiline);
