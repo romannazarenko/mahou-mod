@@ -539,10 +539,10 @@ namespace Mahou {
 			CheckInt("Layouts", "SpecificKey4", "0");
 			CheckInt("Layouts", "SpecificKey3", "0");
 			CheckInt("Layouts", "SpecificKey2", "0");
-			CheckInt("Layouts", "SpecificKey1", "1");
+			CheckInt("Layouts", "SpecificKey1", "15");
 			CheckString("Layouts", "MainLayout2", "");
 			CheckString("Layouts", "MainLayout1", "");
-			CheckBool("Layouts", "ChangeToSpecificLayoutByKey", "false");
+			CheckBool("Layouts", "ChangeToSpecificLayoutByKey", "true");
             CheckString("Layouts", "EmulateLayoutSwitchType", "Alt+Shift");
 			CheckBool("Layouts", "EmulateLayoutSwitch", "false");
 			CheckBool("Layouts", "OneLayout", "false");
