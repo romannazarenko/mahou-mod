@@ -3870,6 +3870,7 @@ DEL """+restartMahouPath + @"""";
 			    @"Win\s?\+?\s?|\s?\+?\s?None\s?\+?\s?|^[ +]+|\s?\+\s?$", "", RegexOptions.Multiline);
 			t = t.Replace("+", "");
 			t = Regex.Replace(t, @"\s+", " ", RegexOptions.Multiline);
+			t = t.Replace("Caps Lock", "CapsLock");
 			t = t.Replace(" ", " + ");
 			Logging.Log("Readable hotkey: " + t + " raw: " +modifiers + " " + key);
 			return t;
