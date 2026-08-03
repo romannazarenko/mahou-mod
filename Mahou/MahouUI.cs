@@ -5665,6 +5665,7 @@ DEL ""ExtractASD.cmd""";
 								allow_types = spl[2];
 							}
 						}
+						dir = Environment.ExpandEnvironmentVariables(dir);
 						if (Directory.Exists(dir)) {
 							var mmd = new ToolStripMenuItem(text.ToString(),null);
 							dirparser(ref mmd, dir, maxd, allow_types, maxentries);
