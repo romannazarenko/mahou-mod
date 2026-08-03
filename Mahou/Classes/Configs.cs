@@ -539,7 +539,7 @@ namespace Mahou {
 			CheckInt("Layouts", "SpecificKey4", "0");
 			CheckInt("Layouts", "SpecificKey3", "0");
 			CheckInt("Layouts", "SpecificKey2", "0");
-			CheckInt("Layouts", "SpecificKey1", "15");
+			CheckInt("Layouts", "SpecificKey1", "14");
 			CheckString("Layouts", "MainLayout2", "");
 			CheckString("Layouts", "MainLayout1", "");
 			CheckBool("Layouts", "ChangeToSpecificLayoutByKey", "true");
