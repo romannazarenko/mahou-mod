@@ -1398,13 +1398,13 @@ namespace Mahou {
 				MMain.MyConfs.Write("Sounds", "OnConvertLast", chk_SndLast.Checked.ToString());
 				MMain.MyConfs.Write("Sounds", "OnLayoutSwitch", chk_SndLayoutSwitch.Checked.ToString());
 				MMain.MyConfs.Write("Sounds", "UseCustomSound", chk_UseCustomSnd.Checked.ToString());
-				MMain.MyConfs.Write("Sounds", "CustomSound", lbl_CustomSound.Text);
+				MMain.MyConfs.Write("Sounds", "CustomSound", txt_CustomSound.Text);
 				MMain.MyConfs.Write("Sounds", "OnAutoSwitch2", chk_SndAutoSwitch2.Checked.ToString());
 				MMain.MyConfs.Write("Sounds", "OnSnippets2", chk_SndSnippets2.Checked.ToString());
 				MMain.MyConfs.Write("Sounds", "OnConvertLast2", chk_SndLast2.Checked.ToString());
 				MMain.MyConfs.Write("Sounds", "OnLayoutSwitch2", chk_SndLayoutSwitch2.Checked.ToString());
 				MMain.MyConfs.Write("Sounds", "UseCustomSound2", chk_UseCustomSnd2.Checked.ToString());
-				MMain.MyConfs.Write("Sounds", "CustomSound2", lbl_CustomSound2.Text);
+				MMain.MyConfs.Write("Sounds", "CustomSound2", txt_CustomSound2.Text);
 				#endregion
 				saveHidden();
 				MMain.MyConfs.WriteToDisk();
@@ -1995,27 +1995,29 @@ namespace Mahou {
 			SoundOnConvLast = chk_SndLast.Checked = MMain.MyConfs.ReadBool("Sounds", "OnConvertLast");
 			SoundOnLayoutSwitch = chk_SndLayoutSwitch.Checked = MMain.MyConfs.ReadBool("Sounds", "OnLayoutSwitch");
 			UseCustomSound = chk_UseCustomSnd.Checked = MMain.MyConfs.ReadBool("Sounds", "UseCustomSound");
-			CustomSound = lbl_CustomSound.Text = MMain.MyConfs.Read("Sounds", "CustomSound");
+			CustomSound = txt_CustomSound.Text = MMain.MyConfs.Read("Sounds", "CustomSound");
 			SoundOnAutoSwitch2 = chk_SndAutoSwitch2.Checked = MMain.MyConfs.ReadBool("Sounds", "OnAutoSwitch2");
 			SoundOnSnippets2 = chk_SndSnippets2.Checked = MMain.MyConfs.ReadBool("Sounds", "OnSnippets2");
 			SoundOnConvLast2 = chk_SndLast2.Checked = MMain.MyConfs.ReadBool("Sounds", "OnConvertLast2");
 			SoundOnLayoutSwitch2 = chk_SndLayoutSwitch2.Checked = MMain.MyConfs.ReadBool("Sounds", "OnLayoutSwitch2");
 			UseCustomSound2 = chk_UseCustomSnd2.Checked = MMain.MyConfs.ReadBool("Sounds", "UseCustomSound2");
-			CustomSound2 = lbl_CustomSound2.Text = MMain.MyConfs.Read("Sounds", "CustomSound2");
-			var lbCSh = lbl_CustomSound.Text;
-			var lbCSh2 = lbl_CustomSound2.Text;
-			if (!File.Exists(replaceenv(CustomSound, "%mahou_dir%", () => nPath))) {
-				lbl_CustomSound.ForeColor = Color.Red;
-				lbCSh = MMain.Lang[Languages.Element.Not] + " " + MMain.Lang[Languages.Element.Exist] + ":\r\n["+lbl_CustomSound.Text+"]";
+			CustomSound2 = txt_CustomSound2.Text = MMain.MyConfs.Read("Sounds", "CustomSound2");
+			var lbCSh = txt_CustomSound.Text;
+			var lbCSh2 = txt_CustomSound2.Text;
+			if (!File.Exists(replaceenv(CustomSound, "%mahou_dir%", () => nPath)) &&
+			    !File.Exists(CustomSound.Replace(".\\", nPath))) {
+				txt_CustomSound.BackColor = Color.LightCoral;
+				lbCSh = MMain.Lang[Languages.Element.Not] + " " + MMain.Lang[Languages.Element.Exist] + ":\r\n["+txt_CustomSound.Text+"]";
 			} else
-				lbl_CustomSound.ForeColor = Color.FromKnownColor(KnownColor.WindowText);
-			if (!File.Exists(replaceenv(CustomSound2, "%mahou_dir%", () => nPath))) {
-				lbl_CustomSound2.ForeColor = Color.Red;
-				lbCSh2 = MMain.Lang[Languages.Element.Not] + " " + MMain.Lang[Languages.Element.Exist] + ":\r\n["+lbl_CustomSound2.Text+"]";
+				txt_CustomSound.BackColor = Color.FromKnownColor(KnownColor.Window);
+			if (!File.Exists(replaceenv(CustomSound2, "%mahou_dir%", () => nPath)) &&
+			    !File.Exists(CustomSound2.Replace(".\\", nPath))) {
+				txt_CustomSound2.BackColor = Color.LightCoral;
+				lbCSh2 = MMain.Lang[Languages.Element.Not] + " " + MMain.Lang[Languages.Element.Exist] + ":\r\n["+txt_CustomSound2.Text+"]";
 			} else
-				lbl_CustomSound2.ForeColor = Color.FromKnownColor(KnownColor.WindowText);
-			HelpMeUnderstand.SetToolTip(lbl_CustomSound, lbCSh);
-			HelpMeUnderstand.SetToolTip(lbl_CustomSound2, lbCSh2);
+				txt_CustomSound2.BackColor = Color.FromKnownColor(KnownColor.Window);
+			HelpMeUnderstand.SetToolTip(txt_CustomSound, lbCSh);
+			HelpMeUnderstand.SetToolTip(txt_CustomSound2, lbCSh2);
 			#endregion
 			#region Sync
 			var bbools = MMain.MyConfs.Read("Sync", "BBools");
@@ -2415,8 +2417,8 @@ namespace Mahou {
 			lbl_LangTTMouseRefreshRate.Enabled = nud_LangTTMouseRefreshRate.Enabled = LDUseWindowsMessages || chk_LangTooltipMouse.Checked;
 			lbl_LangTTCaretRefreshRate.Enabled = !chk_LDMessages.Checked;
 			// Sounds tab
-			lbl_CustomSound.Enabled = btn_SelectSnd.Enabled = chk_UseCustomSnd.Checked;
-			lbl_CustomSound2.Enabled = btn_SelectSnd2.Enabled = chk_UseCustomSnd2.Checked;
+			txt_CustomSound.Enabled = btn_SelectSnd.Enabled = chk_UseCustomSnd.Checked;
+			txt_CustomSound2.Enabled = btn_SelectSnd2.Enabled = chk_UseCustomSnd2.Checked;
 			grb_Sound1.Enabled = grb_Sound2.Enabled = chk_EnableSnd.Checked;
 			// Translation tab
 			btn_TrBorderC.Enabled = !chk_TrUseAccent.Checked;
@@ -6398,12 +6400,18 @@ DEL ""ExtractASD.cmd""";
 			lbl_SetsCount.Visible = pan_KeySets.Visible = btn_SubSet.Visible = btn_AddSet.Visible = !old;
 		}
 		void Btn_SelectSndClick(object sender, EventArgs e) {
-			lbl_CustomSound.Text = SelectGetWavFile();
-			HelpMeUnderstand.SetToolTip(lbl_CustomSound, lbl_CustomSound.Text);
+			txt_CustomSound.Text = SelectGetWavFile().Replace(nPath, ".\\");
+			HelpMeUnderstand.SetToolTip(txt_CustomSound, txt_CustomSound.Text);
 		}
 		void Btn_SelectSnd2Click(object sender, EventArgs e) {
-			lbl_CustomSound2.Text = SelectGetWavFile();
-			HelpMeUnderstand.SetToolTip(lbl_CustomSound2, lbl_CustomSound2.Text);
+			txt_CustomSound2.Text = SelectGetWavFile().Replace(nPath, ".\\");
+			HelpMeUnderstand.SetToolTip(txt_CustomSound2, txt_CustomSound2.Text);
+		}
+		void Btn_SoundTest(object sender, EventArgs e) {
+			SoundPlay();
+		}
+		void Btn_Sound2Test(object sender, EventArgs e) {
+			SoundPlay(true);
 		}
 		void Btn_backupClick(object sender, EventArgs e) {
 			SyncBackup();
