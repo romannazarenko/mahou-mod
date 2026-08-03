@@ -156,16 +156,18 @@ namespace Mahou
 							string.Equals(usrord[i], lang.Culture.Name, StringComparison.OrdinalIgnoreCase) :
 						    string.Equals(usrord[i], lang.Culture.TwoLetterISOLanguageName, StringComparison.OrdinalIgnoreCase);
 					}
-					if (uint.TryParse(usrord2[i], System.Globalization.NumberStyles.HexNumber, null, out hex)) {
-						Logging.Log("[Locales] Using HKCU\\Keyboard Layout\\Preload order...");
-						foreach(var h in subs.Keys) {
-							if (hex == h) {
-								Logging.Log("[Locales] Layout substitute: " + hex.ToString("X") + " => " + subs[h].ToString("X"));
-								hex = subs[h];
-								break;
+					if (!matches) {
+						if (uint.TryParse(usrord2[i], System.Globalization.NumberStyles.HexNumber, null, out hex)) {
+							Logging.Log("[Locales] Using HKCU\\Keyboard Layout\\Preload order...");
+							foreach(var h in subs.Keys) {
+								if (hex == h) {
+									Logging.Log("[Locales] Layout substitute: " + hex.ToString("X") + " => " + subs[h].ToString("X"));
+									hex = subs[h];
+									break;
+								}
 							}
+							matches = (hex == u) || ((hex & 0xffff) == (u & 0xffff));
 						}
-						matches = (hex == u) || ((hex & 0xffff) == (u & 0xffff));
 					}
 					if (matches || likely_custom_layout) {
 						uint shc = u >> 16;
