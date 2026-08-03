@@ -3474,19 +3474,24 @@ DEL """+restartMahouPath + @"""";
 		}
 		public string SelectGetWavFile() {
 			var fp = "";
-			var ofd = new OpenFileDialog();
-			if (File.Exists(miniaudio.DllPath())) {
-				ofd.DefaultExt = ".wav";
-				ofd.Filter = "Audio Files|*.wav;*.mp3;*.flac";
-			} else {
-				ofd.DefaultExt = ".wav";
-				ofd.Filter = "Wave sound|*.wav";
-			}
-			ofd.Multiselect = false;
-			if (ofd.ShowDialog() == DialogResult.OK) {
-				fp = ofd.FileName;
-			}
-			ofd.Dispose();
+			var t = new System.Threading.Thread(() => {
+				using (var ofd = new OpenFileDialog()) {
+					if (File.Exists(miniaudio.DllPath())) {
+						ofd.DefaultExt = ".wav";
+						ofd.Filter = "Audio Files|*.wav;*.mp3;*.flac";
+					} else {
+						ofd.DefaultExt = ".wav";
+						ofd.Filter = "Wave sound|*.wav";
+					}
+					ofd.Multiselect = false;
+					if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
+						fp = ofd.FileName;
+					}
+				}
+			});
+			t.SetApartmentState(System.Threading.ApartmentState.STA);
+			t.Start();
+			t.Join();
 			return fp;
 		}
 		/// <summary>
