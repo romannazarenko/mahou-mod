@@ -3409,6 +3409,7 @@ DEL """+restartMahouPath + @"""";
 				string csf = second ? CustomSound2 : CustomSound;
 				if (ucs) { if (File.Exists(csf)) { snd = File.ReadAllBytes(csf); } }
 				var audio = new MemoryStream(snd);
+				if (miniaudio.Play(snd)) return;
 				var NAudio = Path.Combine(nPath, "NAudio.dll");
 				if (!File.Exists(NAudio)) NAudio = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "NAudio.dll");
 				if (File.Exists(NAudio)) {
@@ -3471,9 +3472,14 @@ DEL """+restartMahouPath + @"""";
 		}
 		public string SelectGetWavFile() {
 			var fp = "";
-			var ofd = new  OpenFileDialog();
-			ofd.DefaultExt = ".wav";
-			ofd.Filter = "Wave sound|*.wav";
+			var ofd = new OpenFileDialog();
+			if (File.Exists(miniaudio.DllPath())) {
+				ofd.DefaultExt = ".wav";
+				ofd.Filter = "Audio Files|*.wav;*.mp3;*.flac";
+			} else {
+				ofd.DefaultExt = ".wav";
+				ofd.Filter = "Wave sound|*.wav";
+			}
 			ofd.Multiselect = false;
 			if (ofd.ShowDialog() == DialogResult.OK) {
 				fp = ofd.FileName;

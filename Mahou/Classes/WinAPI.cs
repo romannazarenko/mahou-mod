@@ -204,7 +204,13 @@ public static class WinAPI {
     public const uint KEYEVENTF_KEYUP = 0x0002;
     public const uint KEYEVENTF_UNICODE = 0x0004;
     public const uint KEYEVENTF_SCANCODE = 0x0008;
-	#endregion
+    #endregion
+    #region miniaudio
+    [DllImport("kernel32.dll", CharSet = CharSet.Ansi)]
+    public static extern IntPtr LoadLibrary(string p);
+    [DllImport("kernel32.dll", CharSet = CharSet.Ansi)]
+    public static extern IntPtr GetProcAddress(IntPtr h, string n);
+    #endregion
 	#region NativeClipboard requirements
 	public const int CF_TEXT = 1;
 	public const int CF_BITMAP = 2;
