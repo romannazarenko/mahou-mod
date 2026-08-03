@@ -934,6 +934,7 @@ namespace Mahou {
 				}
 //			}
 		}
+		public static List<LastWindow> LastWindows = new List<LastWindow>();
 		public static void EventHookCallback(IntPtr hWinEventHook, uint eventType, IntPtr hwnd, int idObject,
 		                                       int idChild, uint dwEventThread, uint dwmsEventTime) {
 				MahouUI.CCReset("fg-window-change");
@@ -950,6 +951,50 @@ namespace Mahou {
 					PLC_HWNDs.Add(hwnd);
 			}
 			uint hwndLayout = Locales.GetCurrentLocale(hwnd);
+			var s = new StringBuilder(251);
+			var procname = "???";
+			WinAPI.GetClassName(hwnd, s, 250);
+			uint pid;
+			WinAPI.GetWindowThreadProcessId(hwnd, out pid);
+			Process prc = null;
+			prc = Process.GetProcessById((int)pid);
+			if (prc != null) procname = prc.ProcessName;
+			var t = new StringBuilder(251);
+			WinAPI.GetWindowText(hwnd, t, 250);
+			Logging.Log("[FOCUS] Hwnd: [" + hwnd.ToString("X") + "] Title: [" + t +
+			            "] ProcessName: [" + procname + "] Class: [" + s + 
+			            "] Layout: [" + hwndLayout + "] Mahou layout: [" + MahouUI.GlobalLayout + "]");
+			if (LastWindows.Count >= 2) {
+				if (string.Equals(procname, "Mahou", StringComparison.OrdinalIgnoreCase)
+				    && string.IsNullOrEmpty(t.ToString())) {
+					var lw = LastWindows[LastWindows.Count-1];
+					if (string.IsNullOrEmpty(lw.title) && 
+					    (string.Equals(lw.cls, "Shell_TrayWnd", StringComparison.OrdinalIgnoreCase))) {
+						Logging.Log("[LastWindow] Removing last window, because it was triggered right before showing Mahou menu: " + 
+						            lw.cls + "/" + lw.hwnd.ToString("X"));
+						LastWindows.RemoveAt(LastWindows.Count-1);
+					}
+				}
+			}
+//			if (string.Equals(s.ToString(), "Shell_TrayWnd", StringComparison.OrdinalIgnoreCase)) {
+//			}
+			if (string.Equals(procname, "Mahou", StringComparison.OrdinalIgnoreCase)
+			     && string.IsNullOrEmpty(t.ToString())) {
+				Logging.Log("[LastWindow] Skipping setting last window.");
+			} else {
+				Logging.Log("[LastWindow] Adding...");
+				if (LastWindows.Count > 0) {
+					if (LastWindows.Exists((e) => e.hwnd == hwnd)) {
+						LastWindows.RemoveAt(LastWindows.FindIndex((e) => e.hwnd == hwnd));
+					}
+				}
+				LastWindows.Add(new LastWindow() {
+									title = t.ToString(),
+									cls = s.ToString(),
+									hwnd = hwnd,
+									proc = prc 
+                });
+			}
 			as_lword_layout = 0;
 			bool conhost = false;
 			if (MahouUI.UseJKL && !KMHook.JKLERR) {
@@ -958,14 +1003,12 @@ namespace Mahou {
 					Logging.Log("[JKL] > Known ConHost window: " + hwnd);
 					jklXHidServ.CycleAllLayouts(hwnd);
 				} else {
-					var strb = new StringBuilder(350);
-					WinAPI.GetClassName(hwnd, strb, strb.Capacity);
-					if (strb.ToString() == "Shell_InputSwitchTopLevelWindow") {
+					if (s.ToString() == "Shell_InputSwitchTopLevelWindow") {
 						Logging.Log("[WND_CHANGE] > Ignore layout-select window "+hwnd);
 						return;
 					}
-					if (strb.ToString() == "ConsoleWindowClass" 
-					    //|| strb.ToString() == "Chrome_WidgetWin_1"
+					if (s.ToString() == "ConsoleWindowClass" 
+					    //|| s.ToString() == "Chrome_WidgetWin_1"
 					   ) {
 						conhost = true;
 						Logging.Log("[JKL] > ["+hwnd+"] = ConHost window, remembering...");
@@ -979,13 +1022,10 @@ namespace Mahou {
 				MahouUI.currentLayout = /*MahouUI.GlobalLayout =*/ conhost ? Locales.GetCurrentLocale() : hwndLayout;
 				Logging.Log("[FOCUS] > Updating currentLayout on window activate to ["+MahouUI.currentLayout+"]...");
 			}
-			Logging.Log("Hwnd " + hwnd + ", layout: " + hwndLayout + ", Mahou layout: " + MahouUI.GlobalLayout);		
 			if (MahouUI.OneLayout)
 				if (hwndLayout != MahouUI.GlobalLayout) {
-					var title = new StringBuilder(128);
-					WinAPI.GetWindowText(hwnd, title, 127);
 					DoLater(() => {
-						Logging.Log("[ONEL] > Layout in this window ["+title+"] was different, changing layout to Mahou global layout.");
+						Logging.Log("[ONEL] > Layout in this window ["+t+"] was different, changing layout to Mahou global layout.");
 						ChangeToLayout(hwnd, MahouUI.GlobalLayout);
 			       	 }, 100);
 				}
@@ -1604,8 +1644,8 @@ namespace Mahou {
               }, "expand_snippet");
 		}
 		#region in Snippets expressions 
-		//                                                0         1          2             3         4             5          6                7            8            9            10         11               12           13           14              15             16             17           18        19       20    21      22
-		public static readonly string[] expressions = new []{ "__date", "__time", "__version", "__system", "__title", "__keyboard", "__execute", "__cursorhere", "__paste", "__mahouhome", "__delay", "__uppercase", "__convert", "__setlayout", "__selection", "__clearlsnip", "__replace", "__setsnip", "__setlsnip", "__if", "__nif", "__setclipboard"};
+		//                                                0         1          2             3         4             5          6                7            8            9            10         11               12           13           14              15             16             17           18        19       20    21      22               23
+		public static readonly string[] expressions = new []{ "__date", "__time", "__version", "__system", "__title", "__keyboard", "__execute", "__cursorhere", "__paste", "__mahouhome", "__delay", "__uppercase", "__convert", "__setlayout", "__selection", "__clearlsnip", "__replace", "__setsnip", "__setlsnip", "__if", "__nif", "__setclipboard", "__sendstring"};
 		static string ExpandSnippetWithExpressions(string expand) {
 			StringBuilder ex, args, raw, err, allraw;
 			ex = new StringBuilder(); args = new StringBuilder(); raw = new StringBuilder(); err = new StringBuilder(); allraw = new StringBuilder();
@@ -1775,6 +1815,11 @@ namespace Mahou {
 				case "__time":
 					var now = DateTime.Now;
 					var format = args;
+					if (args.Contains("UTC")) {
+						now = DateTime.UtcNow;
+						var p = format.IndexOf("UTC");
+						format = format.Substring(0, p) + format.Substring(p+3, format.Length-3-p);
+					}
 					if (string.IsNullOrEmpty(args)) {
 						if (expr == "__date")
 							format = "dd/MM/yyyy";
@@ -1956,7 +2001,26 @@ namespace Mahou {
 					Logging.Log("[__setclipboard] Set clipboard to [" + args + "]");
 					RestoreClipBoard(args);
 					break;
+				case "__sendstring":
+					Logging.Log("[__sendstring] trying to send  [" + args + "]");
+					SendString(args);
+					break;
 			}
+		}
+		public static void SendString(string str) {
+			var m = Regex.Match(str, @"\[(0?[xX])?(\d+)\]");
+			while (m.Groups.Count > 1) {
+				int code = -1;
+				bool ok = false;
+				if (m.Groups[1].Value != "") {
+					ok = Int32.TryParse(m.Groups[2].Value, System.Globalization.NumberStyles.HexNumber, null, out code);
+				} else {
+					ok = Int32.TryParse(m.Groups[2].Value, out code);
+				}
+				str = Regex.Replace(str, @"\[(0?[xX])?(\d+)\]", char.ConvertFromUtf32(code));
+				m = Regex.Match(str, @"\[(0?[xX])?(\d+)\]");
+			}
+			KInputs.MakeInput(KInputs.AddString(str));
 		}
 		static void Execute(string args) {
 			string fil = "", arg ="";
@@ -1972,6 +2036,8 @@ namespace Mahou {
 					arg += c;
 				}
 			}
+			arg = Environment.ExpandEnvironmentVariables(arg);
+			fil = Environment.ExpandEnvironmentVariables(fil);
 			Logging.Log("[EXPR] > Executing: executable: ["+fil+"] with args: ["+arg+"].");
 			var p = new ProcessStartInfo();
 			p.Arguments = arg;
@@ -2343,10 +2409,16 @@ namespace Mahou {
 					{6, "L-Alt"},          {7, "R-Alt"},
 					{9, "AltGr"},          {10, "Alt+Shift"},
 					{11, "Ctrl+Shift"},    {12, "Tab"},
-					{13, "LShift+RShift"}, {14, "LCtrl+LAlt"}
+					{13, "LShift+RShift"}, {14, "LCtrl+LAlt"},
+					{15, "RCtrl+RShift"}
 				};
 				Logging.Log("[SPKEY] > Layout: " + speclayout + " Key: " + Key + " SpecKey: " + _keys[specificKey] + " Mods: " + _mods + " npre: " + npre + " keyafter: c" + keyAfterCTRL);
 				if (speclayout == MMain.Lang[Languages.Element.SwitchBetween]) {
+					if (specificKey == 15 && ((Key == Keys.RShiftKey && ctrl_r) ||
+					                          (Key == Keys.RControlKey && shift_r)) &&
+                      	!win && !win_r && !alt && !alt_r && !shift && !ctrl) {
+				    	_good = true;
+				    }
 					if (specificKey == 12 && Key == Keys.Tab && !ctrl && !ctrl_r && !shift_r && !shift && !win && !win_r && !alt && !alt_r) {
 						_good = true;
 					}
@@ -3737,7 +3809,7 @@ namespace Mahou {
 									nowLocale = MahouUI.currentLayout;
 								if (last == nowLocale && nowLocale != 0) {
 									nowLocale = MahouUI.currentLayout;
-									desired = 0;
+//									desired = 0;
 								}
 							}
 							if (CompareLayouts(nowLocale, desired))
@@ -4561,6 +4633,12 @@ namespace Mahou {
 			public string rule;
 			public bool isnip;
 			public bool iauto;
+		}
+		public struct LastWindow {
+			public string title;
+			public string cls;
+			public IntPtr hwnd;
+			public Process proc;
 		}
 		#endregion
 	}

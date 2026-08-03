@@ -341,6 +341,26 @@ namespace Mahou.Properties {
 		}
 		
 		/// <summary>
+		///   Looks up a localized resource of type System.Byte[].
+		/// </summary>
+		public static byte[] snd2pcm16 {
+			get {
+				object obj = ResourceManager.GetObject("snd2pcm16", resourceCulture);
+				return ((byte[])(obj));
+			}
+		}
+		
+		/// <summary>
+		///   Looks up a localized resource of type System.Byte[].
+		/// </summary>
+		public static byte[] sndpcm16 {
+			get {
+				object obj = ResourceManager.GetObject("sndpcm16", resourceCulture);
+				return ((byte[])(obj));
+			}
+		}
+		
+		/// <summary>
 		///   Looks up a localized resource of type System.Drawing.Bitmap.
 		/// </summary>
 		public static System.Drawing.Bitmap sp {

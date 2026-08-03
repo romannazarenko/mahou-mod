@@ -99,7 +99,11 @@ namespace Mahou
 				try {
 					clangname = new System.Globalization.CultureInfo((int)(cLid >> 16));
 				} catch {
-					clangname = new System.Globalization.CultureInfo((int)(cLid & 0xffff));
+					try {
+						clangname = new System.Globalization.CultureInfo((int)(cLid & 0xffff));
+					} catch {
+						Logging.Log("[LangDisplay] Couldn't find name for layout: " + cLid);
+					}
 				}
 				if (clangname == null) return;
 				if (MahouUI.DiffAppearenceForLayouts && !DisplayFlag) {
@@ -193,8 +197,12 @@ namespace Mahou
 		/// Hide lang display window.
 		/// </summary>
 		public void HideWnd() {
+			System.Diagnostics.Debug.WriteLine(Handle.ToString("X") + Visible);
 			if (!Visible) return;
-			WinAPI.ShowWindow(Handle, 0);
+			//WinAPI.ShowWindow(Handle, 0);
+			WinAPI.SetWindowPos(Handle.ToInt32(), 0, 0, 0, 0, 0, WinAPI.SWP_NOACTIVATE |
+			                    WinAPI.SWP_HIDEWINDOW | WinAPI.SWP_NOMOVE | WinAPI.SWP_NOSIZE |
+			                    WinAPI.SWP_NOZORDER);
 		}
 		protected override CreateParams CreateParams {
 			get {

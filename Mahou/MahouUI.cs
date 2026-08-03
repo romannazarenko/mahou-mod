@@ -186,6 +186,7 @@ namespace Mahou {
 		static string latestSwitch = "null";
 		const string SYNC_HOST = "https://hastebin.com";
 		const string SYNC_HOST2 = "https://0x0.st";
+		const string SYNC_HOST3 = "https://pixeldrain.com/api/file";
 		const string SYNC_SEP = "#------>";
 		readonly string[] SYNC_NAMES = { "Mahou.ini", "snippets.txt", "history.txt", "TSDict.txt", "Mahou.mm" };
 		readonly string[] SYNC_TYPES = { "ini", "sni", "his", "tdi", "mm" };
@@ -570,8 +571,8 @@ namespace Mahou {
 				                }, "specific_keys_capslock");
 							}
 						} catch (Exception e) {
-							Logging.Log("Possibly layout switch type was not selected for " + OemReadable((SpecKeySetsValues["txt_key"+si+"_mods"].Replace(",", " +") + " + " +
-							                                                                               Remake(key)).Replace("None + ", "")) + ". Layout string: ["+type+"]. Exception: " + e.Message + "\r\n" + e.StackTrace, 2);
+							Logging.Log("Possibly layout switch type was not selected for " + HotkeyReadable(SpecKeySetsValues["txt_key"+si+"_mods"], key)
+							            + ". Layout string: ["+type+"]. Exception: " + e.Message + "\r\n" + e.StackTrace, 2);
 						}
 					}
 				}
@@ -1389,6 +1390,7 @@ namespace Mahou {
 				MMain.MyConfs.Write("Sync", "RBools", string.Join("|", bin(chk_rMini.Checked), bin(chk_rStxt.Checked), bin(chk_rHtxt.Checked), bin(chk_rTtxt.Checked), bin(chk_andPROXY2.Checked), bin(chk_rMmm.Checked)));
 				MMain.MyConfs.Write("Sync", "BLast", txt_backupId.Text);
 				MMain.MyConfs.Write("Sync", "RLast", txt_restoreId.Text);
+				MMain.MyConfs.Write("Sync", "PixelDrainAPIKey", Safify(txt_PDApiKey.Text));
 				MMain.MyConfs.Write("Sync", "ZxZ", ZxZ.ToString());
 				#endregion
 				#region Proxy
@@ -1403,13 +1405,13 @@ namespace Mahou {
 				MMain.MyConfs.Write("Sounds", "OnConvertLast", chk_SndLast.Checked.ToString());
 				MMain.MyConfs.Write("Sounds", "OnLayoutSwitch", chk_SndLayoutSwitch.Checked.ToString());
 				MMain.MyConfs.Write("Sounds", "UseCustomSound", chk_UseCustomSnd.Checked.ToString());
-				MMain.MyConfs.Write("Sounds", "CustomSound", lbl_CustomSound.Text);
+				MMain.MyConfs.Write("Sounds", "CustomSound", txt_CustomSound.Text);
 				MMain.MyConfs.Write("Sounds", "OnAutoSwitch2", chk_SndAutoSwitch2.Checked.ToString());
 				MMain.MyConfs.Write("Sounds", "OnSnippets2", chk_SndSnippets2.Checked.ToString());
 				MMain.MyConfs.Write("Sounds", "OnConvertLast2", chk_SndLast2.Checked.ToString());
 				MMain.MyConfs.Write("Sounds", "OnLayoutSwitch2", chk_SndLayoutSwitch2.Checked.ToString());
 				MMain.MyConfs.Write("Sounds", "UseCustomSound2", chk_UseCustomSnd2.Checked.ToString());
-				MMain.MyConfs.Write("Sounds", "CustomSound2", lbl_CustomSound2.Text);
+				MMain.MyConfs.Write("Sounds", "CustomSound2", txt_CustomSound2.Text);
 				#endregion
 				saveHidden();
 				MMain.MyConfs.WriteToDisk();
@@ -1587,6 +1589,7 @@ namespace Mahou {
 			MMain.MyConfs.Write("Hidden", "cmdbackfix", Hchk_cmdbackfix.Checked.ToString());
 			MMain.MyConfs.Write("Hidden", "DARKTHEME", Hchk_DARK.Checked.ToString());
 			MMain.MyConfs.Write("Hidden", "ChangeLayoutOnTrayLMB", Hchk_LMBTrayLayoutChange.Checked.ToString());
+			MMain.MyConfs.Write("Hidden", "ToggleEnabledOnTrayLMB", Hchk_LMBTrayToggleEnabled.Checked.ToString());
 			MMain.MyConfs.Write("Hidden", "DisableMemoryFlush", Hchk_DisableMemFlush.Checked.ToString());
 			MMain.MyConfs.Write("Hidden", "SymbolClear", Htxt_SymbolClear.Text);
 			MMain.MyConfs.Write("Hidden", "LibreCtrlAltShiftV", Hchk_LibrePasteFixCASV.Checked.ToString());
@@ -1658,6 +1661,7 @@ namespace Mahou {
 		}
 		void loadHidden() {
 			Hchk_LMBTrayLayoutChange.Checked = MMain.MyConfs.ReadBool("Hidden", "ChangeLayoutOnTrayLMB");
+			Hchk_LMBTrayToggleEnabled.Checked = MMain.MyConfs.ReadBool("Hidden", "ToggleEnabledOnTrayLMB");
 			Hchk_DisableMemFlush.Checked = nomemoryflush = MMain.MyConfs.ReadBool("Hidden", "DisableMemoryFlush");
 			Htxt_SymbolClear.Text = KMHook.symbolclear = MMain.MyConfs.Read("Hidden", "SymbolClear");
 			Hchk_LibrePasteFixCASV.Checked = LibreCtrlAltShiftV = MMain.MyConfs.ReadBool("Hidden", "LibreCtrlAltShiftV");
@@ -1747,8 +1751,8 @@ namespace Mahou {
 				SuspendResumeDraw(this);
 			}
 			TrayIconVisible = chk_TrayIcon.Checked = MMain.MyConfs.ReadBool("Functions", "TrayIconVisible");
-			InitializeTrayIcon();
 			loadHidden();
+			InitializeTrayIcon();
 			decim = (string)Registry.GetValue(@"HKEY_CURRENT_USER\Control Panel\International", "sDecimal", null);
 			TrSetsValues = new Dictionary<string, string>();
 			chk_AppDataConfigs.Checked = (bool)DoInMainConfigs(() => MMain.MyConfs.ReadBool("Functions", "AppDataConfigs"));
@@ -1885,6 +1889,7 @@ namespace Mahou {
 			KMHook.AS_NOT_EXCLUDED_HWNDs.Clear();
 			KMHook.SNI_EXCLUDED_HWNDs.Clear();
 			KMHook.SNI_NOT_EXCLUDED_HWNDs.Clear();
+			KMHook.LastWindows.Clear();
 			ChangeLayoutInExcluded = chk_Change1KeyL.Checked = MMain.MyConfs.ReadBool("Timings", "ChangeLayoutInExcluded");
 			ConvertSWLinExcl = chk_ConvSWL.Checked = MMain.MyConfs.ReadBool("Timings", "ConvertSWLinExcl");
 			#endregion
@@ -1997,27 +2002,29 @@ namespace Mahou {
 			SoundOnConvLast = chk_SndLast.Checked = MMain.MyConfs.ReadBool("Sounds", "OnConvertLast");
 			SoundOnLayoutSwitch = chk_SndLayoutSwitch.Checked = MMain.MyConfs.ReadBool("Sounds", "OnLayoutSwitch");
 			UseCustomSound = chk_UseCustomSnd.Checked = MMain.MyConfs.ReadBool("Sounds", "UseCustomSound");
-			CustomSound = lbl_CustomSound.Text = MMain.MyConfs.Read("Sounds", "CustomSound");
+			CustomSound = txt_CustomSound.Text = MMain.MyConfs.Read("Sounds", "CustomSound");
 			SoundOnAutoSwitch2 = chk_SndAutoSwitch2.Checked = MMain.MyConfs.ReadBool("Sounds", "OnAutoSwitch2");
 			SoundOnSnippets2 = chk_SndSnippets2.Checked = MMain.MyConfs.ReadBool("Sounds", "OnSnippets2");
 			SoundOnConvLast2 = chk_SndLast2.Checked = MMain.MyConfs.ReadBool("Sounds", "OnConvertLast2");
 			SoundOnLayoutSwitch2 = chk_SndLayoutSwitch2.Checked = MMain.MyConfs.ReadBool("Sounds", "OnLayoutSwitch2");
 			UseCustomSound2 = chk_UseCustomSnd2.Checked = MMain.MyConfs.ReadBool("Sounds", "UseCustomSound2");
-			CustomSound2 = lbl_CustomSound2.Text = MMain.MyConfs.Read("Sounds", "CustomSound2");
-			var lbCSh = lbl_CustomSound.Text;
-			var lbCSh2 = lbl_CustomSound2.Text;
-			if (!File.Exists(replaceenv(CustomSound, "%mahou_dir%", () => nPath))) {
-				lbl_CustomSound.ForeColor = Color.Red;
-				lbCSh = MMain.Lang[Languages.Element.Not] + " " + MMain.Lang[Languages.Element.Exist] + ":\r\n["+lbl_CustomSound.Text+"]";
+			CustomSound2 = txt_CustomSound2.Text = MMain.MyConfs.Read("Sounds", "CustomSound2");
+			var lbCSh = txt_CustomSound.Text;
+			var lbCSh2 = txt_CustomSound2.Text;
+			if (!File.Exists(replaceenv(CustomSound, "%mahou_dir%", () => nPath)) &&
+			    !File.Exists(CustomSound.Replace(".\\", nPath))) {
+				txt_CustomSound.BackColor = Color.LightCoral;
+				lbCSh = MMain.Lang[Languages.Element.Not] + " " + MMain.Lang[Languages.Element.Exist] + ":\r\n["+txt_CustomSound.Text+"]";
 			} else
-				lbl_CustomSound.ForeColor = Color.FromKnownColor(KnownColor.WindowText);
-			if (!File.Exists(replaceenv(CustomSound2, "%mahou_dir%", () => nPath))) {
-				lbl_CustomSound2.ForeColor = Color.Red;
-				lbCSh2 = MMain.Lang[Languages.Element.Not] + " " + MMain.Lang[Languages.Element.Exist] + ":\r\n["+lbl_CustomSound2.Text+"]";
+				txt_CustomSound.BackColor = Color.FromKnownColor(KnownColor.Window);
+			if (!File.Exists(replaceenv(CustomSound2, "%mahou_dir%", () => nPath)) &&
+			    !File.Exists(CustomSound2.Replace(".\\", nPath))) {
+				txt_CustomSound2.BackColor = Color.LightCoral;
+				lbCSh2 = MMain.Lang[Languages.Element.Not] + " " + MMain.Lang[Languages.Element.Exist] + ":\r\n["+txt_CustomSound2.Text+"]";
 			} else
-				lbl_CustomSound2.ForeColor = Color.FromKnownColor(KnownColor.WindowText);
-			HelpMeUnderstand.SetToolTip(lbl_CustomSound, lbCSh);
-			HelpMeUnderstand.SetToolTip(lbl_CustomSound2, lbCSh2);
+				txt_CustomSound2.BackColor = Color.FromKnownColor(KnownColor.Window);
+			HelpMeUnderstand.SetToolTip(txt_CustomSound, lbCSh);
+			HelpMeUnderstand.SetToolTip(txt_CustomSound2, lbCSh2);
 			#endregion
 			#region Sync
 			var bbools = MMain.MyConfs.Read("Sync", "BBools");
@@ -2046,6 +2053,8 @@ namespace Mahou {
 			if (!string.IsNullOrEmpty(rlast))
 				txt_restoreId.Text = rlast;
 			chk_ZxZ.Checked = ZxZ = MMain.MyConfs.ReadBool("Sync", "ZxZ");
+			txt_PDApiKey.Text = Safify(MMain.MyConfs.Read("Sync", "PixelDrainAPIKey"));
+			grb_backup.Enabled = txt_PDApiKey.Text != "";
 			#endregion
 			LLHook._ACTIVE = (RemapCapslockAsF18 || SnippetsExpandType != "Space" || MahouMM || LLHook.redefines.len > 0);
 			if (LLHook._ACTIVE)
@@ -2415,8 +2424,8 @@ namespace Mahou {
 			lbl_LangTTMouseRefreshRate.Enabled = nud_LangTTMouseRefreshRate.Enabled = LDUseWindowsMessages || chk_LangTooltipMouse.Checked;
 			lbl_LangTTCaretRefreshRate.Enabled = !chk_LDMessages.Checked;
 			// Sounds tab
-			lbl_CustomSound.Enabled = btn_SelectSnd.Enabled = chk_UseCustomSnd.Checked;
-			lbl_CustomSound2.Enabled = btn_SelectSnd2.Enabled = chk_UseCustomSnd2.Checked;
+			txt_CustomSound.Enabled = btn_SelectSnd.Enabled = chk_UseCustomSnd.Checked;
+			txt_CustomSound2.Enabled = btn_SelectSnd2.Enabled = chk_UseCustomSnd2.Checked;
 			grb_Sound1.Enabled = grb_Sound2.Enabled = chk_EnableSnd.Checked;
 			// Translation tab
 			btn_TrBorderC.Enabled = !chk_TrUseAccent.Checked;
@@ -2541,7 +2550,7 @@ DEL """+restartMahouPath + @"""";
 			IfDispose(ref FLAG);
 			if (!ENABLED) {
 				Debug.WriteLine("NOT ENABLED");
-				FLAG = new Bitmap(Properties.Resources.MahouTrayHD.ToBitmap());
+				//FLAG = new Bitmap(Properties.Resources.MahouTrayHD.ToBitmap());
 				return;
 			}
 			if (force) {
@@ -2718,8 +2727,10 @@ DEL """+restartMahouPath + @"""";
 						flagicon = Icon.FromHandle(b.GetHicon());
 					else 
 						flagicon = Mahou.Properties.Resources.MahouTrayHD;
-					icon.trIcon.Icon = flagicon;
+					icon.trIcon.Icon = (Icon)flagicon.Clone();
 					WinAPI.DestroyIcon(flagicon.Handle);
+					flagicon.Dispose();
+					if (b != null) { b.Dispose(); }
 					lastTrayFlagLayout = lcid;
 				}
 			} catch(Exception e) {
@@ -2768,7 +2779,6 @@ DEL """+restartMahouPath + @"""";
 			if (LDForMouse) {
 				mouseLangDisplay.mouseDisplay = true;
 				mouseLangDisplay.DisplayFlag = LDMouseUseFlags_temp;
-				mouseLangDisplay.Visible = true;
 			} else if (lc) {
 				mouseLangDisplay.Visible = false;
 			}
@@ -2783,18 +2793,22 @@ DEL """+restartMahouPath + @"""";
 				caretLangDisplay.Visible = false;
 			}
 		}
-		void lastAltTabChangeLayout() {
-			KInputs.MakeInput(new [] { KInputs.AddKey(Keys.LMenu, true), KInputs.AddKey(Keys.Tab, true) });
-			System.Threading.Thread.Sleep(1);
-			KInputs.MakeInput(new [] { KInputs.AddKey(Keys.LMenu, false), KInputs.AddKey(Keys.Tab, false) });
-			var t = new Timer();
-			t.Tick += (x, xx) => {
-				KMHook.ChangeLayout(true);
-				t.Stop();
-				t.Dispose();
-			};
-			t.Interval = 300;
-			t.Start();
+		void LastWindowChangeLayout() {
+			if (KMHook.LastWindows.Count > 0) {
+				KMHook.LastWindow lw = KMHook.LastWindows[KMHook.LastWindows.Count-1];
+				if (lw.hwnd != IntPtr.Zero) {
+					Logging.Log("[LastWindow]: " + lw.hwnd.ToString("X"));
+					WinAPI.SetForegroundWindow(lw.hwnd);
+					var limit = 10;
+					while (limit > 0) {
+						if (Locales.ActiveWindow() == lw.hwnd) break;
+						System.Threading.Thread.Sleep(5);
+						limit--;
+					}
+					Logging.Log("[LastWindow]: Found window: " + (limit == 10) + " limit: " + limit + " title: " + lw.title + " class: " + lw.cls);
+				}
+			}
+			KMHook.ChangeLayout(true);
 		}
 		static Timer thmm;
 		static bool thmmr, thmme, start_skip = true;
@@ -2802,55 +2816,56 @@ DEL """+restartMahouPath + @"""";
 		/// Initializes tray icon.
 		/// </summary>
 		void InitializeTrayIcon() {
-			if (icon != null) {
-				icon.Hide();
-				icon.trIcon.Dispose();
+			if (icon == null) {
+				icon = new TrayIcon(TrayIconVisible);
+				icon.Exit += (_, __) => ExitProgram();
+				icon.ShowHide += (_, __) => ToggleVisibility();
+				icon.EnaDisable += (_, __) => ToggleMahou();
+				icon.Restart += (_, __) => Restart();
+				icon.ChangeLt += (_, __) => LastWindowChangeLayout();
+				icon.ConvertClip += (_, __) => {
+					var t = KMHook.ConvertText(KMHook.GetClipboard(2));
+					KMHook.RestoreClipBoard(t);
+				};
+				icon.TransliClip += (_, __) => {
+					var t = KMHook.TransliterateText(KMHook.GetClipboard(2));
+					KMHook.RestoreClipBoard(t);
+				};
 			}
-			icon = new TrayIcon(TrayIconVisible);
-			icon.Exit += (_, __) => ExitProgram();
+			icon.MLBActReset();
 			if (Hchk_LMBTrayLayoutChange.Checked) {
-				if (Hchk_LMBTrayLayoutChangeDC.Checked) {
-					var cc = 0; bool tx = false; Timer t = null;
-					icon.MLBAct += (_, __) => {
-						cc++;
-						Debug.WriteLine("CC" + cc);
-						if (cc > 1) {
-							ToggleVisibility();
-							cc = 0;
-							if (t != null) {
-								t.Stop();
-								t.Dispose();
-								tx = false;
+					if (Hchk_LMBTrayLayoutChangeDC.Checked) {
+						var cc = 0; bool tx = false; Timer t = null;
+						icon.MLBAct += (_, __) => {
+							cc++;
+							Debug.WriteLine("CC" + cc);
+							if (cc > 1) {
+								ToggleVisibility();
+								cc = 0;
+								if (t != null) {
+									t.Stop();
+									t.Dispose();
+									tx = false;
+								}
 							}
-						}
-						else if (!tx) {
-							tx = true;
-							t = new Timer(); bool fign = false;
-							t.Tick += (x, xx) => { 
-								if (!fign) { fign = true; return; }
-								if (cc == 1) { lastAltTabChangeLayout(); } 
-								cc = 0; 
-								t.Stop(); t.Dispose(); tx = false; };
-							t.Interval = SystemInformation.DoubleClickTime;
-							t.Start();
-						}
-					};
-				} else
-					icon.MLBAct += (_, __) => lastAltTabChangeLayout();
-			} else
-				icon.MLBAct += (_, __) => ToggleVisibility();
-			icon.ShowHide += (_, __) => ToggleVisibility();
-			icon.EnaDisable += (_, __) => ToggleMahou();
-			icon.Restart += (_, __) => Restart();
-			icon.ChangeLt += (_, __) => lastAltTabChangeLayout();
-			icon.ConvertClip += (_, __) => {
-				var t = KMHook.ConvertText(KMHook.GetClipboard(2));
-				KMHook.RestoreClipBoard(t);
-			};
-			icon.TransliClip += (_, __) => {
-				var t = KMHook.TransliterateText(KMHook.GetClipboard(2));
-				KMHook.RestoreClipBoard(t);
-			};
+							else if (!tx) {
+								tx = true;
+								t = new Timer(); bool fign = false;
+								t.Tick += (x, xx) => { 
+									if (!fign) { fign = true; return; }
+									if (cc == 1) { LastWindowChangeLayout(); }
+									cc = 0; 
+									t.Stop(); t.Dispose(); tx = false; };
+								t.Interval = SystemInformation.DoubleClickTime;
+								t.Start();
+							}
+						};
+					} else
+						icon.MLBAct += (_, __) => LastWindowChangeLayout();
+				} else if (Hchk_LMBTrayToggleEnabled.Checked)
+					icon.MLBAct += (_, __) => ToggleMahou();
+				else
+					icon.MLBAct += (_, __) => ToggleVisibility();
 			var mm = Path.Combine(nPath, "Mahou.mm");
 			if (File.Exists(mm)) {
 				MahouMM = true;
@@ -2858,43 +2873,50 @@ DEL """+restartMahouPath + @"""";
 			} else MahouMM = false;
 			if (MahouMM && TrayHoverMahouMM > 0) {
 				var now_p = new Point(7777,7777);
+				if (thmm == null) {
+					thmm = new Timer();
+					thmm.Interval = TrayHoverMahouMM;
+					thmm.Tick += (_, __) => {
+						Debug.WriteLine("Tick tick tick");
+						thmm.Stop(); // doesn't work..
+						thmmr = false;  // either
+						if (now_p.Equals(Cursor.Position) && !icon.trIcon.ContextMenuStrip.Visible && !now_p.Equals(new Point(7777,7777))) {
+							Debug.WriteLine("You haven't moved from: " +now_p.X+"/"+now_p.Y+ " for "+TrayHoverMahouMM+"ms.");
+							ShowMahouMMMenuUnderMouse();
+							thmme = true; // prevents timer tick to go on and on
+							var t = new Timer(){Interval = 60}; // reset after 60ms
+							t.Tick += (z,zz) => { thmme = false; };
+							t.Start();
+						}
+						now_p = new Point(7777,7777);
+					};
+					icon.trIcon.MouseMove += (_, __) => {
+						if (thmme) { return; }
+						if (start_skip) { start_skip = false; return; }
+						Debug.WriteLine("MOMO:"+Cursor.Position.X);
+						now_p = Cursor.Position;
+						if (thmmr) {
+							thmmr = false;
+							thmm.Stop();
+						}
+						if (!thmmr) { 
+							thmm.Start();
+							thmmr = true;
+						} 
+					};
+					icon.trIcon.MouseClick += (_, __) => {
+						Debug.WriteLine("CLI");
+						thmm.Stop(); thmmr = false;
+					};
+				} else {
+					thmm.Start();
+					thmmr = true;
+				}
+			} else {
 				if (thmm != null) {
 					thmm.Stop();
-					thmm.Dispose();
+					thmmr = false;
 				}
-				thmm = new Timer();
-				thmm.Interval = TrayHoverMahouMM;
-				thmm.Tick += (_, __) => {
-					thmm.Stop(); // doesn't work..
-					thmmr = false;  // either
-					if (now_p.Equals(Cursor.Position) && !icon.trIcon.ContextMenuStrip.Visible && !now_p.Equals(new Point(7777,7777))) {
-						Debug.WriteLine("You haven't moved from: " +now_p.X+"/"+now_p.Y+ " for "+TrayHoverMahouMM+"ms.");
-						ShowMahouMMMenuUnderMouse();
-						thmme = true; // prevents timer tick to go on and on
-						var t = new Timer(){Interval = 60}; // reset after 60ms
-						t.Tick += (z,zz) => { thmme = false; };
-						t.Start();
-					}
-					now_p = new Point(7777,7777);
-				};
-				icon.trIcon.MouseMove += (_, __) => {
-					if (thmme) { return; }
-					if (start_skip) { start_skip = false; return; }
-					Debug.WriteLine("MOMO:"+Cursor.Position.X);
-					now_p = Cursor.Position;
-					if (thmmr) {
-						thmmr = false;
-						thmm.Stop();
-					}
-					if (!thmmr) { 
-						thmm.Start();
-						thmmr = true;
-					} 
-				};
-				icon.trIcon.MouseClick += (_, __) => {
-					Debug.WriteLine("CLI");
-					thmm.Stop(); thmmr = false;
-				};
 			}
 		}
 		/// <summary>
@@ -3160,11 +3182,12 @@ DEL """+restartMahouPath + @"""";
 					latestL = cLuid;
 					mouseLangDisplay.ShowInactiveTopmost();
 					res.Start();
-				}
+				} 
 			} else {
-				if ((ICheckings.IsICursor() || MouseTTAlways) && !mouseLangDisplay.Empty)
+				if ((ICheckings.IsICursor() || MouseTTAlways) && !mouseLangDisplay.Empty) {
 					mouseLangDisplay.ShowInactiveTopmost();
-				else
+					mouseLangDisplay.Visible = true;
+				} else
 					mouseLangDisplay.HideWnd();
 			}
 			if (mouseLangDisplay.Visible) {
@@ -3187,6 +3210,7 @@ DEL """+restartMahouPath + @"""";
 				if (UseJKL && !KMHook.JKLERR)
 					cLuid = currentLayout;
 			}
+			if (caretLangDisplay == null) return;
 			if (LDForCaretOnChange && cLuid != 0) {
 				if (onepassC) {
 //					Debug.WriteLine("OPC!" + cLuid);
@@ -3229,6 +3253,7 @@ DEL """+restartMahouPath + @"""";
 			}
 		}
 		public void UpdateLDs() {
+			if (!ENABLED) return;
 //			if (LDUseWindowsMessages) {
 				if (LDForCaret)
 					UpdateCaredLD();
@@ -3385,36 +3410,95 @@ DEL """+restartMahouPath + @"""";
 			}
 			File.Delete(xml_path);
 		}
+		static Assembly _NAudio;
 		public static void SoundPlay(bool second = false) {
 			if (SoundEnabled) {
 				byte[] snd = second ? Properties.Resources.snd2 : Properties.Resources.snd;
 				bool ucs = second ? UseCustomSound2 : UseCustomSound;
 				string csf = second ? CustomSound2 : CustomSound;
-				var sms = new MemoryStream(snd);
-				var sp = new System.Media.SoundPlayer(sms);
-				try {
-					csf = replaceenv(csf, "%mahou_dir%", () => nPath);
-					if (ucs) if (File.Exists(csf))
-						sp = new System.Media.SoundPlayer(csf);
-				} catch(Exception e) {
-					Logging.Log("Error during loading of the custom sound file: "+e.Message + "\n" + e.StackTrace, 1);
-					Logging.Log("Fallback to default sound...");
+				if (ucs) { if (File.Exists(csf)) { snd = File.ReadAllBytes(csf); } }
+				var audio = new MemoryStream(snd);
+				if (miniaudio.Play(snd)) return;
+				var NAudio = Path.Combine(nPath, "NAudio.dll");
+				if (!File.Exists(NAudio)) NAudio = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "NAudio.dll");
+				if (File.Exists(NAudio)) {
+					if (_NAudio == null)
+						_NAudio = Assembly.Load(File.ReadAllBytes(NAudio));
+					Logging.Log("[Sound] Using: [" + NAudio + "] [" + _NAudio.FullName + "] to play audio...");
+					Type readerType = _NAudio.GetType("NAudio.Wave.WaveFileReader");
+					Type waveOutType = _NAudio.GetType("NAudio.Wave.WaveOutEvent");
+					object reader = Activator.CreateInstance(readerType,
+											new object[] { audio });
+					object waveOut = Activator.CreateInstance(waveOutType);
+					MethodInfo initMethod = waveOutType.GetMethod("Init", new[]
+											{ _NAudio.GetType("NAudio.Wave.IWaveProvider") });
+					EventInfo stoppedEvent = waveOutType.GetEvent("PlaybackStopped");
+					Type handlerType = stoppedEvent.EventHandlerType;
+					Action<object, object> cleanupAction = (s, e) => {
+						Debug.WriteLine("Cleanup!");
+					    var m = waveOutType.GetMethod("Dispose"); if (m != null) m.Invoke(waveOut, null);
+					    var k = readerType.GetMethod("Dispose"); if (k != null) k.Invoke(reader, null);
+					    audio.Dispose();
+					};
+					Delegate dynamicHandler = Delegate.CreateDelegate(handlerType, cleanupAction.Target, cleanupAction.Method);
+					stoppedEvent.AddEventHandler(waveOut, dynamicHandler);
+					initMethod.Invoke(waveOut, new[] { reader });
+					MethodInfo playMethod = waveOutType.GetMethod("Play");
+					playMethod.Invoke(waveOut, null);
+				} else {
+					if (KMHook.IfNW7()) {
+						Logging.Log("[Sound] Using: [System.Media.Soundplayer] to play audio...");
+						var sp = new System.Media.SoundPlayer(audio);
+						try {
+							csf = replaceenv(csf, "%mahou_dir%", () => nPath);
+							if (ucs) if (File.Exists(csf))
+								sp = new System.Media.SoundPlayer(csf);
+						} catch(Exception e) {
+							Logging.Log("[Sound] Error during loading of the custom sound file: "+e.Message + "\n" + e.StackTrace, 1);
+							Logging.Log("[Sound] Fallback to default sound...");
+						}
+						sp.Play();
+						sp.Dispose();
+					} else {
+						// Most likely won't be able to play non-PCM WAV on windows 7 through mciSS
+						snd = second ? Properties.Resources.snd2pcm16 : Properties.Resources.sndpcm16;
+						var fn = "Mahou-sound" + GetRandomString(4) +".wav";
+						var tff = Path.Combine(Path.GetTempPath(), fn);
+						var tf = tff;
+						if (!File.Exists(csf)) {
+							File.WriteAllBytes(tf, snd);
+						} else tf = csf;
+						Logging.Log("[Sound] Using: [mciSendString] to play the file: [" + tf + "]");
+						System.Threading.Tasks.Task.Run(() => {
+							WinAPI.mciSendString("play \"" + tf + "\" wait", null, 0, 0);
+							WinAPI.mciSendString("close \"" + tf + "\"", null, 0, 0);
+							if (File.Exists(tff)) File.Delete(tff);
+						});
+					}
+					audio.Dispose();
 				}
-				sp.Play();
-				sp.Dispose();
-				sms.Dispose();
 			}
 		}
 		public string SelectGetWavFile() {
 			var fp = "";
-			var ofd = new  OpenFileDialog();
-			ofd.DefaultExt = ".wav";
-			ofd.Filter = "Wave sound|*.wav";
-			ofd.Multiselect = false;
-			if (ofd.ShowDialog() == DialogResult.OK) {
-				fp = ofd.FileName;
-			}
-			ofd.Dispose();
+			var t = new System.Threading.Thread(() => {
+				using (var ofd = new OpenFileDialog()) {
+					if (File.Exists(miniaudio.DllPath())) {
+						ofd.DefaultExt = ".wav";
+						ofd.Filter = "Audio Files|*.wav;*.mp3;*.flac";
+					} else {
+						ofd.DefaultExt = ".wav";
+						ofd.Filter = "Wave sound|*.wav";
+					}
+					ofd.Multiselect = false;
+					if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
+						fp = ofd.FileName;
+					}
+				}
+			});
+			t.SetApartmentState(System.Threading.ApartmentState.STA);
+			t.Start();
+			t.Join();
 			return fp;
 		}
 		/// <summary>
@@ -3790,6 +3874,28 @@ DEL """+restartMahouPath + @"""";
 			}
 		}
 		/// <summary>
+		/// Converts hotkey data to readable representation.
+		/// </summary>
+		/// <param name="modifiers"></param>
+		/// <param name="key"></param>
+		/// <param name="oninit"></param>
+		/// <param name="Double"></param>
+		/// <returns>string</returns>
+		public string HotkeyReadable(string modifiers, Keys key, bool oninit = false, bool Double = false) {
+			var k = Remake((Keys)key, true, Double);
+			var m = modifiers.Replace(",", "");
+			if (!string.IsNullOrEmpty(k)) m = m.Replace(k, "");
+			var r = OemReadable(m + " " + k);
+			var t = Regex.Replace(r, // Win + or + None + or + from start or end 
+			    @"Win\s?\+?\s?|\s?\+?\s?None\s?\+?\s?|^[ +]+|\s?\+\s?$", "", RegexOptions.Multiline);
+			t = t.Replace("+", "");
+			t = Regex.Replace(t, @"\s+", " ", RegexOptions.Multiline);
+			t = t.Replace("Caps Lock", "CapsLock");
+			t = t.Replace(" ", " + ");
+			Logging.Log("Readable hotkey: " + t + " raw: " +modifiers + " " + key);
+			return t;
+		}
+		/// <summary>
 		/// Converts Oem Keys string to readable string.
 		/// </summary>
 		/// <param name="inpt">String with oem keys.</param>
@@ -4031,9 +4137,7 @@ DEL """+restartMahouPath + @"""";
 		void UpdateHotkeyControls(bool enabled, bool Double, string modifiers, int key) {
 			chk_HotKeyEnabled.Checked = enabled;
 			chk_DoubleHotkey.Checked = Double;
-			txt_Hotkey.Text = Regex.Replace(OemReadable(modifiers.Replace(",", " +") +
-			                                            " + " + Remake((Keys)key, true, Double)), 
-			                                            @"Win\s?\+?\s?|\s?\+?\s?None\s?\+?\s?|^[ +]+|\s?\+\s?$", "", RegexOptions.Multiline);
+			txt_Hotkey.Text = HotkeyReadable(modifiers, (Keys)key, true, Double);
 			chk_WinInHotKey.Checked = modifiers.Contains("Win");
 			txt_Hotkey_tempKey = key;
 			txt_Hotkey_tempModifiers = Regex.Replace(modifiers.Replace("Win",""), @"^[ +]+", "", RegexOptions.Multiline);
@@ -4202,11 +4306,13 @@ DEL """+restartMahouPath + @"""";
 			return false;
 		}
 		void UpdateSetControls(int setIndex, int keyCode, string modifiers) {
-			var _set = pan_KeySets.Controls["set_"+setIndex];
-			_set.Controls["txt_key"+setIndex].Text = Regex.Replace(OemReadable(modifiers.Replace(",", " +") +
-			                                            " + " + Remake((Keys)keyCode, true, false)), 
-			                                            @"Win\s?\+?\s?|\s?\+?\s?None\s?\+?\s?|^[ +]+|\s?\+\s?$", "", RegexOptions.Multiline);
-			(_set.Controls["chk_win"+setIndex] as CheckBox).Checked = modifiers.Contains("Win");
+			try {
+				var _set = pan_KeySets.Controls["set_"+setIndex];
+				_set.Controls["txt_key"+setIndex].Text = HotkeyReadable(modifiers, (Keys)keyCode, true);
+				(_set.Controls["chk_win"+setIndex] as CheckBox).Checked = modifiers.Contains("Win");
+			} catch (Exception e) {
+				Logging.Log("Error updating set controls: " + setIndex + " key: " + keyCode + " mods: " + modifiers, 1);
+			}
 		}
 		void DeleteOrMove(string file) {
 			try {
@@ -5258,6 +5364,21 @@ DEL ""ExtractASD.cmd""";
 		void Lnk_pluginLinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
 			__lopen("https://gitea.com/BladeMight/MahouCaretDisplayServer", "http", false, e.Button == MouseButtons.Right);
 		}
+		void Lnk_PixelDrainAPIKeyHowto(object sender, LinkLabelLinkClickedEventArgs e) {
+			__lopen("https://postimg.cc/gallery/R0Y0K6p", "http", false, e.Button == MouseButtons.Right);
+		}
+		void Lnk_PixelDrain(object sender, LinkLabelLinkClickedEventArgs e) {
+			__lopen("https://pixeldrain.com/user/api_keys", "http", false, e.Button == MouseButtons.Right);
+		}
+		void Lnk_miniaudio(object sender, LinkLabelLinkClickedEventArgs e) {
+			__lopen("https://pixeldrain.com/u/Na6zKN3B", "http", false, e.Button == MouseButtons.Right);
+		}
+		void Lnk_NAudio(object sender, LinkLabelLinkClickedEventArgs e) {
+			__lopen("https://pixeldrain.com/u/5VmZtzqq", "http", false, e.Button == MouseButtons.Right);
+		}
+		void Lnk_AudioDllsHowto(object sender, LinkLabelLinkClickedEventArgs e) {
+			__lopen("https://postimg.cc/hz5qSsCG", "http", false, e.Button == MouseButtons.Right);
+		}
 		void Lnk_SnipOpenLinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
 			__lopen(snipfile, "txt");
 			reload_snip = true;
@@ -5314,6 +5435,8 @@ DEL ""ExtractASD.cmd""";
 					}
 				}
 				try {
+					prog = Environment.ExpandEnvironmentVariables(prog);
+					args = Environment.ExpandEnvironmentVariables(args);
 					var re = new Regex(@"^([A-Za-z]:\\.*)\\");
 					var pi = new ProcessStartInfo();
 					pi.FileName = prog;
@@ -5556,6 +5679,7 @@ DEL ""ExtractASD.cmd""";
 								allow_types = spl[2];
 							}
 						}
+						dir = Environment.ExpandEnvironmentVariables(dir);
 						if (Directory.Exists(dir)) {
 							var mmd = new ToolStripMenuItem(text.ToString(),null);
 							dirparser(ref mmd, dir, maxd, allow_types, maxentries);
@@ -5581,6 +5705,7 @@ DEL ""ExtractASD.cmd""";
 				if (MMain.mahou != null) {
 					List<ToolStripMenuItem> lastitems = new List<ToolStripMenuItem>();
 					for(var i = 0; i != MMain.mahou.icon.trIcon.ContextMenuStrip.Items.Count; i++) {
+						if (mms.Text == MMain.mahou.icon.trIcon.ContextMenuStrip.Items[i].Text) continue;
 						lastitems.Add((ToolStripMenuItem)MMain.mahou.icon.trIcon.ContextMenuStrip.Items[i]);
 					}
 					MMain.mahou.icon.trIcon.ContextMenuStrip.Items.Clear();
@@ -5786,6 +5911,9 @@ DEL ""ExtractASD.cmd""";
 		}
 		#endregion
 		#region Mahou UI controls events
+		void Txt_PDApiKeyTextChanged(object sender, EventArgs e) {
+			grb_backup.Enabled = txt_PDApiKey.Text != "";
+		}
 		void Hchk_DARKCheckedChanged(object sender, EventArgs e) {
 			ToggleDark(Hchk_DARK.Checked);
 		}
@@ -5917,8 +6045,7 @@ DEL ""ExtractASD.cmd""";
 					WinAPI.UnregisterHotKey(Handle, (int)Hotkey.HKID.Restart);
 					break;
 			}
-			txt_Hotkey.Text = OemReadable((e.Modifiers.ToString().Replace(",", " +") + " + " +
-										  Remake(e.KeyCode)).Replace("None + ", ""));
+			txt_Hotkey.Text = HotkeyReadable(e.Modifiers.ToString(), e.KeyCode);
 			txt_Hotkey_tempModifiers = e.Modifiers.ToString().Replace(",", " +");
 			switch ((int)e.KeyCode) {
 				case 16:
@@ -6011,6 +6138,12 @@ DEL ""ExtractASD.cmd""";
 				//Downloads latest Mahou
 				using (var wc = new WebClient()) {
 					wc.DownloadProgressChanged += wc_DownloadProgressChanged;
+					wc.Headers[HttpRequestHeader.UserAgent] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36";
+					wc.DownloadFileCompleted += (s, ee) => {
+					    if (ee.Error != null) {
+					        Logging.Log("Download failed: " + ee.Error.ToString(), 1);
+						}
+					};
 					// Gets filename from url
 					var BDMText = btn_DownloadUpdate.Text;
 					var fn = Regex.Match(UpdInfo[3], @"[^\\\/]+$").Groups[0].Value;
@@ -6247,8 +6380,7 @@ DEL ""ExtractASD.cmd""";
 				return;
 			}
 			Debug.WriteLine(e.KeyCode +" E");
-			t.Text = OemReadable((e.Modifiers.ToString().Replace(",", " +") + " + " +
-										  Remake(e.KeyCode)).Replace("None + ", ""));
+			t.Text = HotkeyReadable(e.Modifiers.ToString(), e.KeyCode);
 			SpecKeySetsValues[t.Name+"_key"] = ((int)e.KeyCode).ToString();
 			SpecKeySetsValues[t.Name+"_mods"] = e.Modifiers.ToString().Replace(",", " +");
 		}
@@ -6280,12 +6412,18 @@ DEL ""ExtractASD.cmd""";
 			lbl_SetsCount.Visible = pan_KeySets.Visible = btn_SubSet.Visible = btn_AddSet.Visible = !old;
 		}
 		void Btn_SelectSndClick(object sender, EventArgs e) {
-			lbl_CustomSound.Text = SelectGetWavFile();
-			HelpMeUnderstand.SetToolTip(lbl_CustomSound, lbl_CustomSound.Text);
+			txt_CustomSound.Text = SelectGetWavFile().Replace(nPath, ".\\");
+			HelpMeUnderstand.SetToolTip(txt_CustomSound, txt_CustomSound.Text);
 		}
 		void Btn_SelectSnd2Click(object sender, EventArgs e) {
-			lbl_CustomSound2.Text = SelectGetWavFile();
-			HelpMeUnderstand.SetToolTip(lbl_CustomSound2, lbl_CustomSound2.Text);
+			txt_CustomSound2.Text = SelectGetWavFile().Replace(nPath, ".\\");
+			HelpMeUnderstand.SetToolTip(txt_CustomSound2, txt_CustomSound2.Text);
+		}
+		void Btn_SoundTest(object sender, EventArgs e) {
+			SoundPlay();
+		}
+		void Btn_Sound2Test(object sender, EventArgs e) {
+			SoundPlay(true);
 		}
 		void Btn_backupClick(object sender, EventArgs e) {
 			SyncBackup();
@@ -6551,6 +6689,63 @@ DEL ""ExtractASD.cmd""";
 		    	s+= chars[rand.Next(chars.Length)];
 		    return s;
 		}
+		string Safify(string input) {
+			var chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-+";
+			if (string.IsNullOrEmpty(input)) return input;
+			int half = chars.Length / 2; // 32
+	        var result = new StringBuilder(input.Length);
+	        foreach (char c in input) {
+	            int index = chars.IndexOf(c);
+	            if (index != -1) {
+	                // Shift by 32, wrap around using modulo 64
+	                var ni = (index + half) % chars.Length;
+	                result.Append(chars[ni]);
+	            }
+	            else {
+	                // Leave characters outside the set (like spaces/punctuation) unchanged
+	                result.Append(c);
+	            }
+	        }
+	        return result.ToString();
+		}
+		string SyncUploadPD(string content) {
+	        try {
+				var fname = "Mahou-Sync."+GetRandomString(8)+".txt";
+				Console.WriteLine("fname:" + fname);
+	            string boundary = "----------------------------" + DateTime.Now.Ticks.ToString("x");
+	            HttpWebRequest req = (HttpWebRequest)WebRequest.Create(SYNC_HOST3);
+				if (!String.IsNullOrEmpty(txt_ProxyServerPort.Text)) {
+					req.Proxy = MakeProxy();
+				}
+	            req.ContentType = "multipart/form-data; boundary=" + boundary;
+	            req.Method = "POST";
+	            req.KeepAlive = true;
+	            req.Headers["Authorization"] = "Basic " + Convert.ToBase64String(Encoding.ASCII.GetBytes(":" + txt_PDApiKey.Text));
+	            req.UserAgent = "Mahou/2.9.1.0";
+		        var form = Encoding.UTF8.GetBytes("\n--" + boundary + "\n" +
+	                                              "Content-Disposition: form-data; name=\"file\"; filename="+fname+"\n" +
+		                                		  "Content-Type: application/octet-stream\n\n" +
+		                                		  content + "\n--" + boundary + "--");
+	            req.ContentLength = form.Length;
+	            using (var rs = req.GetRequestStream()) {
+	                rs.Write(form, 0, form.Length);
+	            }
+	            using (var r = req.GetResponse()) {
+	                var rs = r.GetResponseStream();
+	                var sr = new StreamReader(rs);
+	                var str = sr.ReadToEnd();
+	                sr.Dispose();
+	                return trimlr(new Auri(str)["id"]);
+	            }
+	        }
+	        catch (WebException ex) {
+	            using (WebResponse r = ex.Response) {
+	                using (var sr = new StreamReader(r.GetResponseStream()))
+	                    return sr.ReadToEnd();
+	
+	            }
+	        }
+		}
 		string SyncUploadZxZ(string content) {
 	        try {
 				var fname = "Mahou-Sync."+GetRandomString(8)+".txt";
@@ -6563,7 +6758,7 @@ DEL ""ExtractASD.cmd""";
 	            req.ContentType = "multipart/form-data; boundary=" + boundary;
 	            req.Method = "POST";
 	            req.KeepAlive = true;
-	            req.UserAgent = "curl/8.19.0";
+	            req.UserAgent = "Mahou/2.9.1.0";
 		        var form = Encoding.UTF8.GetBytes("\n--" + boundary + "\n" +
 	                                              "Content-Disposition: form-data; name=\"file\"; filename="+fname+"\n" +
 		                                		  "Content-Type: application/octet-stream\n\n" +
@@ -6618,12 +6813,13 @@ DEL ""ExtractASD.cmd""";
 				}
 			}
 			Debug.WriteLine("Rawtext: " +rawtext);
-			if (!ZxZ)
-				id = SyncUploadHB(Encoding.UTF8.GetBytes(rawtext.ToString()), ref stat);
-			else
-				id = SyncUploadZxZ(rawtext.ToString());
+//			if (!ZxZ)
+//				id = SyncUploadHB(Encoding.UTF8.GetBytes(rawtext.ToString()), ref stat);
+//			else
+//				id = SyncUploadZxZ(rawtext.ToString());
+			id = SyncUploadPD(rawtext.ToString());
 			Debug.WriteLine("id:"+id);
-			txt_backupId.Text = (ZxZ ? "" : (SYNC_HOST + "/")) + id;
+			txt_backupId.Text = id; //(ZxZ ? "" : (SYNC_HOST + "/")) + id;
 			MMain.MyConfs.Write("Sync", "BLast", txt_backupId.Text);
 			txt_backupId.Enabled = true;
 			txt_backupStatus.Text = stat.ToString();
@@ -6633,24 +6829,25 @@ DEL ""ExtractASD.cmd""";
 			var id = txt_restoreId.Text;
 			var stat = "";
 			if (!string.IsNullOrEmpty(id)) {
-				if (!ZxZ) {
-					var raw = SYNC_HOST+"/raw";
-					if (id.StartsWith("http", StringComparison.InvariantCulture)) {
-						if (!id.StartsWith(raw, StringComparison.InvariantCulture) || id.Contains("hastebin.com")) {
-							var p = id.Split('/');
-							var l = p[p.Length-1];
-							if (string.IsNullOrEmpty(l))
-								l = p[p.Length-2];
-							id = raw + "/" + l;
-						}
-					} else {
-						if (id.Length >= 32) {
-							stat = MMain.Lang[Languages.Element.UnknownID];
-						} else 
-							id = raw + "/" + id;
-					}
-				}
-				Debug.WriteLine("id:" +id);
+//				if (!ZxZ) {
+//					var raw = SYNC_HOST+"/raw";
+//					if (id.StartsWith("http", StringComparison.InvariantCulture)) {
+//						if (!id.StartsWith(raw, StringComparison.InvariantCulture) || id.Contains("hastebin.com")) {
+//							var p = id.Split('/');
+//							var l = p[p.Length-1];
+//							if (string.IsNullOrEmpty(l))
+//								l = p[p.Length-2];
+//							id = raw + "/" + l;
+//						}
+//					} else {
+//						if (id.Length >= 32) {
+//							stat = MMain.Lang[Languages.Element.UnknownID];
+//						} else 
+//							id = raw + "/" + id;
+//					}
+//				}
+				id = SYNC_HOST3+"/"+id;
+				Debug.WriteLine("id:" + id);
 				var d = "";
 				if (!string.IsNullOrEmpty(id)) {
 					using (var wc = new WebClient()) {
@@ -6667,7 +6864,8 @@ DEL ""ExtractASD.cmd""";
 				}
 				Debug.WriteLine(d);
 				if (!string.IsNullOrEmpty(d)) {
-					stat += WriteRestoreFiles(d, chk_rMini.Checked, chk_rStxt.Checked, chk_rHtxt.Checked, chk_rTtxt.Checked, chk_andPROXY2.Checked, chk_rMmm.Checked);				MMain.MyConfs.Write("Sync", "BLast", txt_backupId.Text);
+					stat += WriteRestoreFiles(d, chk_rMini.Checked, chk_rStxt.Checked, chk_rHtxt.Checked, chk_rTtxt.Checked, chk_andPROXY2.Checked, chk_rMmm.Checked);
+					MMain.MyConfs.Write("Sync", "BLast", txt_backupId.Text);
 					MMain.MyConfs.Write("Sync", "RLast", txt_restoreId.Text);
 				}
 				LoadConfigs();

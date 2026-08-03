@@ -143,6 +143,10 @@ namespace Mahou
 					MyConfs.WriteToDisk();
 				}
 				mahou = new MahouUI();
+				mahou.Location = new System.Drawing.Point(
+					(Screen.PrimaryScreen.Bounds.Width-mahou.Width)/2,
+					(Screen.PrimaryScreen.Bounds.Height-mahou.Height)/2
+				);
 				rif = new RawInputForm();
 				Locales.IfLessThan2();
 				if (MyConfs.Read("Layouts", "MainLayout1") == "" && MyConfs.Read("Layouts", "MainLayout2") == "") {

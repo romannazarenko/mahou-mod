@@ -78,6 +78,10 @@ namespace Mahou {
         void MLBAction(object sender, EventArgs e) {
             if (MLBAct != null) MLBAct(sender, e);
         }
+        /// <summary> Resets action for left mouse button click. </summary>
+        public void MLBActReset() {
+        	MLBAct = null;
+        }
         /// <summary>Hides tray icon.</summary>
         public void Hide() {
         	if ((MahouUI.TrayFlags || MahouUI.TrayText) && MMain.mahou != null && MMain.mahou.flagsCheck != null)

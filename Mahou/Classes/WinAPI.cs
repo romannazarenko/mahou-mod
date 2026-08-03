@@ -204,7 +204,13 @@ public static class WinAPI {
     public const uint KEYEVENTF_KEYUP = 0x0002;
     public const uint KEYEVENTF_UNICODE = 0x0004;
     public const uint KEYEVENTF_SCANCODE = 0x0008;
-	#endregion
+    #endregion
+    #region miniaudio
+    [DllImport("kernel32.dll", CharSet = CharSet.Ansi)]
+    public static extern IntPtr LoadLibrary(string p);
+    [DllImport("kernel32.dll", CharSet = CharSet.Ansi)]
+    public static extern IntPtr GetProcAddress(IntPtr h, string n);
+    #endregion
 	#region NativeClipboard requirements
 	public const int CF_TEXT = 1;
 	public const int CF_BITMAP = 2;
@@ -287,6 +293,8 @@ public static class WinAPI {
 	public const int SW_SHOWNOACTIVATE = 4;
 	public const int HWND_TOPMOST = -1;
 	public const uint SWP_NOACTIVATE = 0x0010;
+	public const uint SWP_HIDEWINDOW = 0x0080;
+	public const uint SWP_SHOWWINDOW = 0x0040;
 	public const int WS_EX_TOPMOST = 0x00000008;
 	public const int WS_EX_TRANSPARENT = 0x20;
 	public const int WS_EX_LAYERED = 0x80000;
@@ -474,6 +482,8 @@ public static class WinAPI {
     public static extern IntPtr GlobalSize(IntPtr hMem);
     #endregion
     #region MahouForm requires
+    [DllImport("winmm.dll", CharSet = CharSet.Auto)]
+    public static extern long mciSendString(string command, StringBuilder returnString, int returnLength, IntPtr hwndCallback);
     [DllImport("user32.dll", CharSet = CharSet.Auto)]
 	public extern static bool DestroyIcon(IntPtr handle);
 	[DllImport("user32.dll")]

@@ -208,12 +208,12 @@ namespace Mahou
 		private System.Windows.Forms.CheckBox chk_SndLast;
 		private System.Windows.Forms.CheckBox chk_SndSnippets;
 		private System.Windows.Forms.CheckBox chk_SndAutoSwitch;
-		private System.Windows.Forms.Label lbl_CustomSound;
+		private System.Windows.Forms.TextBox txt_CustomSound;
 		private System.Windows.Forms.Button btn_SelectSnd;
 		private System.Windows.Forms.CheckBox chk_UseCustomSnd;
 		private System.Windows.Forms.CheckBox chk_SndLayoutSwitch;
 		private System.Windows.Forms.GroupBox grb_Sound2;
-		private System.Windows.Forms.Label lbl_CustomSound2;
+		private System.Windows.Forms.TextBox txt_CustomSound2;
 		private System.Windows.Forms.Button btn_SelectSnd2;
 		private System.Windows.Forms.CheckBox chk_UseCustomSnd2;
 		private System.Windows.Forms.GroupBox grb_SoundOn2;
@@ -361,6 +361,16 @@ namespace Mahou
 		private System.Windows.Forms.CheckBox chk_LPDisableBorder;
 		private System.Windows.Forms.NumericUpDown nud_LPBGPadding;
 		private System.Windows.Forms.Label lbl_LPBGPadding;
+		private System.Windows.Forms.TextBox txt_PDApiKey;
+		private System.Windows.Forms.Label lbl_PDApiKey;
+		private System.Windows.Forms.CheckBox Hchk_LMBTrayToggleEnabled;
+		private Mahou.MahouUI.LinkLabelNew lnk_PixelDrainAPIKeyHowto;
+		private Mahou.MahouUI.LinkLabelNew lnk_PixelDrain;
+		private Mahou.MahouUI.LinkLabelNew lnk_NAudio;
+		private Mahou.MahouUI.LinkLabelNew lnk_miniaudio;
+		private Mahou.MahouUI.LinkLabelNew lnk_AudioDllsHowto;
+		private System.Windows.Forms.Button btn_Sound2Test;
+		private System.Windows.Forms.Button btn_SoundTest;
 		/// <summary>
 		/// Disposes resources used by the form.
 		/// </summary>
@@ -548,20 +558,25 @@ namespace Mahou
 			this.chk_WinInHotKey = new System.Windows.Forms.CheckBox();
 			this.lsb_Hotkeys = new System.Windows.Forms.ListBox();
 			this.tab_sounds = new System.Windows.Forms.TabPage();
+			this.lnk_AudioDllsHowto = new Mahou.MahouUI.LinkLabelNew();
+			this.lnk_NAudio = new Mahou.MahouUI.LinkLabelNew();
+			this.lnk_miniaudio = new Mahou.MahouUI.LinkLabelNew();
 			this.grb_Sound2 = new System.Windows.Forms.GroupBox();
-			this.lbl_CustomSound2 = new System.Windows.Forms.Label();
+			this.txt_CustomSound2 = new System.Windows.Forms.TextBox();
 			this.btn_SelectSnd2 = new System.Windows.Forms.Button();
 			this.chk_UseCustomSnd2 = new System.Windows.Forms.CheckBox();
 			this.grb_SoundOn2 = new System.Windows.Forms.GroupBox();
+			this.btn_Sound2Test = new System.Windows.Forms.Button();
 			this.chk_SndLayoutSwitch2 = new System.Windows.Forms.CheckBox();
 			this.chk_SndLast2 = new System.Windows.Forms.CheckBox();
 			this.chk_SndSnippets2 = new System.Windows.Forms.CheckBox();
 			this.chk_SndAutoSwitch2 = new System.Windows.Forms.CheckBox();
 			this.grb_Sound1 = new System.Windows.Forms.GroupBox();
-			this.lbl_CustomSound = new System.Windows.Forms.Label();
+			this.txt_CustomSound = new System.Windows.Forms.TextBox();
 			this.btn_SelectSnd = new System.Windows.Forms.Button();
 			this.chk_UseCustomSnd = new System.Windows.Forms.CheckBox();
 			this.grb_SoundOn = new System.Windows.Forms.GroupBox();
+			this.btn_SoundTest = new System.Windows.Forms.Button();
 			this.chk_SndLayoutSwitch = new System.Windows.Forms.CheckBox();
 			this.chk_SndLast = new System.Windows.Forms.CheckBox();
 			this.chk_SndSnippets = new System.Windows.Forms.CheckBox();
@@ -617,6 +632,10 @@ namespace Mahou
 			this.btn_TrBG = new System.Windows.Forms.Button();
 			this.btn_TrFG = new System.Windows.Forms.Button();
 			this.tab_sync = new System.Windows.Forms.TabPage();
+			this.lnk_PixelDrain = new Mahou.MahouUI.LinkLabelNew();
+			this.lnk_PixelDrainAPIKeyHowto = new Mahou.MahouUI.LinkLabelNew();
+			this.txt_PDApiKey = new System.Windows.Forms.TextBox();
+			this.lbl_PDApiKey = new System.Windows.Forms.Label();
 			this.grb_restore = new System.Windows.Forms.GroupBox();
 			this.chk_rMmm = new System.Windows.Forms.CheckBox();
 			this.chk_andPROXY2 = new System.Windows.Forms.CheckBox();
@@ -667,6 +686,7 @@ namespace Mahou
 			this.lnk_Site = new Mahou.MahouUI.LinkLabelNew();
 			this.lnk_Repository = new Mahou.MahouUI.LinkLabelNew();
 			this.tab_Hidden = new System.Windows.Forms.TabPage();
+			this.Hchk_LMBTrayToggleEnabled = new System.Windows.Forms.CheckBox();
 			this.Hchk_DontToggleMWexe = new System.Windows.Forms.CheckBox();
 			this.Htxt_LayoutModifier_S_LAYOUT = new System.Windows.Forms.TextBox();
 			this.Htxt_LayoutModifier_S = new System.Windows.Forms.TextBox();
@@ -1327,7 +1347,8 @@ namespace Mahou
 			"Ctrl + Shift",
 			"Tab",
 			"Left Shift + Right Shift",
-			"Left Control + Left Alt"});
+			"Left Control + Left Alt",
+			"Right Control + Right Shift"});
 			this.cbb_Key4.Location = new System.Drawing.Point(6, 105);
 			this.cbb_Key4.Name = "cbb_Key4";
 			this.cbb_Key4.Size = new System.Drawing.Size(250, 23);
@@ -1352,8 +1373,9 @@ namespace Mahou
 			"Alt + Shift",
 			"Ctrl + Shift",
 			"Tab",
-			"Left Shift +Right Shift",
-			"Left Control + Left Alt"});
+			"Left Shift + Right Shift",
+			"Left Control + Left Alt",
+			"Right Control + Right Shift"});
 			this.cbb_Key3.Location = new System.Drawing.Point(6, 76);
 			this.cbb_Key3.Name = "cbb_Key3";
 			this.cbb_Key3.Size = new System.Drawing.Size(250, 23);
@@ -1378,8 +1400,9 @@ namespace Mahou
 			"Alt + Shift",
 			"Ctrl + Shift",
 			"Tab",
-			"Left Shift +Right Shift",
-			"Left Control + Left Alt"});
+			"Left Shift + Right Shift",
+			"Left Control + Left Alt",
+			"Right Control + Right Shift"});
 			this.cbb_Key2.Location = new System.Drawing.Point(6, 47);
 			this.cbb_Key2.Name = "cbb_Key2";
 			this.cbb_Key2.Size = new System.Drawing.Size(250, 23);
@@ -1404,8 +1427,9 @@ namespace Mahou
 			"Alt + Shift",
 			"Ctrl + Shift",
 			"Tab",
-			"Left Shift +Right Shift",
-			"Left Control + Left Alt"});
+			"Left Shift + Right Shift",
+			"Left Control + Left Alt",
+			"Right Control + Right Shift"});
 			this.cbb_Key1.Location = new System.Drawing.Point(6, 18);
 			this.cbb_Key1.Name = "cbb_Key1";
 			this.cbb_Key1.Size = new System.Drawing.Size(250, 23);
@@ -2846,6 +2870,9 @@ namespace Mahou
 			// 
 			// tab_sounds
 			// 
+			this.tab_sounds.Controls.Add(this.lnk_AudioDllsHowto);
+			this.tab_sounds.Controls.Add(this.lnk_NAudio);
+			this.tab_sounds.Controls.Add(this.lnk_miniaudio);
 			this.tab_sounds.Controls.Add(this.grb_Sound2);
 			this.tab_sounds.Controls.Add(this.grb_Sound1);
 			this.tab_sounds.Controls.Add(this.chk_EnableSnd);
@@ -2857,9 +2884,42 @@ namespace Mahou
 			this.tab_sounds.Text = "Sounds";
 			this.tab_sounds.UseVisualStyleBackColor = true;
 			// 
+			// lnk_AudioDllsHowto
+			// 
+			this.lnk_AudioDllsHowto.AutoSize = true;
+			this.lnk_AudioDllsHowto.Location = new System.Drawing.Point(479, 4);
+			this.lnk_AudioDllsHowto.Name = "lnk_AudioDllsHowto";
+			this.lnk_AudioDllsHowto.Size = new System.Drawing.Size(37, 15);
+			this.lnk_AudioDllsHowto.TabIndex = 37;
+			this.lnk_AudioDllsHowto.TabStop = true;
+			this.lnk_AudioDllsHowto.Text = "??????";
+			this.lnk_AudioDllsHowto.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.Lnk_AudioDllsHowto);
+			// 
+			// lnk_NAudio
+			// 
+			this.lnk_NAudio.AutoSize = true;
+			this.lnk_NAudio.Location = new System.Drawing.Point(409, 4);
+			this.lnk_NAudio.Name = "lnk_NAudio";
+			this.lnk_NAudio.Size = new System.Drawing.Size(64, 15);
+			this.lnk_NAudio.TabIndex = 36;
+			this.lnk_NAudio.TabStop = true;
+			this.lnk_NAudio.Text = "NAudio.dll";
+			this.lnk_NAudio.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.Lnk_NAudio);
+			// 
+			// lnk_miniaudio
+			// 
+			this.lnk_miniaudio.AutoSize = true;
+			this.lnk_miniaudio.Location = new System.Drawing.Point(326, 4);
+			this.lnk_miniaudio.Name = "lnk_miniaudio";
+			this.lnk_miniaudio.Size = new System.Drawing.Size(77, 15);
+			this.lnk_miniaudio.TabIndex = 35;
+			this.lnk_miniaudio.TabStop = true;
+			this.lnk_miniaudio.Text = "miniaudio.dll";
+			this.lnk_miniaudio.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.Lnk_miniaudio);
+			// 
 			// grb_Sound2
 			// 
-			this.grb_Sound2.Controls.Add(this.lbl_CustomSound2);
+			this.grb_Sound2.Controls.Add(this.txt_CustomSound2);
 			this.grb_Sound2.Controls.Add(this.btn_SelectSnd2);
 			this.grb_Sound2.Controls.Add(this.chk_UseCustomSnd2);
 			this.grb_Sound2.Controls.Add(this.grb_SoundOn2);
@@ -2870,13 +2930,12 @@ namespace Mahou
 			this.grb_Sound2.TabStop = false;
 			this.grb_Sound2.Text = "#2";
 			// 
-			// lbl_CustomSound2
+			// txt_CustomSound2
 			// 
-			this.lbl_CustomSound2.AutoEllipsis = true;
-			this.lbl_CustomSound2.Location = new System.Drawing.Point(134, 90);
-			this.lbl_CustomSound2.Name = "lbl_CustomSound2";
-			this.lbl_CustomSound2.Size = new System.Drawing.Size(279, 17);
-			this.lbl_CustomSound2.TabIndex = 9;
+			this.txt_CustomSound2.Location = new System.Drawing.Point(134, 86);
+			this.txt_CustomSound2.Name = "txt_CustomSound2";
+			this.txt_CustomSound2.Size = new System.Drawing.Size(279, 23);
+			this.txt_CustomSound2.TabIndex = 9;
 			// 
 			// btn_SelectSnd2
 			// 
@@ -2901,6 +2960,7 @@ namespace Mahou
 			// 
 			// grb_SoundOn2
 			// 
+			this.grb_SoundOn2.Controls.Add(this.btn_Sound2Test);
 			this.grb_SoundOn2.Controls.Add(this.chk_SndLayoutSwitch2);
 			this.grb_SoundOn2.Controls.Add(this.chk_SndLast2);
 			this.grb_SoundOn2.Controls.Add(this.chk_SndSnippets2);
@@ -2911,6 +2971,16 @@ namespace Mahou
 			this.grb_SoundOn2.TabIndex = 6;
 			this.grb_SoundOn2.TabStop = false;
 			this.grb_SoundOn2.Text = "Play sound when:";
+			// 
+			// btn_Sound2Test
+			// 
+			this.btn_Sound2Test.Location = new System.Drawing.Point(498, 36);
+			this.btn_Sound2Test.Name = "btn_Sound2Test";
+			this.btn_Sound2Test.Size = new System.Drawing.Size(25, 25);
+			this.btn_Sound2Test.TabIndex = 37;
+			this.btn_Sound2Test.Text = "▶";
+			this.btn_Sound2Test.UseVisualStyleBackColor = true;
+			this.btn_Sound2Test.Click += new System.EventHandler(this.Btn_Sound2Test);
 			// 
 			// chk_SndLayoutSwitch2
 			// 
@@ -2954,7 +3024,7 @@ namespace Mahou
 			// 
 			// grb_Sound1
 			// 
-			this.grb_Sound1.Controls.Add(this.lbl_CustomSound);
+			this.grb_Sound1.Controls.Add(this.txt_CustomSound);
 			this.grb_Sound1.Controls.Add(this.btn_SelectSnd);
 			this.grb_Sound1.Controls.Add(this.chk_UseCustomSnd);
 			this.grb_Sound1.Controls.Add(this.grb_SoundOn);
@@ -2965,13 +3035,12 @@ namespace Mahou
 			this.grb_Sound1.TabStop = false;
 			this.grb_Sound1.Text = "#1";
 			// 
-			// lbl_CustomSound
+			// txt_CustomSound
 			// 
-			this.lbl_CustomSound.AutoEllipsis = true;
-			this.lbl_CustomSound.Location = new System.Drawing.Point(135, 89);
-			this.lbl_CustomSound.Name = "lbl_CustomSound";
-			this.lbl_CustomSound.Size = new System.Drawing.Size(278, 17);
-			this.lbl_CustomSound.TabIndex = 9;
+			this.txt_CustomSound.Location = new System.Drawing.Point(135, 85);
+			this.txt_CustomSound.Name = "txt_CustomSound";
+			this.txt_CustomSound.Size = new System.Drawing.Size(278, 23);
+			this.txt_CustomSound.TabIndex = 9;
 			// 
 			// btn_SelectSnd
 			// 
@@ -2996,6 +3065,7 @@ namespace Mahou
 			// 
 			// grb_SoundOn
 			// 
+			this.grb_SoundOn.Controls.Add(this.btn_SoundTest);
 			this.grb_SoundOn.Controls.Add(this.chk_SndLayoutSwitch);
 			this.grb_SoundOn.Controls.Add(this.chk_SndLast);
 			this.grb_SoundOn.Controls.Add(this.chk_SndSnippets);
@@ -3006,6 +3076,16 @@ namespace Mahou
 			this.grb_SoundOn.TabIndex = 6;
 			this.grb_SoundOn.TabStop = false;
 			this.grb_SoundOn.Text = "Play sound when:";
+			// 
+			// btn_SoundTest
+			// 
+			this.btn_SoundTest.Location = new System.Drawing.Point(498, 36);
+			this.btn_SoundTest.Name = "btn_SoundTest";
+			this.btn_SoundTest.Size = new System.Drawing.Size(25, 25);
+			this.btn_SoundTest.TabIndex = 36;
+			this.btn_SoundTest.Text = "▶";
+			this.btn_SoundTest.UseVisualStyleBackColor = true;
+			this.btn_SoundTest.Click += new System.EventHandler(this.Btn_SoundTest);
 			// 
 			// chk_SndLayoutSwitch
 			// 
@@ -3622,6 +3702,11 @@ namespace Mahou
 			// 
 			// tab_sync
 			// 
+			this.tab_sync.AutoScroll = true;
+			this.tab_sync.Controls.Add(this.lnk_PixelDrain);
+			this.tab_sync.Controls.Add(this.lnk_PixelDrainAPIKeyHowto);
+			this.tab_sync.Controls.Add(this.txt_PDApiKey);
+			this.tab_sync.Controls.Add(this.lbl_PDApiKey);
 			this.tab_sync.Controls.Add(this.grb_restore);
 			this.tab_sync.Controls.Add(this.grb_backup);
 			this.tab_sync.Location = new System.Drawing.Point(4, 44);
@@ -3631,6 +3716,45 @@ namespace Mahou
 			this.tab_sync.TabIndex = 14;
 			this.tab_sync.Text = "Sync";
 			this.tab_sync.UseVisualStyleBackColor = true;
+			// 
+			// lnk_PixelDrain
+			// 
+			this.lnk_PixelDrain.AutoSize = true;
+			this.lnk_PixelDrain.Location = new System.Drawing.Point(215, 9);
+			this.lnk_PixelDrain.Name = "lnk_PixelDrain";
+			this.lnk_PixelDrain.Size = new System.Drawing.Size(59, 15);
+			this.lnk_PixelDrain.TabIndex = 34;
+			this.lnk_PixelDrain.TabStop = true;
+			this.lnk_PixelDrain.Text = "pixeldrain";
+			this.lnk_PixelDrain.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.Lnk_PixelDrain);
+			// 
+			// lnk_PixelDrainAPIKeyHowto
+			// 
+			this.lnk_PixelDrainAPIKeyHowto.AutoSize = true;
+			this.lnk_PixelDrainAPIKeyHowto.Location = new System.Drawing.Point(172, 9);
+			this.lnk_PixelDrainAPIKeyHowto.Name = "lnk_PixelDrainAPIKeyHowto";
+			this.lnk_PixelDrainAPIKeyHowto.Size = new System.Drawing.Size(37, 15);
+			this.lnk_PixelDrainAPIKeyHowto.TabIndex = 33;
+			this.lnk_PixelDrainAPIKeyHowto.TabStop = true;
+			this.lnk_PixelDrainAPIKeyHowto.Text = "??????";
+			this.lnk_PixelDrainAPIKeyHowto.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.Lnk_PixelDrainAPIKeyHowto);
+			// 
+			// txt_PDApiKey
+			// 
+			this.txt_PDApiKey.Location = new System.Drawing.Point(298, 6);
+			this.txt_PDApiKey.Name = "txt_PDApiKey";
+			this.txt_PDApiKey.PasswordChar = '+';
+			this.txt_PDApiKey.Size = new System.Drawing.Size(227, 23);
+			this.txt_PDApiKey.TabIndex = 3;
+			this.txt_PDApiKey.TextChanged += new System.EventHandler(this.Txt_PDApiKeyTextChanged);
+			// 
+			// lbl_PDApiKey
+			// 
+			this.lbl_PDApiKey.Location = new System.Drawing.Point(14, 8);
+			this.lbl_PDApiKey.Name = "lbl_PDApiKey";
+			this.lbl_PDApiKey.Size = new System.Drawing.Size(278, 21);
+			this.lbl_PDApiKey.TabIndex = 2;
+			this.lbl_PDApiKey.Text = "PixelDrain API key:";
 			// 
 			// grb_restore
 			// 
@@ -3645,9 +3769,9 @@ namespace Mahou
 			this.grb_restore.Controls.Add(this.btn_restore);
 			this.grb_restore.Controls.Add(this.txt_restoreId);
 			this.grb_restore.Controls.Add(this.lbl_restoreId);
-			this.grb_restore.Location = new System.Drawing.Point(8, 132);
+			this.grb_restore.Location = new System.Drawing.Point(8, 165);
 			this.grb_restore.Name = "grb_restore";
-			this.grb_restore.Size = new System.Drawing.Size(545, 130);
+			this.grb_restore.Size = new System.Drawing.Size(523, 130);
 			this.grb_restore.TabIndex = 1;
 			this.grb_restore.TabStop = false;
 			this.grb_restore.Text = "Restore";
@@ -3677,7 +3801,7 @@ namespace Mahou
 			this.pctResPaste.BackgroundImage = global::Mahou.Properties.Resources.clip;
 			this.pctResPaste.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
 			this.pctResPaste.InitialImage = null;
-			this.pctResPaste.Location = new System.Drawing.Point(398, 55);
+			this.pctResPaste.Location = new System.Drawing.Point(374, 55);
 			this.pctResPaste.Name = "pctResPaste";
 			this.pctResPaste.Size = new System.Drawing.Size(23, 23);
 			this.pctResPaste.TabIndex = 14;
@@ -3692,7 +3816,7 @@ namespace Mahou
 			this.txt_restoreStatus.Name = "txt_restoreStatus";
 			this.txt_restoreStatus.ReadOnly = true;
 			this.txt_restoreStatus.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.txt_restoreStatus.Size = new System.Drawing.Size(533, 42);
+			this.txt_restoreStatus.Size = new System.Drawing.Size(517, 42);
 			this.txt_restoreStatus.TabIndex = 13;
 			this.txt_restoreStatus.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			this.txt_restoreStatus.Visible = false;
@@ -3748,7 +3872,7 @@ namespace Mahou
 			// 
 			// btn_restore
 			// 
-			this.btn_restore.Location = new System.Drawing.Point(425, 55);
+			this.btn_restore.Location = new System.Drawing.Point(403, 55);
 			this.btn_restore.Name = "btn_restore";
 			this.btn_restore.Size = new System.Drawing.Size(114, 23);
 			this.btn_restore.TabIndex = 2;
@@ -3760,7 +3884,7 @@ namespace Mahou
 			// 
 			this.txt_restoreId.Location = new System.Drawing.Point(33, 55);
 			this.txt_restoreId.Name = "txt_restoreId";
-			this.txt_restoreId.Size = new System.Drawing.Size(359, 23);
+			this.txt_restoreId.Size = new System.Drawing.Size(335, 23);
 			this.txt_restoreId.TabIndex = 1;
 			// 
 			// lbl_restoreId
@@ -3786,9 +3910,9 @@ namespace Mahou
 			this.grb_backup.Controls.Add(this.chk_Stxt);
 			this.grb_backup.Controls.Add(this.chk_Mini);
 			this.grb_backup.Controls.Add(this.chk_ZxZ);
-			this.grb_backup.Location = new System.Drawing.Point(8, 3);
+			this.grb_backup.Location = new System.Drawing.Point(8, 34);
 			this.grb_backup.Name = "grb_backup";
-			this.grb_backup.Size = new System.Drawing.Size(545, 130);
+			this.grb_backup.Size = new System.Drawing.Size(523, 130);
 			this.grb_backup.TabIndex = 0;
 			this.grb_backup.TabStop = false;
 			this.grb_backup.Text = "Backup";
@@ -3818,7 +3942,7 @@ namespace Mahou
 			this.pctBkpCopy.BackgroundImage = global::Mahou.Properties.Resources.clip;
 			this.pctBkpCopy.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
 			this.pctBkpCopy.InitialImage = null;
-			this.pctBkpCopy.Location = new System.Drawing.Point(398, 59);
+			this.pctBkpCopy.Location = new System.Drawing.Point(374, 59);
 			this.pctBkpCopy.Name = "pctBkpCopy";
 			this.pctBkpCopy.Size = new System.Drawing.Size(23, 23);
 			this.pctBkpCopy.TabIndex = 9;
@@ -3833,7 +3957,7 @@ namespace Mahou
 			this.txt_backupStatus.Name = "txt_backupStatus";
 			this.txt_backupStatus.ReadOnly = true;
 			this.txt_backupStatus.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.txt_backupStatus.Size = new System.Drawing.Size(533, 42);
+			this.txt_backupStatus.Size = new System.Drawing.Size(517, 42);
 			this.txt_backupStatus.TabIndex = 8;
 			this.txt_backupStatus.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			this.txt_backupStatus.Visible = false;
@@ -3853,12 +3977,12 @@ namespace Mahou
 			this.txt_backupId.Location = new System.Drawing.Point(33, 59);
 			this.txt_backupId.Name = "txt_backupId";
 			this.txt_backupId.ReadOnly = true;
-			this.txt_backupId.Size = new System.Drawing.Size(359, 23);
+			this.txt_backupId.Size = new System.Drawing.Size(335, 23);
 			this.txt_backupId.TabIndex = 5;
 			// 
 			// btn_backup
 			// 
-			this.btn_backup.Location = new System.Drawing.Point(427, 59);
+			this.btn_backup.Location = new System.Drawing.Point(403, 59);
 			this.btn_backup.Name = "btn_backup";
 			this.btn_backup.Size = new System.Drawing.Size(114, 23);
 			this.btn_backup.TabIndex = 4;
@@ -3912,12 +4036,13 @@ namespace Mahou
 			// chk_ZxZ
 			// 
 			this.chk_ZxZ.AutoSize = true;
-			this.chk_ZxZ.Location = new System.Drawing.Point(487, 41);
+			this.chk_ZxZ.Location = new System.Drawing.Point(450, 41);
 			this.chk_ZxZ.Name = "chk_ZxZ";
 			this.chk_ZxZ.Size = new System.Drawing.Size(56, 19);
 			this.chk_ZxZ.TabIndex = 12;
 			this.chk_ZxZ.Text = "0x0.st";
 			this.chk_ZxZ.UseVisualStyleBackColor = true;
+			this.chk_ZxZ.Visible = false;
 			this.chk_ZxZ.CheckedChanged += new System.EventHandler(this.Chk_ZxZCheckedChanged);
 			// 
 			// tab_updates
@@ -4182,6 +4307,7 @@ namespace Mahou
 			// 
 			this.tab_Hidden.AutoScroll = true;
 			this.tab_Hidden.BackColor = System.Drawing.Color.DarkSlateGray;
+			this.tab_Hidden.Controls.Add(this.Hchk_LMBTrayToggleEnabled);
 			this.tab_Hidden.Controls.Add(this.Hchk_DontToggleMWexe);
 			this.tab_Hidden.Controls.Add(this.Htxt_LayoutModifier_S_LAYOUT);
 			this.tab_Hidden.Controls.Add(this.Htxt_LayoutModifier_S);
@@ -4249,6 +4375,16 @@ namespace Mahou
 			this.tab_Hidden.Size = new System.Drawing.Size(554, 268);
 			this.tab_Hidden.TabIndex = 15;
 			this.tab_Hidden.Text = "[Hidden]";
+			// 
+			// Hchk_LMBTrayToggleEnabled
+			// 
+			this.Hchk_LMBTrayToggleEnabled.AutoSize = true;
+			this.Hchk_LMBTrayToggleEnabled.Location = new System.Drawing.Point(8, 916);
+			this.Hchk_LMBTrayToggleEnabled.Name = "Hchk_LMBTrayToggleEnabled";
+			this.Hchk_LMBTrayToggleEnabled.Size = new System.Drawing.Size(358, 19);
+			this.Hchk_LMBTrayToggleEnabled.TabIndex = 65;
+			this.Hchk_LMBTrayToggleEnabled.Text = "Left Click on Tray Icon toggles Mahou\'s enabled/disabled state.";
+			this.Hchk_LMBTrayToggleEnabled.UseVisualStyleBackColor = true;
 			// 
 			// Hchk_DontToggleMWexe
 			// 
@@ -4887,7 +5023,7 @@ namespace Mahou
 			// 
 			// Hlbl_scrollpastcontent
 			// 
-			this.Hlbl_scrollpastcontent.Location = new System.Drawing.Point(229, 907);
+			this.Hlbl_scrollpastcontent.Location = new System.Drawing.Point(229, 921);
 			this.Hlbl_scrollpastcontent.Name = "Hlbl_scrollpastcontent";
 			this.Hlbl_scrollpastcontent.Size = new System.Drawing.Size(100, 23);
 			this.Hlbl_scrollpastcontent.TabIndex = 40;
@@ -5012,6 +5148,7 @@ namespace Mahou
 			this.grb_TrConfs.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.nud_TrTransparency)).EndInit();
 			this.tab_sync.ResumeLayout(false);
+			this.tab_sync.PerformLayout();
 			this.grb_restore.ResumeLayout(false);
 			this.grb_restore.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pctResPaste)).EndInit();

@@ -98,20 +98,94 @@ namespace Mahou
 		/// </summary>
 		/// <returns></returns>
 		public static Locale[] AllList() {
-			int count = 0;
 			var locs = new List<Locale>();
 			var PHl = new List<uint>();
-			foreach (InputLanguage lang in InputLanguage.InstalledInputLanguages) {
-				uint u = (uint)lang.Handle;
-				uint shc = u >> 16;
-				if (!PHl.Contains(shc))
-					PHl.Add(shc);
-				count++;
-				locs.Add(new Locale {
-					Lang = lang.LayoutName,
-					uId = u
-				});
+			string[] usrord = null;
+			using (var key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(@"Control Panel\International\User Profile")) {
+				if (key != null) { usrord = key.GetValue("Languages") as string[]; }
 			}
+			if (usrord == null || usrord.Length == 0) {
+				usrord = new string[16];
+				for (int i = 0; i != usrord.Length; i++) { usrord[i] = "?"; }
+			}
+			string[] usrord2 = null;
+			using (var key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(@"Keyboard Layout\Preload")) {
+				if (key != null) {
+					int i = 1;
+					var vl = new List<string>();
+					while (true) {
+						var v = key.GetValue(i.ToString()) as string;
+						if (string.IsNullOrEmpty(v)) break;
+						i++;
+						vl.Add(v);
+					}
+					usrord2 = vl.ToArray();
+				}
+			}
+			Logging.Log("[Locales] Locales installed: " + usrord.Length);
+			var subs = new Dictionary<uint, uint>();
+            using (var key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(@"Keyboard Layout\Substitutes")) {
+                if (key != null) {
+                    foreach (var n in key.GetValueNames()) {
+						var vr = key.GetValue(n);
+						var v = ""; if (vr != null) v = vr.ToString();
+                        if (!string.IsNullOrEmpty(v)) {
+							uint hex = 0, hex2 = 0;
+							uint.TryParse(n, System.Globalization.NumberStyles.HexNumber, null, out hex);
+							uint.TryParse(v, System.Globalization.NumberStyles.HexNumber, null, out hex2);
+                            subs[hex] = hex2;
+                        }
+                    }
+                }
+            }
+			Logging.Log("[Locales] Substitutes: " + subs.Count);
+			for(var i = 0; i < usrord2.Length; i++) {
+				foreach (InputLanguage lang in InputLanguage.InstalledInputLanguages) {
+					uint u = (uint)lang.Handle;
+					if (locs.Exists(x => x.uId == u)) continue;
+					Debug.WriteLine("Testing: " + lang.LayoutName);
+					var matches = false;
+					uint hex = 0;
+					// In case there is non-standard layout which is missing data
+					var null_or_empty_layoutname = string.IsNullOrEmpty(lang.LayoutName);
+					var likely_custom_layout = string.IsNullOrEmpty(lang.Culture.Name) ||
+						string.IsNullOrEmpty(lang.Culture.TwoLetterISOLanguageName) ||
+						null_or_empty_layoutname;
+					if (!likely_custom_layout) {
+						matches = usrord[i].Contains("-") ?
+							string.Equals(usrord[i], lang.Culture.Name, StringComparison.OrdinalIgnoreCase) :
+						    string.Equals(usrord[i], lang.Culture.TwoLetterISOLanguageName, StringComparison.OrdinalIgnoreCase);
+					}
+					if (!matches) {
+						if (uint.TryParse(usrord2[i], System.Globalization.NumberStyles.HexNumber, null, out hex)) {
+							Logging.Log("[Locales] Using HKCU\\Keyboard Layout\\Preload order...");
+							foreach(var h in subs.Keys) {
+								if (hex == h) {
+									Logging.Log("[Locales] Layout substitute: " + hex.ToString("X") + " => " + subs[h].ToString("X"));
+									hex = subs[h];
+									break;
+								}
+							}
+							matches = (hex == u) || ((hex & 0xffff) == (u & 0xffff));
+						}
+					}
+					if (matches || likely_custom_layout) {
+						uint shc = u >> 16;
+						if (!PHl.Contains(shc))
+							PHl.Add(shc);
+						Logging.Log("[Locales] Adding " + usrord[i] + "/" + u.ToString("X") + " as #" + (i+1));
+						locs.Add(new Locale {
+							Lang = null_or_empty_layoutname ? "0x" + u.ToString("X") : lang.LayoutName,
+							uId = u
+						});
+					}
+				}
+			}
+			var locsstr = "";
+			for (var i = 0; i < locs.Count; i++) {
+				locsstr += "[" + locs[i].uId + " " + locs[i].Lang + "]" + (i+1 != locs.Count ? "," : "");
+			}
+			Logging.Log("[Locales] Final layouts: " + locs.Count + ": " + locsstr);
 			MMain.PHLayouts = PHl.Count;
 			return locs.ToArray();
 		}
