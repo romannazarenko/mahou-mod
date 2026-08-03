@@ -99,7 +99,11 @@ namespace Mahou
 				try {
 					clangname = new System.Globalization.CultureInfo((int)(cLid >> 16));
 				} catch {
-					clangname = new System.Globalization.CultureInfo((int)(cLid & 0xffff));
+					try {
+						clangname = new System.Globalization.CultureInfo((int)(cLid & 0xffff));
+					} catch {
+						Logging.Log("[LangDisplay] Couldn't find name for layout: " + cLid);
+					}
 				}
 				if (clangname == null) return;
 				if (MahouUI.DiffAppearenceForLayouts && !DisplayFlag) {
