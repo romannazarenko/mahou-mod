@@ -155,7 +155,8 @@ namespace Mahou
 						matches = usrord[i].Contains("-") ?
 							string.Equals(usrord[i], lang.Culture.Name, StringComparison.OrdinalIgnoreCase) :
 						    string.Equals(usrord[i], lang.Culture.TwoLetterISOLanguageName, StringComparison.OrdinalIgnoreCase);
-					} else if (uint.TryParse(usrord2[i], System.Globalization.NumberStyles.HexNumber, null, out hex)) {
+					}
+					if (uint.TryParse(usrord2[i], System.Globalization.NumberStyles.HexNumber, null, out hex)) {
 						Logging.Log("[Locales] Using HKCU\\Keyboard Layout\\Preload order...");
 						foreach(var h in subs.Keys) {
 							if (hex == h) {
