@@ -51,6 +51,7 @@ Mahou находится под [GPL v2+](https://gitea.com/BladeMight/Mahou/blo
 ### Поддержать
 
 https://ko-fi.com/blademight
+MasterCard: 5457 0822 5641 1427
 
 ###### История изменений:
 
@@ -804,6 +805,7 @@ or contact me though [email](mailto:BladeMight@gmail.com) (You can ask anything)
 ### Donate
 
 https://ko-fi.com/blademight
+MasterCard: 5457 0822 5641 1427
 
 ###### Change log:
 
