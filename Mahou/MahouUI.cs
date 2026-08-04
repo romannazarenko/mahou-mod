@@ -5034,9 +5034,8 @@ DEL ""ExtractASD.cmd""";
 			#endregion
 			#region Sounds
 			chk_EnableSnd.Text = MMain.Lang[Languages.Element.EnableSounds];
-			grb_Sound1.Text = MMain.Lang[Languages.Element.Sound] + " #1";
-			grb_Sound2.Text = MMain.Lang[Languages.Element.Sound] + " #2";
-			grb_SoundOn2.Text = grb_SoundOn.Text = MMain.Lang[Languages.Element.PlaySoundWhen];
+			grb_Sound1.Text = MMain.Lang[Languages.Element.Sound] + " #1, " + MMain.Lang[Languages.Element.PlaySoundWhen];
+			grb_Sound2.Text = MMain.Lang[Languages.Element.Sound] + " #2, " + MMain.Lang[Languages.Element.PlaySoundWhen];
 			chk_SndAutoSwitch2.Text = chk_SndAutoSwitch.Text = MMain.Lang[Languages.Element.SoundOnAutoSwitch];
 			chk_SndSnippets2.Text = chk_SndSnippets.Text = MMain.Lang[Languages.Element.SoundOnSnippets];
 			chk_SndLast2.Text = chk_SndLast.Text = MMain.Lang[Languages.Element.SoundOnConvertLast];
