@@ -554,10 +554,20 @@ namespace Mahou
 			this.lsb_Hotkeys = new System.Windows.Forms.ListBox();
 			this.tab_sounds = new System.Windows.Forms.TabPage();
 			this.grb_Sound2 = new System.Windows.Forms.GroupBox();
+			this.btn_Sound2Test = new System.Windows.Forms.Button();
+			this.chk_SndLayoutSwitch2 = new System.Windows.Forms.CheckBox();
+			this.chk_SndLast2 = new System.Windows.Forms.CheckBox();
+			this.chk_SndSnippets2 = new System.Windows.Forms.CheckBox();
+			this.chk_SndAutoSwitch2 = new System.Windows.Forms.CheckBox();
 			this.txt_CustomSound2 = new System.Windows.Forms.TextBox();
 			this.btn_SelectSnd2 = new System.Windows.Forms.Button();
 			this.chk_UseCustomSnd2 = new System.Windows.Forms.CheckBox();
 			this.grb_Sound1 = new System.Windows.Forms.GroupBox();
+			this.btn_SoundTest = new System.Windows.Forms.Button();
+			this.chk_SndLayoutSwitch = new System.Windows.Forms.CheckBox();
+			this.chk_SndLast = new System.Windows.Forms.CheckBox();
+			this.chk_SndSnippets = new System.Windows.Forms.CheckBox();
+			this.chk_SndAutoSwitch = new System.Windows.Forms.CheckBox();
 			this.txt_CustomSound = new System.Windows.Forms.TextBox();
 			this.btn_SelectSnd = new System.Windows.Forms.Button();
 			this.chk_UseCustomSnd = new System.Windows.Forms.CheckBox();
@@ -730,16 +740,6 @@ namespace Mahou
 			this.btn_OK = new System.Windows.Forms.Button();
 			this.btn_Cancel = new System.Windows.Forms.Button();
 			this.btn_Apply = new System.Windows.Forms.Button();
-			this.btn_Sound2Test = new System.Windows.Forms.Button();
-			this.chk_SndLayoutSwitch2 = new System.Windows.Forms.CheckBox();
-			this.chk_SndLast2 = new System.Windows.Forms.CheckBox();
-			this.chk_SndSnippets2 = new System.Windows.Forms.CheckBox();
-			this.chk_SndAutoSwitch2 = new System.Windows.Forms.CheckBox();
-			this.btn_SoundTest = new System.Windows.Forms.Button();
-			this.chk_SndLayoutSwitch = new System.Windows.Forms.CheckBox();
-			this.chk_SndLast = new System.Windows.Forms.CheckBox();
-			this.chk_SndSnippets = new System.Windows.Forms.CheckBox();
-			this.chk_SndAutoSwitch = new System.Windows.Forms.CheckBox();
 			this.tabs.SuspendLayout();
 			this.tab_functions.SuspendLayout();
 			this.tab_layouts.SuspendLayout();
@@ -2886,6 +2886,56 @@ namespace Mahou
 			this.grb_Sound2.TabStop = false;
 			this.grb_Sound2.Text = "#2";
 			// 
+			// btn_Sound2Test
+			// 
+			this.btn_Sound2Test.Location = new System.Drawing.Point(504, 33);
+			this.btn_Sound2Test.Name = "btn_Sound2Test";
+			this.btn_Sound2Test.Size = new System.Drawing.Size(25, 25);
+			this.btn_Sound2Test.TabIndex = 42;
+			this.btn_Sound2Test.Text = "▶";
+			this.btn_Sound2Test.UseVisualStyleBackColor = true;
+			this.btn_Sound2Test.Click += new System.EventHandler(this.Btn_Sound2Test);
+			// 
+			// chk_SndLayoutSwitch2
+			// 
+			this.chk_SndLayoutSwitch2.AutoSize = true;
+			this.chk_SndLayoutSwitch2.Location = new System.Drawing.Point(283, 46);
+			this.chk_SndLayoutSwitch2.Name = "chk_SndLayoutSwitch2";
+			this.chk_SndLayoutSwitch2.Size = new System.Drawing.Size(139, 19);
+			this.chk_SndLayoutSwitch2.TabIndex = 41;
+			this.chk_SndLayoutSwitch2.Text = "On Layout Switching.";
+			this.chk_SndLayoutSwitch2.UseVisualStyleBackColor = true;
+			// 
+			// chk_SndLast2
+			// 
+			this.chk_SndLast2.AutoSize = true;
+			this.chk_SndLast2.Location = new System.Drawing.Point(283, 26);
+			this.chk_SndLast2.Name = "chk_SndLast2";
+			this.chk_SndLast2.Size = new System.Drawing.Size(162, 19);
+			this.chk_SndLast2.TabIndex = 40;
+			this.chk_SndLast2.Text = "On Last Word conversion.";
+			this.chk_SndLast2.UseVisualStyleBackColor = true;
+			// 
+			// chk_SndSnippets2
+			// 
+			this.chk_SndSnippets2.AutoSize = true;
+			this.chk_SndSnippets2.Location = new System.Drawing.Point(12, 46);
+			this.chk_SndSnippets2.Name = "chk_SndSnippets2";
+			this.chk_SndSnippets2.Size = new System.Drawing.Size(150, 19);
+			this.chk_SndSnippets2.TabIndex = 39;
+			this.chk_SndSnippets2.Text = "On Snippets expansion.";
+			this.chk_SndSnippets2.UseVisualStyleBackColor = true;
+			// 
+			// chk_SndAutoSwitch2
+			// 
+			this.chk_SndAutoSwitch2.AutoSize = true;
+			this.chk_SndAutoSwitch2.Location = new System.Drawing.Point(12, 26);
+			this.chk_SndAutoSwitch2.Name = "chk_SndAutoSwitch2";
+			this.chk_SndAutoSwitch2.Size = new System.Drawing.Size(175, 19);
+			this.chk_SndAutoSwitch2.TabIndex = 38;
+			this.chk_SndAutoSwitch2.Text = "On Auto-Switch conversion.";
+			this.chk_SndAutoSwitch2.UseVisualStyleBackColor = true;
+			// 
 			// txt_CustomSound2
 			// 
 			this.txt_CustomSound2.Location = new System.Drawing.Point(134, 86);
@@ -2930,6 +2980,56 @@ namespace Mahou
 			this.grb_Sound1.TabIndex = 2;
 			this.grb_Sound1.TabStop = false;
 			this.grb_Sound1.Text = "#1";
+			// 
+			// btn_SoundTest
+			// 
+			this.btn_SoundTest.Location = new System.Drawing.Point(504, 34);
+			this.btn_SoundTest.Name = "btn_SoundTest";
+			this.btn_SoundTest.Size = new System.Drawing.Size(25, 25);
+			this.btn_SoundTest.TabIndex = 41;
+			this.btn_SoundTest.Text = "▶";
+			this.btn_SoundTest.UseVisualStyleBackColor = true;
+			this.btn_SoundTest.Click += new System.EventHandler(this.Btn_SoundTest);
+			// 
+			// chk_SndLayoutSwitch
+			// 
+			this.chk_SndLayoutSwitch.AutoSize = true;
+			this.chk_SndLayoutSwitch.Location = new System.Drawing.Point(283, 48);
+			this.chk_SndLayoutSwitch.Name = "chk_SndLayoutSwitch";
+			this.chk_SndLayoutSwitch.Size = new System.Drawing.Size(139, 19);
+			this.chk_SndLayoutSwitch.TabIndex = 40;
+			this.chk_SndLayoutSwitch.Text = "On Layout Switching.";
+			this.chk_SndLayoutSwitch.UseVisualStyleBackColor = true;
+			// 
+			// chk_SndLast
+			// 
+			this.chk_SndLast.AutoSize = true;
+			this.chk_SndLast.Location = new System.Drawing.Point(283, 28);
+			this.chk_SndLast.Name = "chk_SndLast";
+			this.chk_SndLast.Size = new System.Drawing.Size(162, 19);
+			this.chk_SndLast.TabIndex = 39;
+			this.chk_SndLast.Text = "On Last Word conversion.";
+			this.chk_SndLast.UseVisualStyleBackColor = true;
+			// 
+			// chk_SndSnippets
+			// 
+			this.chk_SndSnippets.AutoSize = true;
+			this.chk_SndSnippets.Location = new System.Drawing.Point(12, 48);
+			this.chk_SndSnippets.Name = "chk_SndSnippets";
+			this.chk_SndSnippets.Size = new System.Drawing.Size(150, 19);
+			this.chk_SndSnippets.TabIndex = 38;
+			this.chk_SndSnippets.Text = "On Snippets expansion.";
+			this.chk_SndSnippets.UseVisualStyleBackColor = true;
+			// 
+			// chk_SndAutoSwitch
+			// 
+			this.chk_SndAutoSwitch.AutoSize = true;
+			this.chk_SndAutoSwitch.Location = new System.Drawing.Point(12, 28);
+			this.chk_SndAutoSwitch.Name = "chk_SndAutoSwitch";
+			this.chk_SndAutoSwitch.Size = new System.Drawing.Size(175, 19);
+			this.chk_SndAutoSwitch.TabIndex = 37;
+			this.chk_SndAutoSwitch.Text = "On Auto-Switch conversion.";
+			this.chk_SndAutoSwitch.UseVisualStyleBackColor = true;
 			// 
 			// txt_CustomSound
 			// 
@@ -4891,104 +4991,6 @@ namespace Mahou
 			this.btn_Apply.Text = "Apply";
 			this.btn_Apply.UseVisualStyleBackColor = true;
 			this.btn_Apply.Click += new System.EventHandler(this.Btn_ApplyClick);
-			// 
-			// btn_Sound2Test
-			// 
-			this.btn_Sound2Test.Location = new System.Drawing.Point(504, 33);
-			this.btn_Sound2Test.Name = "btn_Sound2Test";
-			this.btn_Sound2Test.Size = new System.Drawing.Size(25, 25);
-			this.btn_Sound2Test.TabIndex = 42;
-			this.btn_Sound2Test.Text = "▶";
-			this.btn_Sound2Test.UseVisualStyleBackColor = true;
-			// 
-			// chk_SndLayoutSwitch2
-			// 
-			this.chk_SndLayoutSwitch2.AutoSize = true;
-			this.chk_SndLayoutSwitch2.Location = new System.Drawing.Point(283, 46);
-			this.chk_SndLayoutSwitch2.Name = "chk_SndLayoutSwitch2";
-			this.chk_SndLayoutSwitch2.Size = new System.Drawing.Size(139, 19);
-			this.chk_SndLayoutSwitch2.TabIndex = 41;
-			this.chk_SndLayoutSwitch2.Text = "On Layout Switching.";
-			this.chk_SndLayoutSwitch2.UseVisualStyleBackColor = true;
-			// 
-			// chk_SndLast2
-			// 
-			this.chk_SndLast2.AutoSize = true;
-			this.chk_SndLast2.Location = new System.Drawing.Point(283, 26);
-			this.chk_SndLast2.Name = "chk_SndLast2";
-			this.chk_SndLast2.Size = new System.Drawing.Size(162, 19);
-			this.chk_SndLast2.TabIndex = 40;
-			this.chk_SndLast2.Text = "On Last Word conversion.";
-			this.chk_SndLast2.UseVisualStyleBackColor = true;
-			// 
-			// chk_SndSnippets2
-			// 
-			this.chk_SndSnippets2.AutoSize = true;
-			this.chk_SndSnippets2.Location = new System.Drawing.Point(12, 46);
-			this.chk_SndSnippets2.Name = "chk_SndSnippets2";
-			this.chk_SndSnippets2.Size = new System.Drawing.Size(150, 19);
-			this.chk_SndSnippets2.TabIndex = 39;
-			this.chk_SndSnippets2.Text = "On Snippets expansion.";
-			this.chk_SndSnippets2.UseVisualStyleBackColor = true;
-			// 
-			// chk_SndAutoSwitch2
-			// 
-			this.chk_SndAutoSwitch2.AutoSize = true;
-			this.chk_SndAutoSwitch2.Location = new System.Drawing.Point(12, 26);
-			this.chk_SndAutoSwitch2.Name = "chk_SndAutoSwitch2";
-			this.chk_SndAutoSwitch2.Size = new System.Drawing.Size(175, 19);
-			this.chk_SndAutoSwitch2.TabIndex = 38;
-			this.chk_SndAutoSwitch2.Text = "On Auto-Switch conversion.";
-			this.chk_SndAutoSwitch2.UseVisualStyleBackColor = true;
-			// 
-			// btn_SoundTest
-			// 
-			this.btn_SoundTest.Location = new System.Drawing.Point(504, 34);
-			this.btn_SoundTest.Name = "btn_SoundTest";
-			this.btn_SoundTest.Size = new System.Drawing.Size(25, 25);
-			this.btn_SoundTest.TabIndex = 41;
-			this.btn_SoundTest.Text = "▶";
-			this.btn_SoundTest.UseVisualStyleBackColor = true;
-			// 
-			// chk_SndLayoutSwitch
-			// 
-			this.chk_SndLayoutSwitch.AutoSize = true;
-			this.chk_SndLayoutSwitch.Location = new System.Drawing.Point(283, 48);
-			this.chk_SndLayoutSwitch.Name = "chk_SndLayoutSwitch";
-			this.chk_SndLayoutSwitch.Size = new System.Drawing.Size(139, 19);
-			this.chk_SndLayoutSwitch.TabIndex = 40;
-			this.chk_SndLayoutSwitch.Text = "On Layout Switching.";
-			this.chk_SndLayoutSwitch.UseVisualStyleBackColor = true;
-			// 
-			// chk_SndLast
-			// 
-			this.chk_SndLast.AutoSize = true;
-			this.chk_SndLast.Location = new System.Drawing.Point(283, 28);
-			this.chk_SndLast.Name = "chk_SndLast";
-			this.chk_SndLast.Size = new System.Drawing.Size(162, 19);
-			this.chk_SndLast.TabIndex = 39;
-			this.chk_SndLast.Text = "On Last Word conversion.";
-			this.chk_SndLast.UseVisualStyleBackColor = true;
-			// 
-			// chk_SndSnippets
-			// 
-			this.chk_SndSnippets.AutoSize = true;
-			this.chk_SndSnippets.Location = new System.Drawing.Point(12, 48);
-			this.chk_SndSnippets.Name = "chk_SndSnippets";
-			this.chk_SndSnippets.Size = new System.Drawing.Size(150, 19);
-			this.chk_SndSnippets.TabIndex = 38;
-			this.chk_SndSnippets.Text = "On Snippets expansion.";
-			this.chk_SndSnippets.UseVisualStyleBackColor = true;
-			// 
-			// chk_SndAutoSwitch
-			// 
-			this.chk_SndAutoSwitch.AutoSize = true;
-			this.chk_SndAutoSwitch.Location = new System.Drawing.Point(12, 28);
-			this.chk_SndAutoSwitch.Name = "chk_SndAutoSwitch";
-			this.chk_SndAutoSwitch.Size = new System.Drawing.Size(175, 19);
-			this.chk_SndAutoSwitch.TabIndex = 37;
-			this.chk_SndAutoSwitch.Text = "On Auto-Switch conversion.";
-			this.chk_SndAutoSwitch.UseVisualStyleBackColor = true;
 			// 
 			// MahouUI
 			// 
