@@ -5363,15 +5363,6 @@ DEL ""ExtractASD.cmd""";
 		void Lnk_PixelDrain(object sender, LinkLabelLinkClickedEventArgs e) {
 			__lopen("https://pixeldrain.com/user/api_keys", "http", false, e.Button == MouseButtons.Right);
 		}
-		void Lnk_miniaudio(object sender, LinkLabelLinkClickedEventArgs e) {
-			__lopen("https://pixeldrain.com/u/Na6zKN3B", "http", false, e.Button == MouseButtons.Right);
-		}
-		void Lnk_NAudio(object sender, LinkLabelLinkClickedEventArgs e) {
-			__lopen("https://pixeldrain.com/u/5VmZtzqq", "http", false, e.Button == MouseButtons.Right);
-		}
-		void Lnk_AudioDllsHowto(object sender, LinkLabelLinkClickedEventArgs e) {
-			__lopen("https://postimg.cc/hz5qSsCG", "http", false, e.Button == MouseButtons.Right);
-		}
 		void Lnk_SnipOpenLinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
 			__lopen(snipfile, "txt");
 			reload_snip = true;

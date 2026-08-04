@@ -366,9 +366,6 @@ namespace Mahou
 		private System.Windows.Forms.CheckBox Hchk_LMBTrayToggleEnabled;
 		private Mahou.MahouUI.LinkLabelNew lnk_PixelDrainAPIKeyHowto;
 		private Mahou.MahouUI.LinkLabelNew lnk_PixelDrain;
-		private Mahou.MahouUI.LinkLabelNew lnk_NAudio;
-		private Mahou.MahouUI.LinkLabelNew lnk_miniaudio;
-		private Mahou.MahouUI.LinkLabelNew lnk_AudioDllsHowto;
 		private System.Windows.Forms.Button btn_Sound2Test;
 		private System.Windows.Forms.Button btn_SoundTest;
 		/// <summary>
@@ -558,9 +555,6 @@ namespace Mahou
 			this.chk_WinInHotKey = new System.Windows.Forms.CheckBox();
 			this.lsb_Hotkeys = new System.Windows.Forms.ListBox();
 			this.tab_sounds = new System.Windows.Forms.TabPage();
-			this.lnk_AudioDllsHowto = new Mahou.MahouUI.LinkLabelNew();
-			this.lnk_NAudio = new Mahou.MahouUI.LinkLabelNew();
-			this.lnk_miniaudio = new Mahou.MahouUI.LinkLabelNew();
 			this.grb_Sound2 = new System.Windows.Forms.GroupBox();
 			this.txt_CustomSound2 = new System.Windows.Forms.TextBox();
 			this.btn_SelectSnd2 = new System.Windows.Forms.Button();
@@ -2870,9 +2864,6 @@ namespace Mahou
 			// 
 			// tab_sounds
 			// 
-			this.tab_sounds.Controls.Add(this.lnk_AudioDllsHowto);
-			this.tab_sounds.Controls.Add(this.lnk_NAudio);
-			this.tab_sounds.Controls.Add(this.lnk_miniaudio);
 			this.tab_sounds.Controls.Add(this.grb_Sound2);
 			this.tab_sounds.Controls.Add(this.grb_Sound1);
 			this.tab_sounds.Controls.Add(this.chk_EnableSnd);
@@ -2883,39 +2874,6 @@ namespace Mahou
 			this.tab_sounds.TabIndex = 12;
 			this.tab_sounds.Text = "Sounds";
 			this.tab_sounds.UseVisualStyleBackColor = true;
-			// 
-			// lnk_AudioDllsHowto
-			// 
-			this.lnk_AudioDllsHowto.AutoSize = true;
-			this.lnk_AudioDllsHowto.Location = new System.Drawing.Point(479, 4);
-			this.lnk_AudioDllsHowto.Name = "lnk_AudioDllsHowto";
-			this.lnk_AudioDllsHowto.Size = new System.Drawing.Size(37, 15);
-			this.lnk_AudioDllsHowto.TabIndex = 37;
-			this.lnk_AudioDllsHowto.TabStop = true;
-			this.lnk_AudioDllsHowto.Text = "??????";
-			this.lnk_AudioDllsHowto.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.Lnk_AudioDllsHowto);
-			// 
-			// lnk_NAudio
-			// 
-			this.lnk_NAudio.AutoSize = true;
-			this.lnk_NAudio.Location = new System.Drawing.Point(409, 4);
-			this.lnk_NAudio.Name = "lnk_NAudio";
-			this.lnk_NAudio.Size = new System.Drawing.Size(64, 15);
-			this.lnk_NAudio.TabIndex = 36;
-			this.lnk_NAudio.TabStop = true;
-			this.lnk_NAudio.Text = "NAudio.dll";
-			this.lnk_NAudio.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.Lnk_NAudio);
-			// 
-			// lnk_miniaudio
-			// 
-			this.lnk_miniaudio.AutoSize = true;
-			this.lnk_miniaudio.Location = new System.Drawing.Point(326, 4);
-			this.lnk_miniaudio.Name = "lnk_miniaudio";
-			this.lnk_miniaudio.Size = new System.Drawing.Size(77, 15);
-			this.lnk_miniaudio.TabIndex = 35;
-			this.lnk_miniaudio.TabStop = true;
-			this.lnk_miniaudio.Text = "miniaudio.dll";
-			this.lnk_miniaudio.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.Lnk_miniaudio);
 			// 
 			// grb_Sound2
 			// 
