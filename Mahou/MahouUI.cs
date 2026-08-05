@@ -3439,7 +3439,7 @@ DEL """+restartMahouPath + @"""";
 					MethodInfo playMethod = waveOutType.GetMethod("Play");
 					playMethod.Invoke(waveOut, null);
 				} else {
-					if (KMHook.IfNW7()) {
+					try {
 						Logging.Log("[Sound] Using: [System.Media.Soundplayer] to play audio...");
 						var sp = new System.Media.SoundPlayer(audio);
 						try {
@@ -3449,10 +3449,11 @@ DEL """+restartMahouPath + @"""";
 						} catch(Exception e) {
 							Logging.Log("[Sound] Error during loading of the custom sound file: "+e.Message + "\n" + e.StackTrace, 1);
 							Logging.Log("[Sound] Fallback to default sound...");
+							throw new Exception("SoundPlayer initialization failed");
 						}
 						sp.Play();
 						sp.Dispose();
-					} else {
+					} catch (Exception e) {
 						// Most likely won't be able to play non-PCM WAV on windows 7 through mciSS
 						snd = second ? Properties.Resources.snd2pcm16 : Properties.Resources.sndpcm16;
 						var fn = "Mahou-sound" + GetRandomString(4) +".wav";
