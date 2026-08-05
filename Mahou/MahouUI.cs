@@ -5909,6 +5909,10 @@ DEL ""ExtractASD.cmd""";
 		void Chk_CheckedChanged(object sender, EventArgs e) {
 			ToggleDependentControlsEnabledState();
 		}
+		void chk_EnableSnd_CheckedChanged(object sender, EventArgs e) {
+			SoundEnabled = chk_EnableSnd.Checked;
+			ToggleDependentControlsEnabledState();
+		}
 		void Chk_HKCheckedChanged(object sender, EventArgs e) {
 			UpdateHKTemps(sender, e);
 			ToggleDependentControlsEnabledState();

@@ -3068,7 +3068,7 @@ namespace Mahou
 			this.chk_EnableSnd.TabIndex = 1;
 			this.chk_EnableSnd.Text = "Enable sounds.";
 			this.chk_EnableSnd.UseVisualStyleBackColor = true;
-			this.chk_EnableSnd.CheckedChanged += new System.EventHandler(this.Chk_CheckedChanged);
+			this.chk_EnableSnd.CheckedChanged += new System.EventHandler(this.chk_EnableSnd_CheckedChanged);
 			// 
 			// tab_LangPanel
 			// 
