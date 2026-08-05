@@ -3438,22 +3438,18 @@ DEL """+restartMahouPath + @"""";
 					initMethod.Invoke(waveOut, new[] { reader });
 					MethodInfo playMethod = waveOutType.GetMethod("Play");
 					playMethod.Invoke(waveOut, null);
+					audio.Dispose();
 				} else {
 					try {
 						Logging.Log("[Sound] Using: [System.Media.Soundplayer] to play audio...");
-						var sp = new System.Media.SoundPlayer(audio);
-						try {
-							csf = replaceenv(csf, "%mahou_dir%", () => nPath);
-							if (ucs) if (File.Exists(csf))
-								sp = new System.Media.SoundPlayer(csf);
-						} catch(Exception e) {
-							Logging.Log("[Sound] Error during loading of the custom sound file: "+e.Message + "\n" + e.StackTrace, 1);
-							Logging.Log("[Sound] Fallback to default sound...");
-							throw new Exception("SoundPlayer initialization failed");
-						}
-						sp.Play();
-						sp.Dispose();
+						System.Threading.Tasks.Task.Run(() => {
+							using(var sp = new System.Media.SoundPlayer(audio)) {
+								sp.PlaySync();
+								audio.Dispose();
+							}
+                        });
 					} catch (Exception e) {
+						Logging.Log("[Sound] Error during SoundPlayer playback: "+e.Message + "\n" + e.StackTrace, 1);
 						// Most likely won't be able to play non-PCM WAV on windows 7 through mciSS
 						snd = second ? Properties.Resources.snd2pcm16 : Properties.Resources.sndpcm16;
 						var fn = "Mahou-sound" + GetRandomString(4) +".wav";
@@ -3468,8 +3464,8 @@ DEL """+restartMahouPath + @"""";
 							WinAPI.mciSendString("close \"" + tf + "\"", null, 0, 0);
 							if (File.Exists(tff)) File.Delete(tff);
 						});
+						audio.Dispose();
 					}
-					audio.Dispose();
 				}
 			}
 		}
