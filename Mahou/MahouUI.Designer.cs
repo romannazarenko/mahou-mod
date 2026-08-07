@@ -2942,6 +2942,7 @@ namespace Mahou
 			this.txt_CustomSound2.Name = "txt_CustomSound2";
 			this.txt_CustomSound2.Size = new System.Drawing.Size(279, 23);
 			this.txt_CustomSound2.TabIndex = 9;
+			this.txt_CustomSound2.TextChanged += new System.EventHandler(this.Txt_CustomSound2TextChanged);
 			// 
 			// btn_SelectSnd2
 			// 
@@ -2962,7 +2963,7 @@ namespace Mahou
 			this.chk_UseCustomSnd2.TabIndex = 7;
 			this.chk_UseCustomSnd2.Text = "Use custom sound:";
 			this.chk_UseCustomSnd2.UseVisualStyleBackColor = true;
-			this.chk_UseCustomSnd2.CheckedChanged += new System.EventHandler(this.Chk_CheckedChanged);
+			this.chk_UseCustomSnd2.CheckedChanged += new System.EventHandler(this.Chk_UseCustomSnd2CheckedChanged);
 			// 
 			// grb_Sound1
 			// 
@@ -3037,6 +3038,7 @@ namespace Mahou
 			this.txt_CustomSound.Name = "txt_CustomSound";
 			this.txt_CustomSound.Size = new System.Drawing.Size(278, 23);
 			this.txt_CustomSound.TabIndex = 9;
+			this.txt_CustomSound.TextChanged += new System.EventHandler(this.Txt_CustomSoundTextChanged);
 			// 
 			// btn_SelectSnd
 			// 
@@ -3057,7 +3059,7 @@ namespace Mahou
 			this.chk_UseCustomSnd.TabIndex = 7;
 			this.chk_UseCustomSnd.Text = "Use custom sound:";
 			this.chk_UseCustomSnd.UseVisualStyleBackColor = true;
-			this.chk_UseCustomSnd.CheckedChanged += new System.EventHandler(this.Chk_CheckedChanged);
+			this.chk_UseCustomSnd.CheckedChanged += new System.EventHandler(this.Chk_UseCustomSndCheckedChanged);
 			// 
 			// chk_EnableSnd
 			// 

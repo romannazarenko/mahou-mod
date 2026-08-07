@@ -2002,22 +2002,7 @@ namespace Mahou {
 			SoundOnLayoutSwitch2 = chk_SndLayoutSwitch2.Checked = MMain.MyConfs.ReadBool("Sounds", "OnLayoutSwitch2");
 			UseCustomSound2 = chk_UseCustomSnd2.Checked = MMain.MyConfs.ReadBool("Sounds", "UseCustomSound2");
 			CustomSound2 = txt_CustomSound2.Text = MMain.MyConfs.Read("Sounds", "CustomSound2");
-			var lbCSh = txt_CustomSound.Text;
-			var lbCSh2 = txt_CustomSound2.Text;
-			if (!File.Exists(replaceenv(CustomSound, "%mahou_dir%", () => nPath)) &&
-			    !File.Exists(CustomSound.Replace(".\\", nPath))) {
-				txt_CustomSound.BackColor = Color.LightCoral;
-				lbCSh = MMain.Lang[Languages.Element.Not] + " " + MMain.Lang[Languages.Element.Exist] + ":\r\n["+txt_CustomSound.Text+"]";
-			} else
-				txt_CustomSound.BackColor = Color.FromKnownColor(KnownColor.Window);
-			if (!File.Exists(replaceenv(CustomSound2, "%mahou_dir%", () => nPath)) &&
-			    !File.Exists(CustomSound2.Replace(".\\", nPath))) {
-				txt_CustomSound2.BackColor = Color.LightCoral;
-				lbCSh2 = MMain.Lang[Languages.Element.Not] + " " + MMain.Lang[Languages.Element.Exist] + ":\r\n["+txt_CustomSound2.Text+"]";
-			} else
-				txt_CustomSound2.BackColor = Color.FromKnownColor(KnownColor.Window);
-			HelpMeUnderstand.SetToolTip(txt_CustomSound, lbCSh);
-			HelpMeUnderstand.SetToolTip(txt_CustomSound2, lbCSh2);
+			CustomSoundsCheck();
 			#endregion
 			#region Sync
 			var bbools = MMain.MyConfs.Read("Sync", "BBools");
@@ -2098,6 +2083,28 @@ namespace Mahou {
 				SuspendResumeDraw(this, false);
 			}
 			Logging.Log("All configurations loaded.");
+		}
+		void CustomSoundsCheck() {
+			if (txt_CustomSound == null ||
+			    txt_CustomSound2 == null) return;
+			if (CustomSound == null ||
+			    CustomSound2 == null)  return;
+			var lbCSh = txt_CustomSound.Text;
+			var lbCSh2 = txt_CustomSound2.Text;
+			if (!File.Exists(replaceenv(CustomSound, "%mahou_dir%", () => nPath)) &&
+			    !File.Exists(CustomSound.Replace(".\\", nPath))) {
+				txt_CustomSound.BackColor = Color.LightCoral;
+				lbCSh = MMain.Lang[Languages.Element.Not] + " " + MMain.Lang[Languages.Element.Exist] + ":\r\n["+txt_CustomSound.Text+"]";
+			} else
+				txt_CustomSound.BackColor = Color.FromKnownColor(KnownColor.Window);
+			if (!File.Exists(replaceenv(CustomSound2, "%mahou_dir%", () => nPath)) &&
+			    !File.Exists(CustomSound2.Replace(".\\", nPath))) {
+				txt_CustomSound2.BackColor = Color.LightCoral;
+				lbCSh2 = MMain.Lang[Languages.Element.Not] + " " + MMain.Lang[Languages.Element.Exist] + ":\r\n["+txt_CustomSound2.Text+"]";
+			} else
+				txt_CustomSound2.BackColor = Color.FromKnownColor(KnownColor.Window);
+			HelpMeUnderstand.SetToolTip(txt_CustomSound, lbCSh);
+			HelpMeUnderstand.SetToolTip(txt_CustomSound2, lbCSh2);
 		}
 		public static void SuspendResumeDraw(Control c, bool suspend = true) {
 			int WM_SETREDRAW = 11;
@@ -6397,12 +6404,28 @@ DEL ""ExtractASD.cmd""";
 			lbl_SetsCount.Visible = pan_KeySets.Visible = btn_SubSet.Visible = btn_AddSet.Visible = !old;
 		}
 		void Btn_SelectSndClick(object sender, EventArgs e) {
-			txt_CustomSound.Text = SelectGetWavFile().Replace(nPath, ".\\");
-			HelpMeUnderstand.SetToolTip(txt_CustomSound, txt_CustomSound.Text);
+			CustomSound = txt_CustomSound.Text = SelectGetWavFile().Replace(nPath, ".\\");
+			CustomSoundsCheck();
 		}
 		void Btn_SelectSnd2Click(object sender, EventArgs e) {
-			txt_CustomSound2.Text = SelectGetWavFile().Replace(nPath, ".\\");
-			HelpMeUnderstand.SetToolTip(txt_CustomSound2, txt_CustomSound2.Text);
+			CustomSound2 = txt_CustomSound2.Text = SelectGetWavFile().Replace(nPath, ".\\");
+			CustomSoundsCheck();
+		}
+		void Chk_UseCustomSndCheckedChanged(object sender, EventArgs e) {
+			UseCustomSound = chk_UseCustomSnd.Checked;
+			ToggleDependentControlsEnabledState();
+		}
+		void Chk_UseCustomSnd2CheckedChanged(object sender, EventArgs e) {
+			UseCustomSound2 = chk_UseCustomSnd2.Checked;
+			ToggleDependentControlsEnabledState();
+		}
+		void Txt_CustomSoundTextChanged(object sender, EventArgs e) {
+			CustomSound = txt_CustomSound.Text;
+			CustomSoundsCheck();
+		}
+		void Txt_CustomSound2TextChanged(object sender, EventArgs e) {
+			CustomSound2 = txt_CustomSound2.Text;
+			CustomSoundsCheck();
 		}
 		void Btn_SoundTest(object sender, EventArgs e) {
 			SoundPlay();
