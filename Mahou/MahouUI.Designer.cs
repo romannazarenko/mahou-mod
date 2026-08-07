@@ -2905,6 +2905,7 @@ namespace Mahou
 			this.chk_SndLayoutSwitch2.TabIndex = 41;
 			this.chk_SndLayoutSwitch2.Text = "On Layout Switching.";
 			this.chk_SndLayoutSwitch2.UseVisualStyleBackColor = true;
+			this.chk_SndLayoutSwitch2.CheckedChanged += new System.EventHandler(this.Chk_CheckedChanged);
 			// 
 			// chk_SndLast2
 			// 
@@ -2915,6 +2916,7 @@ namespace Mahou
 			this.chk_SndLast2.TabIndex = 40;
 			this.chk_SndLast2.Text = "On Last Word conversion.";
 			this.chk_SndLast2.UseVisualStyleBackColor = true;
+			this.chk_SndLast2.CheckedChanged += new System.EventHandler(this.Chk_CheckedChanged);
 			// 
 			// chk_SndSnippets2
 			// 
@@ -2925,6 +2927,7 @@ namespace Mahou
 			this.chk_SndSnippets2.TabIndex = 39;
 			this.chk_SndSnippets2.Text = "On Snippets expansion.";
 			this.chk_SndSnippets2.UseVisualStyleBackColor = true;
+			this.chk_SndSnippets2.CheckedChanged += new System.EventHandler(this.Chk_CheckedChanged);
 			// 
 			// chk_SndAutoSwitch2
 			// 
@@ -2935,6 +2938,7 @@ namespace Mahou
 			this.chk_SndAutoSwitch2.TabIndex = 38;
 			this.chk_SndAutoSwitch2.Text = "On Auto-Switch conversion.";
 			this.chk_SndAutoSwitch2.UseVisualStyleBackColor = true;
+			this.chk_SndAutoSwitch2.CheckedChanged += new System.EventHandler(this.Chk_CheckedChanged);
 			// 
 			// txt_CustomSound2
 			// 
@@ -3001,6 +3005,7 @@ namespace Mahou
 			this.chk_SndLayoutSwitch.TabIndex = 40;
 			this.chk_SndLayoutSwitch.Text = "On Layout Switching.";
 			this.chk_SndLayoutSwitch.UseVisualStyleBackColor = true;
+			this.chk_SndLayoutSwitch.CheckedChanged += new System.EventHandler(this.Chk_CheckedChanged);
 			// 
 			// chk_SndLast
 			// 
@@ -3011,6 +3016,7 @@ namespace Mahou
 			this.chk_SndLast.TabIndex = 39;
 			this.chk_SndLast.Text = "On Last Word conversion.";
 			this.chk_SndLast.UseVisualStyleBackColor = true;
+			this.chk_SndLast.CheckedChanged += new System.EventHandler(this.Chk_CheckedChanged);
 			// 
 			// chk_SndSnippets
 			// 
@@ -3021,6 +3027,7 @@ namespace Mahou
 			this.chk_SndSnippets.TabIndex = 38;
 			this.chk_SndSnippets.Text = "On Snippets expansion.";
 			this.chk_SndSnippets.UseVisualStyleBackColor = true;
+			this.chk_SndSnippets.CheckedChanged += new System.EventHandler(this.Chk_CheckedChanged);
 			// 
 			// chk_SndAutoSwitch
 			// 
@@ -3031,6 +3038,7 @@ namespace Mahou
 			this.chk_SndAutoSwitch.TabIndex = 37;
 			this.chk_SndAutoSwitch.Text = "On Auto-Switch conversion.";
 			this.chk_SndAutoSwitch.UseVisualStyleBackColor = true;
+			this.chk_SndAutoSwitch.CheckedChanged += new System.EventHandler(this.Chk_CheckedChanged);
 			// 
 			// txt_CustomSound
 			// 

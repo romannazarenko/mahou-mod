@@ -2427,6 +2427,18 @@ namespace Mahou {
 			txt_CustomSound.Enabled = btn_SelectSnd.Enabled = chk_UseCustomSnd.Checked;
 			txt_CustomSound2.Enabled = btn_SelectSnd2.Enabled = chk_UseCustomSnd2.Checked;
 			grb_Sound1.Enabled = grb_Sound2.Enabled = chk_EnableSnd.Checked;
+			chk_SndAutoSwitch.Enabled = !chk_SndAutoSwitch2.Checked;
+			chk_SndAutoSwitch2.Enabled = !chk_SndAutoSwitch.Checked;
+			if (chk_SndAutoSwitch.Checked == chk_SndAutoSwitch2.Checked) chk_SndAutoSwitch2.Checked = false;
+			chk_SndLast.Enabled = !chk_SndLast2.Checked;
+			chk_SndLast2.Enabled = !chk_SndLast.Checked;
+			if (chk_SndLast.Checked == chk_SndLast2.Checked) chk_SndLast2.Checked = false;
+			chk_SndSnippets.Enabled = !chk_SndSnippets2.Checked;
+			chk_SndSnippets2.Enabled = !chk_SndSnippets.Checked;
+			if (chk_SndSnippets.Checked == chk_SndSnippets2.Checked) chk_SndSnippets2.Checked = false;
+			chk_SndLayoutSwitch.Enabled = !chk_SndLayoutSwitch2.Checked;
+			chk_SndLayoutSwitch2.Enabled = !chk_SndLayoutSwitch.Checked;
+			if (chk_SndLayoutSwitch.Checked == chk_SndLayoutSwitch2.Checked) chk_SndLayoutSwitch2.Checked = false;
 			// Translation tab
 			btn_TrBorderC.Enabled = !chk_TrUseAccent.Checked;
 			grb_TrConfs.Enabled = chk_TrEnable.Checked;
