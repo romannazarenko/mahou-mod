@@ -3414,6 +3414,7 @@ DEL """+restartMahouPath + @"""";
 				if (miniaudio.Play(snd)) return;
 				var NAudio = Path.Combine(nPath, "NAudio.dll");
 				if (!File.Exists(NAudio)) NAudio = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "NAudio.dll");
+				if (!File.Exists(NAudio)) NAudio = Path.Combine(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "libs"), "NAudio.dll");
 				if (File.Exists(NAudio)) {
 					if (_NAudio == null)
 						_NAudio = Assembly.Load(File.ReadAllBytes(NAudio));

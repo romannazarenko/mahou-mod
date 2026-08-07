@@ -30,6 +30,7 @@ namespace Mahou {
 			var dll = "miniaudio_x86.dll";
 			if (Environment.Is64BitProcess) dll = "miniaudio_x64.dll";
 			var dllPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, dll);
+			if (!File.Exists(dllPath)) dllPath = Path.Combine(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "libs"), dll);
 			if (!File.Exists(dllPath)) dllPath = Path.Combine(MahouUI.nPath, dll);
 			return dllPath;
 	    }
