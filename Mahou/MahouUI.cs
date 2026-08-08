@@ -2092,13 +2092,15 @@ namespace Mahou {
 			var lbCSh = txt_CustomSound.Text;
 			var lbCSh2 = txt_CustomSound2.Text;
 			if (!File.Exists(replaceenv(CustomSound, "%mahou_dir%", () => nPath)) &&
-			    !File.Exists(CustomSound.Replace(".\\", nPath))) {
+			    !File.Exists(CustomSound.Replace(".\\", nPath)) && 
+			    (CustomSound.IndexOf('\\') == -1 && File.Exists(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, CustomSound)))) {
 				txt_CustomSound.BackColor = Color.LightCoral;
 				lbCSh = MMain.Lang[Languages.Element.Not] + " " + MMain.Lang[Languages.Element.Exist] + ":\r\n["+txt_CustomSound.Text+"]";
 			} else
 				txt_CustomSound.BackColor = Color.FromKnownColor(KnownColor.Window);
 			if (!File.Exists(replaceenv(CustomSound2, "%mahou_dir%", () => nPath)) &&
-			    !File.Exists(CustomSound2.Replace(".\\", nPath))) {
+			    !File.Exists(CustomSound2.Replace(".\\", nPath)) && 
+			    (CustomSound2.IndexOf('\\') == -1 && File.Exists(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, CustomSound2)))) {
 				txt_CustomSound2.BackColor = Color.LightCoral;
 				lbCSh2 = MMain.Lang[Languages.Element.Not] + " " + MMain.Lang[Languages.Element.Exist] + ":\r\n["+txt_CustomSound2.Text+"]";
 			} else
@@ -3428,6 +3430,8 @@ DEL """+restartMahouPath + @"""";
 				byte[] snd = second ? Properties.Resources.snd2 : Properties.Resources.snd;
 				bool ucs = second ? UseCustomSound2 : UseCustomSound;
 				string csf = second ? CustomSound2 : CustomSound;
+				if (csf.StartsWith(".\\", StringComparison.InvariantCulture)) csf.Replace(".\\", AppDomain.CurrentDomain.BaseDirectory);
+				if (csf.IndexOf('\\') == -1) csf = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, csf);
 				if (ucs) { if (File.Exists(csf)) { snd = File.ReadAllBytes(csf); } }
 				var audio = new MemoryStream(snd);
 				if (miniaudio.Play(snd)) return;
