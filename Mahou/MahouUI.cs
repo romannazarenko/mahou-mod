@@ -2342,8 +2342,9 @@ namespace Mahou {
 				cbb_Key3.SelectedIndex = Key3;
 				cbb_Key4.SelectedIndex = Key4;
 				cbb_EmulateType.SelectedIndex = cbb_EmulateType.Items.IndexOf(EmulateLSType);
-				cbb_MainLayout1.SelectedIndex = MMain.lcnmid.IndexOf(MainLayout1);
-				cbb_MainLayout2.SelectedIndex = MMain.lcnmid.IndexOf(MainLayout2);
+				SelectMainLayout(ref cbb_MainLayout1, MainLayout1);
+				SelectMainLayout(ref cbb_MainLayout2, MainLayout2);
+				if (cbb_MainLayout1.SelectedIndex == cbb_MainLayout2.SelectedIndex) { cbb_MainLayout2.SelectedIndex = 1; }
 			} catch (Exception e){
 //				MessageBox.Show(MMain.Msgs[9], MMain.Msgs[5], MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 				RefreshComboboxes();
@@ -2352,6 +2353,17 @@ namespace Mahou {
 				Logging.Log("Locales indexes select failed, error message:\n" + e.Message +"\n"+e.StackTrace+"\n", 1);
 			}
 			Logging.Log("Locales for ALL comboboxes refreshed.");
+		}
+		void SelectMainLayout(ref ComboBox cbb, string lstr) {
+			var a = -1;
+			for (int i = 0; i != MMain.lcnmid.Count; i++) {
+				var l = Locales.GetLocaleFromString(lstr).uId;
+				var l2 = Locales.GetLocaleFromString(MMain.lcnmid[i]).uId;
+				if (l == l2) { a = i; break; }
+			}
+			if (a == -1) { a = 0; }
+			Logging.Log("Setting " + cbb.Name + " selected index to " + a + " " + MMain.lcnmid[a]);
+			cbb.SelectedIndex = a;
 		}
 		/// <summary>
 		/// Toggles some controls enabled state based on some checkboxes checked state. 
