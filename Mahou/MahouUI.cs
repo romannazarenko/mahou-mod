@@ -2091,16 +2091,18 @@ namespace Mahou {
 			    CustomSound2 == null)  return;
 			var lbCSh = txt_CustomSound.Text;
 			var lbCSh2 = txt_CustomSound2.Text;
+			var cspoe = false;
+			if (CustomSound.IndexOf('\\') == -1) cspoe = File.Exists(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, CustomSound));
 			if (!File.Exists(replaceenv(CustomSound, "%mahou_dir%", () => nPath)) &&
-			    !File.Exists(CustomSound.Replace(".\\", nPath)) && 
-			    (CustomSound.IndexOf('\\') == -1 && File.Exists(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, CustomSound)))) {
+			    !File.Exists(CustomSound.Replace(".\\", nPath)) && !cspoe) {
 				txt_CustomSound.BackColor = Color.LightCoral;
 				lbCSh = MMain.Lang[Languages.Element.Not] + " " + MMain.Lang[Languages.Element.Exist] + ":\r\n["+txt_CustomSound.Text+"]";
 			} else
 				txt_CustomSound.BackColor = Color.FromKnownColor(KnownColor.Window);
+			cspoe = false;
+			if (CustomSound2.IndexOf('\\') == -1) cspoe = File.Exists(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, CustomSound2));
 			if (!File.Exists(replaceenv(CustomSound2, "%mahou_dir%", () => nPath)) &&
-			    !File.Exists(CustomSound2.Replace(".\\", nPath)) && 
-			    (CustomSound2.IndexOf('\\') == -1 && File.Exists(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, CustomSound2)))) {
+			    !File.Exists(CustomSound2.Replace(".\\", nPath)) && !cspoe) {
 				txt_CustomSound2.BackColor = Color.LightCoral;
 				lbCSh2 = MMain.Lang[Languages.Element.Not] + " " + MMain.Lang[Languages.Element.Exist] + ":\r\n["+txt_CustomSound2.Text+"]";
 			} else
