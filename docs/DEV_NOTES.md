@@ -23,6 +23,25 @@ models for the auto-switch decision.
   wrong-layout word before the correction lands. Root cause is architectural —
   see below.
 
+## Self-update disabled (2026-08-11)
+
+Upstream's auto-update overwrote the modded exe with the stock one, killing the
+n-gram auto-switch. Self-update is now fully disabled:
+
+- Startup check block removed in `MahouUI.cs` (was after `RegisterHotkeys()`);
+  `StartupUpdatesCheck`/`SilentUpdate` ini values are now inert.
+- UI removed in `MahouUI.Designer.cs` by dropping `Controls.Add` lines only:
+  `tab_updates` (whole Updates tab) and the `chk_StartupUpdatesCheck` /
+  `chk_SilentUpdate` checkboxes on the Functions tab.
+- The updater methods (`StartupCheck`, `SetUInfo`, `Btn_CheckForUpdatesClick`,
+  `Btn_DownloadUpdateClick`) are left in place but unreachable — deleting them
+  would make every upstream merge conflict. Do not re-add the `Controls.Add`
+  lines when resolving future merges.
+- Side effect: proxy config UI (`grb_ProxyConfig`) lived on the Updates tab and
+  is hidden too; proxy still works via the `[Proxy]` section in `Mahou.ini`
+  (used by the AS_dict dictionary downloader).
+- To update the app: merge upstream here, let CI build, install the artifact.
+
 ## Game mode (exe arg)
 
 Two flags explicitly **set** whether Mahou intercepts input (not a toggle):

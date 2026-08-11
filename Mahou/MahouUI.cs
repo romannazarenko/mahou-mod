@@ -270,42 +270,10 @@ namespace Mahou {
 			Text = "Mahou " + Assembly.GetExecutingAssembly().GetName().Version;
 			#endif
 			RegisterHotkeys();
-			//Background startup check for updates
-			if (MMain.MyConfs.ReadBool("Functions", "StartupUpdatesCheck")) {
-				uche = new System.Threading.Thread(StartupCheck);
-				uche.Name = "Startup Check";
-				uche.Start();
-				showUpdWnd.Tick += (_, __) => {
-					Logging.Log("Checking: " + AtUpdateShow);
-					if (AtUpdateShow == 1) {
-						if (MMain.MyConfs.ReadBool("Functions", "SilentUpdate")) {
-							Btn_DownloadUpdateClick((object)0, new EventArgs());
-							Logging.Log("Silent UPDATE!");
-						}
-						else {
-							tabs.SelectedIndex = tabs.TabPages.IndexOf(tab_updates);
-							SetUInfo();
-							Visible = TopMost = true;
-							grb_DownloadUpdate.Enabled = true;
-							btn_DownloadUpdate.PerformClick();
-						}
-						showUpdWnd.Stop();
-						showUpdWnd.Dispose();
-					}
-					if (AtUpdateShow == 2) {
-						Logging.Log("No new version updates found.");
-						showUpdWnd.Stop();
-						showUpdWnd.Dispose();
-					}
-					if (AtUpdateShow == 3) {
-						Logging.Log("Network error.", 1);
-						showUpdWnd.Stop();
-						showUpdWnd.Dispose();
-					}
-				};
-				showUpdWnd.Interval = 1000;
-				showUpdWnd.Start();
-			} else { showUpdWnd.Dispose(); }
+			// Fork: self-update is disabled entirely — an update would overwrite this
+			// modded exe with the upstream one (see docs/DEV_NOTES.md). The updater
+			// code below is kept unreferenced to ease future upstream merges.
+			showUpdWnd.Dispose();
 			DPISCALE(this);
 			Memory.Flush();
 		}

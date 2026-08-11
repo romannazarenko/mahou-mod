@@ -815,7 +815,6 @@ namespace Mahou
 			this.tabs.Controls.Add(this.tab_LangPanel);
 			this.tabs.Controls.Add(this.tab_translator);
 			this.tabs.Controls.Add(this.tab_sync);
-			this.tabs.Controls.Add(this.tab_updates);
 			this.tabs.Controls.Add(this.tab_about);
 			this.tabs.Controls.Add(this.tab_Hidden);
 			this.tabs.DrawMode = System.Windows.Forms.TabDrawMode.OwnerDrawFixed;
@@ -839,7 +838,6 @@ namespace Mahou
 			this.tab_functions.Controls.Add(this.chk_WriteInputHistory);
 			this.tab_functions.Controls.Add(this.chk_ReadOnlyNA);
 			this.tab_functions.Controls.Add(this.chk_GetLayoutFromJKL);
-			this.tab_functions.Controls.Add(this.chk_SilentUpdate);
 			this.tab_functions.Controls.Add(this.chk_Logging);
 			this.tab_functions.Controls.Add(this.chk_Add1NL);
 			this.tab_functions.Controls.Add(this.chk_RemapCapsLockAsF18);
@@ -853,7 +851,6 @@ namespace Mahou
 			this.tab_functions.Controls.Add(this.lnk_plugin);
 			this.tab_functions.Controls.Add(this.chk_MCDS_support);
 			this.tab_functions.Controls.Add(this.chk_CapsLockDTimer);
-			this.tab_functions.Controls.Add(this.chk_StartupUpdatesCheck);
 			this.tab_functions.Controls.Add(this.chk_HighlightScroll);
 			this.tab_functions.Controls.Add(this.chk_CSLayoutSwitchingPlus);
 			this.tab_functions.Controls.Add(this.chk_AddOneSpace);
