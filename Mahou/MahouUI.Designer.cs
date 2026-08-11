@@ -203,7 +203,6 @@ namespace Mahou
 		private System.Windows.Forms.CheckBox chk_GetLayoutFromJKL;
 		private System.Windows.Forms.CheckBox chk_ReadOnlyNA;
 		private System.Windows.Forms.TabPage tab_sounds;
-		private System.Windows.Forms.GroupBox grb_SoundOn;
 		private System.Windows.Forms.CheckBox chk_EnableSnd;
 		private System.Windows.Forms.CheckBox chk_SndLast;
 		private System.Windows.Forms.CheckBox chk_SndSnippets;
@@ -216,7 +215,6 @@ namespace Mahou
 		private System.Windows.Forms.TextBox txt_CustomSound2;
 		private System.Windows.Forms.Button btn_SelectSnd2;
 		private System.Windows.Forms.CheckBox chk_UseCustomSnd2;
-		private System.Windows.Forms.GroupBox grb_SoundOn2;
 		private System.Windows.Forms.CheckBox chk_SndLayoutSwitch2;
 		private System.Windows.Forms.CheckBox chk_SndLast2;
 		private System.Windows.Forms.CheckBox chk_SndSnippets2;
@@ -366,9 +364,6 @@ namespace Mahou
 		private System.Windows.Forms.CheckBox Hchk_LMBTrayToggleEnabled;
 		private Mahou.MahouUI.LinkLabelNew lnk_PixelDrainAPIKeyHowto;
 		private Mahou.MahouUI.LinkLabelNew lnk_PixelDrain;
-		private Mahou.MahouUI.LinkLabelNew lnk_NAudio;
-		private Mahou.MahouUI.LinkLabelNew lnk_miniaudio;
-		private Mahou.MahouUI.LinkLabelNew lnk_AudioDllsHowto;
 		private System.Windows.Forms.Button btn_Sound2Test;
 		private System.Windows.Forms.Button btn_SoundTest;
 		/// <summary>
@@ -558,29 +553,24 @@ namespace Mahou
 			this.chk_WinInHotKey = new System.Windows.Forms.CheckBox();
 			this.lsb_Hotkeys = new System.Windows.Forms.ListBox();
 			this.tab_sounds = new System.Windows.Forms.TabPage();
-			this.lnk_AudioDllsHowto = new Mahou.MahouUI.LinkLabelNew();
-			this.lnk_NAudio = new Mahou.MahouUI.LinkLabelNew();
-			this.lnk_miniaudio = new Mahou.MahouUI.LinkLabelNew();
 			this.grb_Sound2 = new System.Windows.Forms.GroupBox();
-			this.txt_CustomSound2 = new System.Windows.Forms.TextBox();
-			this.btn_SelectSnd2 = new System.Windows.Forms.Button();
-			this.chk_UseCustomSnd2 = new System.Windows.Forms.CheckBox();
-			this.grb_SoundOn2 = new System.Windows.Forms.GroupBox();
 			this.btn_Sound2Test = new System.Windows.Forms.Button();
 			this.chk_SndLayoutSwitch2 = new System.Windows.Forms.CheckBox();
 			this.chk_SndLast2 = new System.Windows.Forms.CheckBox();
 			this.chk_SndSnippets2 = new System.Windows.Forms.CheckBox();
 			this.chk_SndAutoSwitch2 = new System.Windows.Forms.CheckBox();
+			this.txt_CustomSound2 = new System.Windows.Forms.TextBox();
+			this.btn_SelectSnd2 = new System.Windows.Forms.Button();
+			this.chk_UseCustomSnd2 = new System.Windows.Forms.CheckBox();
 			this.grb_Sound1 = new System.Windows.Forms.GroupBox();
-			this.txt_CustomSound = new System.Windows.Forms.TextBox();
-			this.btn_SelectSnd = new System.Windows.Forms.Button();
-			this.chk_UseCustomSnd = new System.Windows.Forms.CheckBox();
-			this.grb_SoundOn = new System.Windows.Forms.GroupBox();
 			this.btn_SoundTest = new System.Windows.Forms.Button();
 			this.chk_SndLayoutSwitch = new System.Windows.Forms.CheckBox();
 			this.chk_SndLast = new System.Windows.Forms.CheckBox();
 			this.chk_SndSnippets = new System.Windows.Forms.CheckBox();
 			this.chk_SndAutoSwitch = new System.Windows.Forms.CheckBox();
+			this.txt_CustomSound = new System.Windows.Forms.TextBox();
+			this.btn_SelectSnd = new System.Windows.Forms.Button();
+			this.chk_UseCustomSnd = new System.Windows.Forms.CheckBox();
 			this.chk_EnableSnd = new System.Windows.Forms.CheckBox();
 			this.tab_LangPanel = new System.Windows.Forms.TabPage();
 			this.grb_LPConfig = new System.Windows.Forms.GroupBox();
@@ -784,9 +774,7 @@ namespace Mahou
 			this.grb_Hotkey.SuspendLayout();
 			this.tab_sounds.SuspendLayout();
 			this.grb_Sound2.SuspendLayout();
-			this.grb_SoundOn2.SuspendLayout();
 			this.grb_Sound1.SuspendLayout();
-			this.grb_SoundOn.SuspendLayout();
 			this.tab_LangPanel.SuspendLayout();
 			this.grb_LPConfig.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.nud_LPBGPadding)).BeginInit();
@@ -2870,9 +2858,6 @@ namespace Mahou
 			// 
 			// tab_sounds
 			// 
-			this.tab_sounds.Controls.Add(this.lnk_AudioDllsHowto);
-			this.tab_sounds.Controls.Add(this.lnk_NAudio);
-			this.tab_sounds.Controls.Add(this.lnk_miniaudio);
 			this.tab_sounds.Controls.Add(this.grb_Sound2);
 			this.tab_sounds.Controls.Add(this.grb_Sound1);
 			this.tab_sounds.Controls.Add(this.chk_EnableSnd);
@@ -2884,45 +2869,16 @@ namespace Mahou
 			this.tab_sounds.Text = "Sounds";
 			this.tab_sounds.UseVisualStyleBackColor = true;
 			// 
-			// lnk_AudioDllsHowto
-			// 
-			this.lnk_AudioDllsHowto.AutoSize = true;
-			this.lnk_AudioDllsHowto.Location = new System.Drawing.Point(479, 4);
-			this.lnk_AudioDllsHowto.Name = "lnk_AudioDllsHowto";
-			this.lnk_AudioDllsHowto.Size = new System.Drawing.Size(37, 15);
-			this.lnk_AudioDllsHowto.TabIndex = 37;
-			this.lnk_AudioDllsHowto.TabStop = true;
-			this.lnk_AudioDllsHowto.Text = "??????";
-			this.lnk_AudioDllsHowto.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.Lnk_AudioDllsHowto);
-			// 
-			// lnk_NAudio
-			// 
-			this.lnk_NAudio.AutoSize = true;
-			this.lnk_NAudio.Location = new System.Drawing.Point(409, 4);
-			this.lnk_NAudio.Name = "lnk_NAudio";
-			this.lnk_NAudio.Size = new System.Drawing.Size(64, 15);
-			this.lnk_NAudio.TabIndex = 36;
-			this.lnk_NAudio.TabStop = true;
-			this.lnk_NAudio.Text = "NAudio.dll";
-			this.lnk_NAudio.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.Lnk_NAudio);
-			// 
-			// lnk_miniaudio
-			// 
-			this.lnk_miniaudio.AutoSize = true;
-			this.lnk_miniaudio.Location = new System.Drawing.Point(326, 4);
-			this.lnk_miniaudio.Name = "lnk_miniaudio";
-			this.lnk_miniaudio.Size = new System.Drawing.Size(77, 15);
-			this.lnk_miniaudio.TabIndex = 35;
-			this.lnk_miniaudio.TabStop = true;
-			this.lnk_miniaudio.Text = "miniaudio.dll";
-			this.lnk_miniaudio.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.Lnk_miniaudio);
-			// 
 			// grb_Sound2
 			// 
+			this.grb_Sound2.Controls.Add(this.btn_Sound2Test);
+			this.grb_Sound2.Controls.Add(this.chk_SndLayoutSwitch2);
+			this.grb_Sound2.Controls.Add(this.chk_SndLast2);
+			this.grb_Sound2.Controls.Add(this.chk_SndSnippets2);
+			this.grb_Sound2.Controls.Add(this.chk_SndAutoSwitch2);
 			this.grb_Sound2.Controls.Add(this.txt_CustomSound2);
 			this.grb_Sound2.Controls.Add(this.btn_SelectSnd2);
 			this.grb_Sound2.Controls.Add(this.chk_UseCustomSnd2);
-			this.grb_Sound2.Controls.Add(this.grb_SoundOn2);
 			this.grb_Sound2.Location = new System.Drawing.Point(8, 142);
 			this.grb_Sound2.Name = "grb_Sound2";
 			this.grb_Sound2.Size = new System.Drawing.Size(541, 116);
@@ -2930,12 +2886,67 @@ namespace Mahou
 			this.grb_Sound2.TabStop = false;
 			this.grb_Sound2.Text = "#2";
 			// 
+			// btn_Sound2Test
+			// 
+			this.btn_Sound2Test.Location = new System.Drawing.Point(504, 33);
+			this.btn_Sound2Test.Name = "btn_Sound2Test";
+			this.btn_Sound2Test.Size = new System.Drawing.Size(25, 25);
+			this.btn_Sound2Test.TabIndex = 42;
+			this.btn_Sound2Test.Text = "▶";
+			this.btn_Sound2Test.UseVisualStyleBackColor = true;
+			this.btn_Sound2Test.Click += new System.EventHandler(this.Btn_Sound2Test);
+			// 
+			// chk_SndLayoutSwitch2
+			// 
+			this.chk_SndLayoutSwitch2.AutoSize = true;
+			this.chk_SndLayoutSwitch2.Location = new System.Drawing.Point(283, 46);
+			this.chk_SndLayoutSwitch2.Name = "chk_SndLayoutSwitch2";
+			this.chk_SndLayoutSwitch2.Size = new System.Drawing.Size(139, 19);
+			this.chk_SndLayoutSwitch2.TabIndex = 41;
+			this.chk_SndLayoutSwitch2.Text = "On Layout Switching.";
+			this.chk_SndLayoutSwitch2.UseVisualStyleBackColor = true;
+			this.chk_SndLayoutSwitch2.CheckedChanged += new System.EventHandler(this.Chk_CheckedChanged);
+			// 
+			// chk_SndLast2
+			// 
+			this.chk_SndLast2.AutoSize = true;
+			this.chk_SndLast2.Location = new System.Drawing.Point(283, 26);
+			this.chk_SndLast2.Name = "chk_SndLast2";
+			this.chk_SndLast2.Size = new System.Drawing.Size(162, 19);
+			this.chk_SndLast2.TabIndex = 40;
+			this.chk_SndLast2.Text = "On Last Word conversion.";
+			this.chk_SndLast2.UseVisualStyleBackColor = true;
+			this.chk_SndLast2.CheckedChanged += new System.EventHandler(this.Chk_CheckedChanged);
+			// 
+			// chk_SndSnippets2
+			// 
+			this.chk_SndSnippets2.AutoSize = true;
+			this.chk_SndSnippets2.Location = new System.Drawing.Point(12, 46);
+			this.chk_SndSnippets2.Name = "chk_SndSnippets2";
+			this.chk_SndSnippets2.Size = new System.Drawing.Size(150, 19);
+			this.chk_SndSnippets2.TabIndex = 39;
+			this.chk_SndSnippets2.Text = "On Snippets expansion.";
+			this.chk_SndSnippets2.UseVisualStyleBackColor = true;
+			this.chk_SndSnippets2.CheckedChanged += new System.EventHandler(this.Chk_CheckedChanged);
+			// 
+			// chk_SndAutoSwitch2
+			// 
+			this.chk_SndAutoSwitch2.AutoSize = true;
+			this.chk_SndAutoSwitch2.Location = new System.Drawing.Point(12, 26);
+			this.chk_SndAutoSwitch2.Name = "chk_SndAutoSwitch2";
+			this.chk_SndAutoSwitch2.Size = new System.Drawing.Size(175, 19);
+			this.chk_SndAutoSwitch2.TabIndex = 38;
+			this.chk_SndAutoSwitch2.Text = "On Auto-Switch conversion.";
+			this.chk_SndAutoSwitch2.UseVisualStyleBackColor = true;
+			this.chk_SndAutoSwitch2.CheckedChanged += new System.EventHandler(this.Chk_CheckedChanged);
+			// 
 			// txt_CustomSound2
 			// 
 			this.txt_CustomSound2.Location = new System.Drawing.Point(134, 86);
 			this.txt_CustomSound2.Name = "txt_CustomSound2";
 			this.txt_CustomSound2.Size = new System.Drawing.Size(279, 23);
 			this.txt_CustomSound2.TabIndex = 9;
+			this.txt_CustomSound2.TextChanged += new System.EventHandler(this.Txt_CustomSound2TextChanged);
 			// 
 			// btn_SelectSnd2
 			// 
@@ -2956,78 +2967,18 @@ namespace Mahou
 			this.chk_UseCustomSnd2.TabIndex = 7;
 			this.chk_UseCustomSnd2.Text = "Use custom sound:";
 			this.chk_UseCustomSnd2.UseVisualStyleBackColor = true;
-			this.chk_UseCustomSnd2.CheckedChanged += new System.EventHandler(this.Chk_CheckedChanged);
-			// 
-			// grb_SoundOn2
-			// 
-			this.grb_SoundOn2.Controls.Add(this.btn_Sound2Test);
-			this.grb_SoundOn2.Controls.Add(this.chk_SndLayoutSwitch2);
-			this.grb_SoundOn2.Controls.Add(this.chk_SndLast2);
-			this.grb_SoundOn2.Controls.Add(this.chk_SndSnippets2);
-			this.grb_SoundOn2.Controls.Add(this.chk_SndAutoSwitch2);
-			this.grb_SoundOn2.Location = new System.Drawing.Point(6, 15);
-			this.grb_SoundOn2.Name = "grb_SoundOn2";
-			this.grb_SoundOn2.Size = new System.Drawing.Size(529, 65);
-			this.grb_SoundOn2.TabIndex = 6;
-			this.grb_SoundOn2.TabStop = false;
-			this.grb_SoundOn2.Text = "Play sound when:";
-			// 
-			// btn_Sound2Test
-			// 
-			this.btn_Sound2Test.Location = new System.Drawing.Point(498, 36);
-			this.btn_Sound2Test.Name = "btn_Sound2Test";
-			this.btn_Sound2Test.Size = new System.Drawing.Size(25, 25);
-			this.btn_Sound2Test.TabIndex = 37;
-			this.btn_Sound2Test.Text = "▶";
-			this.btn_Sound2Test.UseVisualStyleBackColor = true;
-			this.btn_Sound2Test.Click += new System.EventHandler(this.Btn_Sound2Test);
-			// 
-			// chk_SndLayoutSwitch2
-			// 
-			this.chk_SndLayoutSwitch2.AutoSize = true;
-			this.chk_SndLayoutSwitch2.Location = new System.Drawing.Point(277, 40);
-			this.chk_SndLayoutSwitch2.Name = "chk_SndLayoutSwitch2";
-			this.chk_SndLayoutSwitch2.Size = new System.Drawing.Size(139, 19);
-			this.chk_SndLayoutSwitch2.TabIndex = 5;
-			this.chk_SndLayoutSwitch2.Text = "On Layout Switching.";
-			this.chk_SndLayoutSwitch2.UseVisualStyleBackColor = true;
-			// 
-			// chk_SndLast2
-			// 
-			this.chk_SndLast2.AutoSize = true;
-			this.chk_SndLast2.Location = new System.Drawing.Point(277, 20);
-			this.chk_SndLast2.Name = "chk_SndLast2";
-			this.chk_SndLast2.Size = new System.Drawing.Size(162, 19);
-			this.chk_SndLast2.TabIndex = 4;
-			this.chk_SndLast2.Text = "On Last Word conversion.";
-			this.chk_SndLast2.UseVisualStyleBackColor = true;
-			// 
-			// chk_SndSnippets2
-			// 
-			this.chk_SndSnippets2.AutoSize = true;
-			this.chk_SndSnippets2.Location = new System.Drawing.Point(6, 40);
-			this.chk_SndSnippets2.Name = "chk_SndSnippets2";
-			this.chk_SndSnippets2.Size = new System.Drawing.Size(150, 19);
-			this.chk_SndSnippets2.TabIndex = 3;
-			this.chk_SndSnippets2.Text = "On Snippets expansion.";
-			this.chk_SndSnippets2.UseVisualStyleBackColor = true;
-			// 
-			// chk_SndAutoSwitch2
-			// 
-			this.chk_SndAutoSwitch2.AutoSize = true;
-			this.chk_SndAutoSwitch2.Location = new System.Drawing.Point(6, 20);
-			this.chk_SndAutoSwitch2.Name = "chk_SndAutoSwitch2";
-			this.chk_SndAutoSwitch2.Size = new System.Drawing.Size(175, 19);
-			this.chk_SndAutoSwitch2.TabIndex = 2;
-			this.chk_SndAutoSwitch2.Text = "On Auto-Switch conversion.";
-			this.chk_SndAutoSwitch2.UseVisualStyleBackColor = true;
+			this.chk_UseCustomSnd2.CheckedChanged += new System.EventHandler(this.Chk_UseCustomSnd2CheckedChanged);
 			// 
 			// grb_Sound1
 			// 
+			this.grb_Sound1.Controls.Add(this.btn_SoundTest);
+			this.grb_Sound1.Controls.Add(this.chk_SndLayoutSwitch);
+			this.grb_Sound1.Controls.Add(this.chk_SndLast);
+			this.grb_Sound1.Controls.Add(this.chk_SndSnippets);
+			this.grb_Sound1.Controls.Add(this.chk_SndAutoSwitch);
 			this.grb_Sound1.Controls.Add(this.txt_CustomSound);
 			this.grb_Sound1.Controls.Add(this.btn_SelectSnd);
 			this.grb_Sound1.Controls.Add(this.chk_UseCustomSnd);
-			this.grb_Sound1.Controls.Add(this.grb_SoundOn);
 			this.grb_Sound1.Location = new System.Drawing.Point(8, 20);
 			this.grb_Sound1.Name = "grb_Sound1";
 			this.grb_Sound1.Size = new System.Drawing.Size(541, 116);
@@ -3035,12 +2986,67 @@ namespace Mahou
 			this.grb_Sound1.TabStop = false;
 			this.grb_Sound1.Text = "#1";
 			// 
+			// btn_SoundTest
+			// 
+			this.btn_SoundTest.Location = new System.Drawing.Point(504, 34);
+			this.btn_SoundTest.Name = "btn_SoundTest";
+			this.btn_SoundTest.Size = new System.Drawing.Size(25, 25);
+			this.btn_SoundTest.TabIndex = 41;
+			this.btn_SoundTest.Text = "▶";
+			this.btn_SoundTest.UseVisualStyleBackColor = true;
+			this.btn_SoundTest.Click += new System.EventHandler(this.Btn_SoundTest);
+			// 
+			// chk_SndLayoutSwitch
+			// 
+			this.chk_SndLayoutSwitch.AutoSize = true;
+			this.chk_SndLayoutSwitch.Location = new System.Drawing.Point(283, 48);
+			this.chk_SndLayoutSwitch.Name = "chk_SndLayoutSwitch";
+			this.chk_SndLayoutSwitch.Size = new System.Drawing.Size(139, 19);
+			this.chk_SndLayoutSwitch.TabIndex = 40;
+			this.chk_SndLayoutSwitch.Text = "On Layout Switching.";
+			this.chk_SndLayoutSwitch.UseVisualStyleBackColor = true;
+			this.chk_SndLayoutSwitch.CheckedChanged += new System.EventHandler(this.Chk_CheckedChanged);
+			// 
+			// chk_SndLast
+			// 
+			this.chk_SndLast.AutoSize = true;
+			this.chk_SndLast.Location = new System.Drawing.Point(283, 28);
+			this.chk_SndLast.Name = "chk_SndLast";
+			this.chk_SndLast.Size = new System.Drawing.Size(162, 19);
+			this.chk_SndLast.TabIndex = 39;
+			this.chk_SndLast.Text = "On Last Word conversion.";
+			this.chk_SndLast.UseVisualStyleBackColor = true;
+			this.chk_SndLast.CheckedChanged += new System.EventHandler(this.Chk_CheckedChanged);
+			// 
+			// chk_SndSnippets
+			// 
+			this.chk_SndSnippets.AutoSize = true;
+			this.chk_SndSnippets.Location = new System.Drawing.Point(12, 48);
+			this.chk_SndSnippets.Name = "chk_SndSnippets";
+			this.chk_SndSnippets.Size = new System.Drawing.Size(150, 19);
+			this.chk_SndSnippets.TabIndex = 38;
+			this.chk_SndSnippets.Text = "On Snippets expansion.";
+			this.chk_SndSnippets.UseVisualStyleBackColor = true;
+			this.chk_SndSnippets.CheckedChanged += new System.EventHandler(this.Chk_CheckedChanged);
+			// 
+			// chk_SndAutoSwitch
+			// 
+			this.chk_SndAutoSwitch.AutoSize = true;
+			this.chk_SndAutoSwitch.Location = new System.Drawing.Point(12, 28);
+			this.chk_SndAutoSwitch.Name = "chk_SndAutoSwitch";
+			this.chk_SndAutoSwitch.Size = new System.Drawing.Size(175, 19);
+			this.chk_SndAutoSwitch.TabIndex = 37;
+			this.chk_SndAutoSwitch.Text = "On Auto-Switch conversion.";
+			this.chk_SndAutoSwitch.UseVisualStyleBackColor = true;
+			this.chk_SndAutoSwitch.CheckedChanged += new System.EventHandler(this.Chk_CheckedChanged);
+			// 
 			// txt_CustomSound
 			// 
 			this.txt_CustomSound.Location = new System.Drawing.Point(135, 85);
 			this.txt_CustomSound.Name = "txt_CustomSound";
 			this.txt_CustomSound.Size = new System.Drawing.Size(278, 23);
 			this.txt_CustomSound.TabIndex = 9;
+			this.txt_CustomSound.TextChanged += new System.EventHandler(this.Txt_CustomSoundTextChanged);
 			// 
 			// btn_SelectSnd
 			// 
@@ -3061,71 +3067,7 @@ namespace Mahou
 			this.chk_UseCustomSnd.TabIndex = 7;
 			this.chk_UseCustomSnd.Text = "Use custom sound:";
 			this.chk_UseCustomSnd.UseVisualStyleBackColor = true;
-			this.chk_UseCustomSnd.CheckedChanged += new System.EventHandler(this.Chk_CheckedChanged);
-			// 
-			// grb_SoundOn
-			// 
-			this.grb_SoundOn.Controls.Add(this.btn_SoundTest);
-			this.grb_SoundOn.Controls.Add(this.chk_SndLayoutSwitch);
-			this.grb_SoundOn.Controls.Add(this.chk_SndLast);
-			this.grb_SoundOn.Controls.Add(this.chk_SndSnippets);
-			this.grb_SoundOn.Controls.Add(this.chk_SndAutoSwitch);
-			this.grb_SoundOn.Location = new System.Drawing.Point(6, 15);
-			this.grb_SoundOn.Name = "grb_SoundOn";
-			this.grb_SoundOn.Size = new System.Drawing.Size(529, 65);
-			this.grb_SoundOn.TabIndex = 6;
-			this.grb_SoundOn.TabStop = false;
-			this.grb_SoundOn.Text = "Play sound when:";
-			// 
-			// btn_SoundTest
-			// 
-			this.btn_SoundTest.Location = new System.Drawing.Point(498, 36);
-			this.btn_SoundTest.Name = "btn_SoundTest";
-			this.btn_SoundTest.Size = new System.Drawing.Size(25, 25);
-			this.btn_SoundTest.TabIndex = 36;
-			this.btn_SoundTest.Text = "▶";
-			this.btn_SoundTest.UseVisualStyleBackColor = true;
-			this.btn_SoundTest.Click += new System.EventHandler(this.Btn_SoundTest);
-			// 
-			// chk_SndLayoutSwitch
-			// 
-			this.chk_SndLayoutSwitch.AutoSize = true;
-			this.chk_SndLayoutSwitch.Location = new System.Drawing.Point(277, 40);
-			this.chk_SndLayoutSwitch.Name = "chk_SndLayoutSwitch";
-			this.chk_SndLayoutSwitch.Size = new System.Drawing.Size(139, 19);
-			this.chk_SndLayoutSwitch.TabIndex = 5;
-			this.chk_SndLayoutSwitch.Text = "On Layout Switching.";
-			this.chk_SndLayoutSwitch.UseVisualStyleBackColor = true;
-			// 
-			// chk_SndLast
-			// 
-			this.chk_SndLast.AutoSize = true;
-			this.chk_SndLast.Location = new System.Drawing.Point(277, 20);
-			this.chk_SndLast.Name = "chk_SndLast";
-			this.chk_SndLast.Size = new System.Drawing.Size(162, 19);
-			this.chk_SndLast.TabIndex = 4;
-			this.chk_SndLast.Text = "On Last Word conversion.";
-			this.chk_SndLast.UseVisualStyleBackColor = true;
-			// 
-			// chk_SndSnippets
-			// 
-			this.chk_SndSnippets.AutoSize = true;
-			this.chk_SndSnippets.Location = new System.Drawing.Point(6, 40);
-			this.chk_SndSnippets.Name = "chk_SndSnippets";
-			this.chk_SndSnippets.Size = new System.Drawing.Size(150, 19);
-			this.chk_SndSnippets.TabIndex = 3;
-			this.chk_SndSnippets.Text = "On Snippets expansion.";
-			this.chk_SndSnippets.UseVisualStyleBackColor = true;
-			// 
-			// chk_SndAutoSwitch
-			// 
-			this.chk_SndAutoSwitch.AutoSize = true;
-			this.chk_SndAutoSwitch.Location = new System.Drawing.Point(6, 20);
-			this.chk_SndAutoSwitch.Name = "chk_SndAutoSwitch";
-			this.chk_SndAutoSwitch.Size = new System.Drawing.Size(175, 19);
-			this.chk_SndAutoSwitch.TabIndex = 2;
-			this.chk_SndAutoSwitch.Text = "On Auto-Switch conversion.";
-			this.chk_SndAutoSwitch.UseVisualStyleBackColor = true;
+			this.chk_UseCustomSnd.CheckedChanged += new System.EventHandler(this.Chk_UseCustomSndCheckedChanged);
 			// 
 			// chk_EnableSnd
 			// 
@@ -3136,7 +3078,7 @@ namespace Mahou
 			this.chk_EnableSnd.TabIndex = 1;
 			this.chk_EnableSnd.Text = "Enable sounds.";
 			this.chk_EnableSnd.UseVisualStyleBackColor = true;
-			this.chk_EnableSnd.CheckedChanged += new System.EventHandler(this.Chk_CheckedChanged);
+			this.chk_EnableSnd.CheckedChanged += new System.EventHandler(this.chk_EnableSnd_CheckedChanged);
 			// 
 			// tab_LangPanel
 			// 
@@ -5129,12 +5071,8 @@ namespace Mahou
 			this.tab_sounds.PerformLayout();
 			this.grb_Sound2.ResumeLayout(false);
 			this.grb_Sound2.PerformLayout();
-			this.grb_SoundOn2.ResumeLayout(false);
-			this.grb_SoundOn2.PerformLayout();
 			this.grb_Sound1.ResumeLayout(false);
 			this.grb_Sound1.PerformLayout();
-			this.grb_SoundOn.ResumeLayout(false);
-			this.grb_SoundOn.PerformLayout();
 			this.tab_LangPanel.ResumeLayout(false);
 			this.tab_LangPanel.PerformLayout();
 			this.grb_LPConfig.ResumeLayout(false);

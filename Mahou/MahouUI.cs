@@ -2009,22 +2009,7 @@ namespace Mahou {
 			SoundOnLayoutSwitch2 = chk_SndLayoutSwitch2.Checked = MMain.MyConfs.ReadBool("Sounds", "OnLayoutSwitch2");
 			UseCustomSound2 = chk_UseCustomSnd2.Checked = MMain.MyConfs.ReadBool("Sounds", "UseCustomSound2");
 			CustomSound2 = txt_CustomSound2.Text = MMain.MyConfs.Read("Sounds", "CustomSound2");
-			var lbCSh = txt_CustomSound.Text;
-			var lbCSh2 = txt_CustomSound2.Text;
-			if (!File.Exists(replaceenv(CustomSound, "%mahou_dir%", () => nPath)) &&
-			    !File.Exists(CustomSound.Replace(".\\", nPath))) {
-				txt_CustomSound.BackColor = Color.LightCoral;
-				lbCSh = MMain.Lang[Languages.Element.Not] + " " + MMain.Lang[Languages.Element.Exist] + ":\r\n["+txt_CustomSound.Text+"]";
-			} else
-				txt_CustomSound.BackColor = Color.FromKnownColor(KnownColor.Window);
-			if (!File.Exists(replaceenv(CustomSound2, "%mahou_dir%", () => nPath)) &&
-			    !File.Exists(CustomSound2.Replace(".\\", nPath))) {
-				txt_CustomSound2.BackColor = Color.LightCoral;
-				lbCSh2 = MMain.Lang[Languages.Element.Not] + " " + MMain.Lang[Languages.Element.Exist] + ":\r\n["+txt_CustomSound2.Text+"]";
-			} else
-				txt_CustomSound2.BackColor = Color.FromKnownColor(KnownColor.Window);
-			HelpMeUnderstand.SetToolTip(txt_CustomSound, lbCSh);
-			HelpMeUnderstand.SetToolTip(txt_CustomSound2, lbCSh2);
+			CustomSoundsCheck();
 			#endregion
 			#region Sync
 			var bbools = MMain.MyConfs.Read("Sync", "BBools");
@@ -2105,6 +2090,32 @@ namespace Mahou {
 				SuspendResumeDraw(this, false);
 			}
 			Logging.Log("All configurations loaded.");
+		}
+		void CustomSoundsCheck() {
+			if (txt_CustomSound == null ||
+			    txt_CustomSound2 == null) return;
+			if (CustomSound == null ||
+			    CustomSound2 == null)  return;
+			var lbCSh = txt_CustomSound.Text;
+			var lbCSh2 = txt_CustomSound2.Text;
+			var cspoe = false;
+			if (CustomSound.IndexOf('\\') == -1) cspoe = File.Exists(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, CustomSound));
+			if (!File.Exists(replaceenv(CustomSound, "%mahou_dir%", () => nPath)) &&
+			    !File.Exists(CustomSound.Replace(".\\", nPath)) && !cspoe) {
+				txt_CustomSound.BackColor = Color.LightCoral;
+				lbCSh = MMain.Lang[Languages.Element.Not] + " " + MMain.Lang[Languages.Element.Exist] + ":\r\n["+txt_CustomSound.Text+"]";
+			} else
+				txt_CustomSound.BackColor = Color.FromKnownColor(KnownColor.Window);
+			cspoe = false;
+			if (CustomSound2.IndexOf('\\') == -1) cspoe = File.Exists(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, CustomSound2));
+			if (!File.Exists(replaceenv(CustomSound2, "%mahou_dir%", () => nPath)) &&
+			    !File.Exists(CustomSound2.Replace(".\\", nPath)) && !cspoe) {
+				txt_CustomSound2.BackColor = Color.LightCoral;
+				lbCSh2 = MMain.Lang[Languages.Element.Not] + " " + MMain.Lang[Languages.Element.Exist] + ":\r\n["+txt_CustomSound2.Text+"]";
+			} else
+				txt_CustomSound2.BackColor = Color.FromKnownColor(KnownColor.Window);
+			HelpMeUnderstand.SetToolTip(txt_CustomSound, lbCSh);
+			HelpMeUnderstand.SetToolTip(txt_CustomSound2, lbCSh2);
 		}
 		public static void SuspendResumeDraw(Control c, bool suspend = true) {
 			int WM_SETREDRAW = 11;
@@ -2338,8 +2349,9 @@ namespace Mahou {
 				cbb_Key3.SelectedIndex = Key3;
 				cbb_Key4.SelectedIndex = Key4;
 				cbb_EmulateType.SelectedIndex = cbb_EmulateType.Items.IndexOf(EmulateLSType);
-				cbb_MainLayout1.SelectedIndex = MMain.lcnmid.IndexOf(MainLayout1);
-				cbb_MainLayout2.SelectedIndex = MMain.lcnmid.IndexOf(MainLayout2);
+				SelectMainLayout(ref cbb_MainLayout1, MainLayout1);
+				SelectMainLayout(ref cbb_MainLayout2, MainLayout2);
+				if (cbb_MainLayout1.SelectedIndex == cbb_MainLayout2.SelectedIndex) { cbb_MainLayout2.SelectedIndex = 1; }
 			} catch (Exception e){
 //				MessageBox.Show(MMain.Msgs[9], MMain.Msgs[5], MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 				RefreshComboboxes();
@@ -2348,6 +2360,17 @@ namespace Mahou {
 				Logging.Log("Locales indexes select failed, error message:\n" + e.Message +"\n"+e.StackTrace+"\n", 1);
 			}
 			Logging.Log("Locales for ALL comboboxes refreshed.");
+		}
+		void SelectMainLayout(ref ComboBox cbb, string lstr) {
+			var a = -1;
+			for (int i = 0; i != MMain.lcnmid.Count; i++) {
+				var l = Locales.GetLocaleFromString(lstr).uId;
+				var l2 = Locales.GetLocaleFromString(MMain.lcnmid[i]).uId;
+				if (l == l2) { a = i; break; }
+			}
+			if (a == -1) { a = 0; }
+			Logging.Log("Setting " + cbb.Name + " selected index to " + a + " " + MMain.lcnmid[a]);
+			cbb.SelectedIndex = a;
 		}
 		/// <summary>
 		/// Toggles some controls enabled state based on some checkboxes checked state. 
@@ -2427,6 +2450,18 @@ namespace Mahou {
 			txt_CustomSound.Enabled = btn_SelectSnd.Enabled = chk_UseCustomSnd.Checked;
 			txt_CustomSound2.Enabled = btn_SelectSnd2.Enabled = chk_UseCustomSnd2.Checked;
 			grb_Sound1.Enabled = grb_Sound2.Enabled = chk_EnableSnd.Checked;
+			chk_SndAutoSwitch.Enabled = !chk_SndAutoSwitch2.Checked;
+			chk_SndAutoSwitch2.Enabled = !chk_SndAutoSwitch.Checked;
+			if (chk_SndAutoSwitch.Checked == chk_SndAutoSwitch2.Checked) chk_SndAutoSwitch2.Checked = false;
+			chk_SndLast.Enabled = !chk_SndLast2.Checked;
+			chk_SndLast2.Enabled = !chk_SndLast.Checked;
+			if (chk_SndLast.Checked == chk_SndLast2.Checked) chk_SndLast2.Checked = false;
+			chk_SndSnippets.Enabled = !chk_SndSnippets2.Checked;
+			chk_SndSnippets2.Enabled = !chk_SndSnippets.Checked;
+			if (chk_SndSnippets.Checked == chk_SndSnippets2.Checked) chk_SndSnippets2.Checked = false;
+			chk_SndLayoutSwitch.Enabled = !chk_SndLayoutSwitch2.Checked;
+			chk_SndLayoutSwitch2.Enabled = !chk_SndLayoutSwitch.Checked;
+			if (chk_SndLayoutSwitch.Checked == chk_SndLayoutSwitch2.Checked) chk_SndLayoutSwitch2.Checked = false;
 			// Translation tab
 			btn_TrBorderC.Enabled = !chk_TrUseAccent.Checked;
 			grb_TrConfs.Enabled = chk_TrEnable.Checked;
@@ -3416,11 +3451,14 @@ DEL """+restartMahouPath + @"""";
 				byte[] snd = second ? Properties.Resources.snd2 : Properties.Resources.snd;
 				bool ucs = second ? UseCustomSound2 : UseCustomSound;
 				string csf = second ? CustomSound2 : CustomSound;
+				if (csf.StartsWith(".\\", StringComparison.InvariantCulture)) csf.Replace(".\\", AppDomain.CurrentDomain.BaseDirectory);
+				if (csf.IndexOf('\\') == -1) csf = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, csf);
 				if (ucs) { if (File.Exists(csf)) { snd = File.ReadAllBytes(csf); } }
 				var audio = new MemoryStream(snd);
 				if (miniaudio.Play(snd)) return;
 				var NAudio = Path.Combine(nPath, "NAudio.dll");
 				if (!File.Exists(NAudio)) NAudio = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "NAudio.dll");
+				if (!File.Exists(NAudio)) NAudio = Path.Combine(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "libs"), "NAudio.dll");
 				if (File.Exists(NAudio)) {
 					if (_NAudio == null)
 						_NAudio = Assembly.Load(File.ReadAllBytes(NAudio));
@@ -3445,21 +3483,18 @@ DEL """+restartMahouPath + @"""";
 					initMethod.Invoke(waveOut, new[] { reader });
 					MethodInfo playMethod = waveOutType.GetMethod("Play");
 					playMethod.Invoke(waveOut, null);
+					audio.Dispose();
 				} else {
-					if (KMHook.IfNW7()) {
+					try {
 						Logging.Log("[Sound] Using: [System.Media.Soundplayer] to play audio...");
-						var sp = new System.Media.SoundPlayer(audio);
-						try {
-							csf = replaceenv(csf, "%mahou_dir%", () => nPath);
-							if (ucs) if (File.Exists(csf))
-								sp = new System.Media.SoundPlayer(csf);
-						} catch(Exception e) {
-							Logging.Log("[Sound] Error during loading of the custom sound file: "+e.Message + "\n" + e.StackTrace, 1);
-							Logging.Log("[Sound] Fallback to default sound...");
-						}
-						sp.Play();
-						sp.Dispose();
-					} else {
+						System.Threading.Tasks.Task.Run(() => {
+							using(var sp = new System.Media.SoundPlayer(audio)) {
+								sp.PlaySync();
+								audio.Dispose();
+							}
+                        });
+					} catch (Exception e) {
+						Logging.Log("[Sound] Error during SoundPlayer playback: "+e.Message + "\n" + e.StackTrace, 1);
 						// Most likely won't be able to play non-PCM WAV on windows 7 through mciSS
 						snd = second ? Properties.Resources.snd2pcm16 : Properties.Resources.sndpcm16;
 						var fn = "Mahou-sound" + GetRandomString(4) +".wav";
@@ -3474,8 +3509,8 @@ DEL """+restartMahouPath + @"""";
 							WinAPI.mciSendString("close \"" + tf + "\"", null, 0, 0);
 							if (File.Exists(tff)) File.Delete(tff);
 						});
+						audio.Dispose();
 					}
-					audio.Dispose();
 				}
 			}
 		}
@@ -5041,9 +5076,8 @@ DEL ""ExtractASD.cmd""";
 			#endregion
 			#region Sounds
 			chk_EnableSnd.Text = MMain.Lang[Languages.Element.EnableSounds];
-			grb_Sound1.Text = MMain.Lang[Languages.Element.Sound] + " #1";
-			grb_Sound2.Text = MMain.Lang[Languages.Element.Sound] + " #2";
-			grb_SoundOn2.Text = grb_SoundOn.Text = MMain.Lang[Languages.Element.PlaySoundWhen];
+			grb_Sound1.Text = MMain.Lang[Languages.Element.Sound] + " #1, " + MMain.Lang[Languages.Element.PlaySoundWhen];
+			grb_Sound2.Text = MMain.Lang[Languages.Element.Sound] + " #2, " + MMain.Lang[Languages.Element.PlaySoundWhen];
 			chk_SndAutoSwitch2.Text = chk_SndAutoSwitch.Text = MMain.Lang[Languages.Element.SoundOnAutoSwitch];
 			chk_SndSnippets2.Text = chk_SndSnippets.Text = MMain.Lang[Languages.Element.SoundOnSnippets];
 			chk_SndLast2.Text = chk_SndLast.Text = MMain.Lang[Languages.Element.SoundOnConvertLast];
@@ -5369,15 +5403,6 @@ DEL ""ExtractASD.cmd""";
 		}
 		void Lnk_PixelDrain(object sender, LinkLabelLinkClickedEventArgs e) {
 			__lopen("https://pixeldrain.com/user/api_keys", "http", false, e.Button == MouseButtons.Right);
-		}
-		void Lnk_miniaudio(object sender, LinkLabelLinkClickedEventArgs e) {
-			__lopen("https://pixeldrain.com/u/Na6zKN3B", "http", false, e.Button == MouseButtons.Right);
-		}
-		void Lnk_NAudio(object sender, LinkLabelLinkClickedEventArgs e) {
-			__lopen("https://pixeldrain.com/u/5VmZtzqq", "http", false, e.Button == MouseButtons.Right);
-		}
-		void Lnk_AudioDllsHowto(object sender, LinkLabelLinkClickedEventArgs e) {
-			__lopen("https://postimg.cc/hz5qSsCG", "http", false, e.Button == MouseButtons.Right);
 		}
 		void Lnk_SnipOpenLinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
 			__lopen(snipfile, "txt");
@@ -5929,6 +5954,10 @@ DEL ""ExtractASD.cmd""";
 		void Chk_CheckedChanged(object sender, EventArgs e) {
 			ToggleDependentControlsEnabledState();
 		}
+		void chk_EnableSnd_CheckedChanged(object sender, EventArgs e) {
+			SoundEnabled = chk_EnableSnd.Checked;
+			ToggleDependentControlsEnabledState();
+		}
 		void Chk_HKCheckedChanged(object sender, EventArgs e) {
 			UpdateHKTemps(sender, e);
 			ToggleDependentControlsEnabledState();
@@ -6412,12 +6441,28 @@ DEL ""ExtractASD.cmd""";
 			lbl_SetsCount.Visible = pan_KeySets.Visible = btn_SubSet.Visible = btn_AddSet.Visible = !old;
 		}
 		void Btn_SelectSndClick(object sender, EventArgs e) {
-			txt_CustomSound.Text = SelectGetWavFile().Replace(nPath, ".\\");
-			HelpMeUnderstand.SetToolTip(txt_CustomSound, txt_CustomSound.Text);
+			CustomSound = txt_CustomSound.Text = SelectGetWavFile().Replace(nPath, ".\\");
+			CustomSoundsCheck();
 		}
 		void Btn_SelectSnd2Click(object sender, EventArgs e) {
-			txt_CustomSound2.Text = SelectGetWavFile().Replace(nPath, ".\\");
-			HelpMeUnderstand.SetToolTip(txt_CustomSound2, txt_CustomSound2.Text);
+			CustomSound2 = txt_CustomSound2.Text = SelectGetWavFile().Replace(nPath, ".\\");
+			CustomSoundsCheck();
+		}
+		void Chk_UseCustomSndCheckedChanged(object sender, EventArgs e) {
+			UseCustomSound = chk_UseCustomSnd.Checked;
+			ToggleDependentControlsEnabledState();
+		}
+		void Chk_UseCustomSnd2CheckedChanged(object sender, EventArgs e) {
+			UseCustomSound2 = chk_UseCustomSnd2.Checked;
+			ToggleDependentControlsEnabledState();
+		}
+		void Txt_CustomSoundTextChanged(object sender, EventArgs e) {
+			CustomSound = txt_CustomSound.Text;
+			CustomSoundsCheck();
+		}
+		void Txt_CustomSound2TextChanged(object sender, EventArgs e) {
+			CustomSound2 = txt_CustomSound2.Text;
+			CustomSoundsCheck();
 		}
 		void Btn_SoundTest(object sender, EventArgs e) {
 			SoundPlay();

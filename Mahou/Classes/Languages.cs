@@ -528,11 +528,11 @@ public class Languages
 		#endregion
 		#region Sounds
 		{ Element.EnableSounds, "Enable sounds." }, 
-		{ Element.PlaySoundWhen, "Play sound when:" }, 
-		{ Element.SoundOnAutoSwitch, "On Auto-Switch conversion." }, 
-		{ Element.SoundOnSnippets, "On Snippets expansion." }, 
-		{ Element.SoundOnConvertLast, "On Last Word conversion." }, 
-		{ Element.SoundOnLayoutSwitching, "Layout switching." }, 
+		{ Element.PlaySoundWhen, "play sound on:" },
+		{ Element.SoundOnAutoSwitch, "Auto-Switch conversion." },
+		{ Element.SoundOnSnippets, "Snippets expansion." },
+		{ Element.SoundOnConvertLast, "Last Word conversion." },
+		{ Element.SoundOnLayoutSwitching, "Layout switching." },
 		{ Element.UseCustomSound, "Use custom sound:" }, 
 		{ Element.Select, "Select" }, 
 		#endregion
@@ -864,7 +864,7 @@ Specify layout code 0 to disable this feature." },
 		#endregion
 		#region Sounds
 		{ Element.EnableSounds, "Включить звуки." }, 
-		{ Element.PlaySoundWhen, "Воспроизводить при:" }, 
+		{ Element.PlaySoundWhen, "воспроизводить при:" },
 		{ Element.SoundOnAutoSwitch, "конвертации автозамены." }, 
 		{ Element.SoundOnSnippets, "развертывании сниппетов." }, 
 		{ Element.SoundOnConvertLast, "конвертации последнего слова." }, 

@@ -21,6 +21,7 @@ namespace Mahou {
 			eng = Marshal.AllocHGlobal(4096),
 			dec = Marshal.AllocHGlobal(4096),
 			snd = Marshal.AllocHGlobal(4096);
+	    static bool engine_initialized = false;
 	    static GCHandle pin;
 	    static FreeNative freeSnd, freeDec, freeEng;
 	    static readonly uint MA_SOUND_FLAG_DECODE = 1; // (auto-decodes MP3/WAV/FLAC from pointer)
@@ -29,6 +30,7 @@ namespace Mahou {
 			var dll = "miniaudio_x86.dll";
 			if (Environment.Is64BitProcess) dll = "miniaudio_x64.dll";
 			var dllPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, dll);
+			if (!File.Exists(dllPath)) dllPath = Path.Combine(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "libs"), dll);
 			if (!File.Exists(dllPath)) dllPath = Path.Combine(MahouUI.nPath, dll);
 			return dllPath;
 	    }
@@ -45,11 +47,15 @@ namespace Mahou {
 	        freeSnd   = (FreeNative)Bind("ma_sound_uninit", typeof(FreeNative));
 	        freeDec = (FreeNative)Bind("ma_decoder_uninit", typeof(FreeNative));
 	        freeEng   = (FreeNative)Bind("ma_engine_uninit", typeof(FreeNative));
-	        Zero(eng, 4096);
 	        Zero(dec, 4096);
 	        Zero(snd, 4096);
-	        var rr = initE(IntPtr.Zero, eng);
-	        if (rr != 0) { Logging.Log("[miniaudio] init engine returned: " + rr + ".", 1); return false; }
+	        var rr = 0;
+	        if (!engine_initialized) {
+	            Zero(eng, 4096);
+	            rr = initE(IntPtr.Zero, eng);
+	            if (rr != 0) { Logging.Log("[miniaudio] init engine returned: " + rr + ".", 1); return false; }
+	            engine_initialized = true;
+	        }
 	        pin = GCHandle.Alloc(bytes, GCHandleType.Pinned);
 	        rr = initD(pin.AddrOfPinnedObject(), (UIntPtr)bytes.Length, IntPtr.Zero, dec);
 	        if (rr != 0) { Logging.Log("[miniaudio] init decoder returned: " + rr + ".", 1); return false; }
@@ -67,7 +73,7 @@ namespace Mahou {
 			isPlaying = false;
             if (freeSnd != null) { freeSnd(snd); freeSnd = null; }
             if (freeDec != null) { freeDec(dec); freeDec = null; }
-            if (freeEng != null) { freeEng(eng); freeEng = null; }
+//            if (freeEng != null) { freeEng(eng); freeEng = null; }
             if (pin.IsAllocated) { pin.Free(); pin = default(GCHandle); }
         }
 	    static object Bind(string n, Type t) {
