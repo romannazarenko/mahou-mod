@@ -1101,15 +1101,37 @@ namespace Mahou {
 				}
 			}
 			// 2) No explicit rule matched: let the trigram models decide by statistics.
-			if (!matched && NgramScorer.Ready && snl != 0 && !String.IsNullOrEmpty(sncl) && sncl != snil) {
-				var asl = WordGuessLayout(sncl, 0, false).Item2;
-				var srcLang = NgramScorer.LangOf(snl);
-				var dstLang = NgramScorer.LangOf(asl);
-				if (srcLang != dstLang && NgramScorer.Has(srcLang) && NgramScorer.Has(dstLang) &&
-				    NgramScorer.ShouldSwitch(snil, sncl, srcLang, dstLang)) {
-					Logging.Log("[AS] > n-gram switch ["+snil+"] => ["+sncl+"]");
-					if (DoAutoSwitch(snip, snil, snl, word, sncl, "", enterTrigger, out corr))
-						matched = true;
+			// Every rejection is logged, otherwise a silent no-switch is undebuggable.
+			if (!matched) {
+				if (!NgramScorer.Ready)
+					Logging.Log("[AS] > n-gram: models not loaded, skipping.", 2);
+				else if (snl == 0 || String.IsNullOrEmpty(sncl))
+					Logging.Log("[AS] > n-gram: no layout guess for ["+snil+"] (layout ["+snl+"], guess ["+sncl+"]), " +
+					            "check [Locales] Final layouts and main layouts 1&2.", 2);
+				else if (sncl == snil)
+					Logging.Log("[AS] > n-gram: guess equals typed word ["+snil+"], nothing to switch.");
+				else {
+					var asl = WordGuessLayout(sncl, 0, false).Item2;
+					var srcLang = NgramScorer.LangOf(snl);
+					var dstLang = NgramScorer.LangOf(asl);
+					if (srcLang == dstLang)
+						Logging.Log("[AS] > n-gram: same language for both readings ["+srcLang+"], skipping.");
+					else if (!NgramScorer.Has(srcLang) || !NgramScorer.Has(dstLang))
+						Logging.Log("[AS] > n-gram: no model for language ["+
+						            (NgramScorer.Has(srcLang) ? dstLang : srcLang)+"], skipping.", 2);
+					else {
+						var adv = NgramScorer.Advantage(snil, sncl, srcLang, dstLang);
+						if (Single.IsNaN(adv))
+							Logging.Log("[AS] > n-gram: word ["+snil+"] is shorter than "+
+							            NgramScorer.MinLength+" chars, left to AS_dict.");
+						else if (adv > NgramScorer.Threshold) {
+							Logging.Log("[AS] > n-gram switch ["+snil+"] => ["+sncl+"], advantage ["+adv+"]");
+							if (DoAutoSwitch(snip, snil, snl, word, sncl, "", enterTrigger, out corr))
+								matched = true;
+						} else
+							Logging.Log("[AS] > n-gram: keeping ["+snil+"], advantage ["+adv+
+							            "] below threshold ["+NgramScorer.Threshold+"]");
+					}
 				}
 			}
 			if (matched) {
@@ -4594,15 +4616,26 @@ namespace Mahou {
 						Memory.Flush();
 					}
 					if (!NgramScorer.Ready) {
-						var ngramFile = System.IO.Path.Combine(MahouUI.nPath, "ngram.bin");
-						try {
-							if (NgramScorer.TryLoadFile(ngramFile))
-								Logging.Log("[AS] > n-gram models loaded from " + ngramFile);
-							else
-								Logging.Log("[AS] > n-gram models not found at " + ngramFile + ", using AS_dict only.", 2);
-						} catch (Exception e) {
-							Logging.Log("[AS] > n-gram models failed to load: " + e.Message, 1);
+						// ngram.bin ships next to the exe, but nPath points at %AppData%
+						// when configs are stored there, so try both locations.
+						var ngramPaths = new List<string> { System.IO.Path.Combine(MahouUI.nPath, "ngram.bin") };
+						var exeNgram = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "ngram.bin");
+						if (!ngramPaths.Contains(exeNgram)) ngramPaths.Add(exeNgram);
+						var ngramLoaded = false;
+						foreach (var ngramFile in ngramPaths) {
+							try {
+								if (NgramScorer.TryLoadFile(ngramFile)) {
+									Logging.Log("[AS] > n-gram models loaded from " + ngramFile);
+									ngramLoaded = true;
+									break;
+								}
+								Logging.Log("[AS] > n-gram models not found at " + ngramFile, 2);
+							} catch (Exception e) {
+								Logging.Log("[AS] > n-gram models at " + ngramFile + " failed to load: " + e.Message, 1);
+							}
 						}
+						if (!ngramLoaded)
+							Logging.Log("[AS] > no n-gram models loaded, using AS_dict only.", 2);
 					}
 				}
 				else {

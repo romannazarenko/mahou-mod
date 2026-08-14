@@ -122,6 +122,9 @@ namespace Mahou
 					usrord2 = vl.ToArray();
 				}
 			}
+			// Preload key can be missing, and it is indexed independently of usrord
+			// below, so both arrays must be treated as possibly shorter.
+			if (usrord2 == null) usrord2 = new string[0];
 			Logging.Log("[Locales] Locales installed: " + usrord.Length);
 			var subs = new Dictionary<uint, uint>();
             using (var key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(@"Keyboard Layout\Substitutes")) {
@@ -140,6 +143,8 @@ namespace Mahou
             }
 			Logging.Log("[Locales] Substitutes: " + subs.Count);
 			for(var i = 0; i < usrord2.Length; i++) {
+				// There can be more keyboard layouts (usrord2) than languages (usrord).
+				var usrordi = i < usrord.Length ? usrord[i] : "?";
 				foreach (InputLanguage lang in InputLanguage.InstalledInputLanguages) {
 					uint u = (uint)lang.Handle;
 					if (locs.Exists(x => x.uId == u)) continue;
@@ -152,9 +157,9 @@ namespace Mahou
 						string.IsNullOrEmpty(lang.Culture.TwoLetterISOLanguageName) ||
 						null_or_empty_layoutname;
 					if (!likely_custom_layout) {
-						matches = usrord[i].Contains("-") ?
-							string.Equals(usrord[i], lang.Culture.Name, StringComparison.OrdinalIgnoreCase) :
-						    string.Equals(usrord[i], lang.Culture.TwoLetterISOLanguageName, StringComparison.OrdinalIgnoreCase);
+						matches = usrordi.Contains("-") ?
+							string.Equals(usrordi, lang.Culture.Name, StringComparison.OrdinalIgnoreCase) :
+						    string.Equals(usrordi, lang.Culture.TwoLetterISOLanguageName, StringComparison.OrdinalIgnoreCase);
 					}
 					if (!matches) {
 						if (uint.TryParse(usrord2[i], System.Globalization.NumberStyles.HexNumber, null, out hex)) {
@@ -173,13 +178,28 @@ namespace Mahou
 						uint shc = u >> 16;
 						if (!PHl.Contains(shc))
 							PHl.Add(shc);
-						Logging.Log("[Locales] Adding " + usrord[i] + "/" + u.ToString("X") + " as #" + (i+1));
+						Logging.Log("[Locales] Adding " + usrordi + "/" + u.ToString("X") + " as #" + (i+1));
 						locs.Add(new Locale {
 							Lang = null_or_empty_layoutname ? "0x" + u.ToString("X") : lang.LayoutName,
 							uId = u
 						});
 					}
 				}
+			}
+			// The registry-order matching above can drop layouts (or all of them) on
+			// unusual setups; without layouts nothing can be guessed and auto-switch
+			// dies silently, so fall back to plain enumeration.
+			foreach (InputLanguage lang in InputLanguage.InstalledInputLanguages) {
+				uint u = (uint)lang.Handle;
+				if (locs.Exists(x => x.uId == u)) continue;
+				Logging.Log("[Locales] Adding unordered layout " + u.ToString("X") + ", it matched no registry entry.", 2);
+				uint shc = u >> 16;
+				if (!PHl.Contains(shc))
+					PHl.Add(shc);
+				locs.Add(new Locale {
+					Lang = string.IsNullOrEmpty(lang.LayoutName) ? "0x" + u.ToString("X") : lang.LayoutName,
+					uId = u
+				});
 			}
 			var locsstr = "";
 			for (var i = 0; i < locs.Count; i++) {

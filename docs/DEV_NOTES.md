@@ -23,6 +23,29 @@ models for the auto-switch decision.
   wrong-layout word before the correction lands. Root cause is architectural —
   see below.
 
+## Diagnosing "n-gram switching does not work" (2026-08-14)
+
+Enable logging and read `<nPath>/Logs/<date>.txt`; the n-gram path now logs every
+rejection. Read these lines in order:
+
+1. `[AS] > n-gram models loaded from …` — model file found. If instead you see
+   `not found at …` for both paths, `ngram.bin` is missing next to `Mahou.exe`
+   (it ships in the CI artifact; the model is looked up in `nPath` first, then in
+   the exe directory — the second path was added because `nPath` becomes
+   `%AppData%\Mahou` when configs are stored there).
+   No line at all ⇒ auto-switch is off in settings, the model only loads then.
+2. `[Locales] Final layouts: N: …` — upstream's rewritten layout enumeration.
+   It must list every layout you type in. `WordGuessLayout` skips layouts that
+   are not `MAIN_LAYOUT1/2` when "switch between layouts" is on, so a missing or
+   wrongly-picked main layout kills auto-switch entirely (both AS_dict and
+   n-gram) with a `n-gram: no layout guess` line.
+3. `[AS] > n-gram: …` — per-word decision: same language, no model for a
+   language, word too short, or advantage below `NgramScorer.Threshold` (logged
+   with the actual number, useful for tuning).
+
+Verified good and *not* worth re-checking: the shipped `ngram.bin` (3 models,
+en=9 / ru=25 / uk=34) and its inclusion in the CI artifact.
+
 ## Self-update disabled (2026-08-11)
 
 Upstream's auto-update overwrote the modded exe with the stock one, killing the

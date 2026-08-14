@@ -170,12 +170,20 @@ namespace Mahou {
 		/// should be auto-switched to the destination layout.
 		/// </summary>
 		public static bool ShouldSwitch(string typed, string corrected, int srcLang, int dstLang) {
-			if (typed == null || corrected == null) return false;
-			if (typed.Length < MinLength) return false;
+			return Advantage(typed, corrected, srcLang, dstLang) > Threshold;
+		}
+
+		/// <summary>
+		/// Log-likelihood advantage of the corrected reading over the typed one.
+		/// NaN when the pair cannot be scored (too short, or a model is missing).
+		/// </summary>
+		public static float Advantage(string typed, string corrected, int srcLang, int dstLang) {
+			if (typed == null || corrected == null) return float.NaN;
+			if (typed.Length < MinLength) return float.NaN;
 			NgramModel src, dst;
-			if (!_models.TryGetValue(srcLang, out src)) return false;
-			if (!_models.TryGetValue(dstLang, out dst)) return false;
-			return dst.Score(corrected) - src.Score(typed) > Threshold;
+			if (!_models.TryGetValue(srcLang, out src)) return float.NaN;
+			if (!_models.TryGetValue(dstLang, out dst)) return float.NaN;
+			return dst.Score(corrected) - src.Score(typed);
 		}
 
 		// ---- persistence ----------------------------------------------------
