@@ -23,10 +23,20 @@ models for the auto-switch decision.
   wrong-layout word before the correction lands. Root cause is architectural —
   see below.
 
-## Diagnosing "n-gram switching does not work" (2026-08-14)
+## "n-gram switching does not work" — solved 2026-08-14
 
-Enable logging and read `<nPath>/Logs/<date>.txt`; the n-gram path now logs every
-rejection. Read these lines in order:
+Root cause (confirmed on the user's install): Mahou could not write `Mahou.ini`
+into its own program folder, so it fell back to `%AppData%\Mahou` and set `nPath`
+there. The model was looked up only under `nPath`, while `ngram.bin` ships next
+to the exe — so it silently never loaded and auto-switch degraded to AS_dict.
+Fixed by also looking next to the exe (`AppDomain.CurrentDomain.BaseDirectory`).
+
+Prevention: `nPath` means "where user data is written", not "where the app
+lives". Any file the fork *ships* (models, future exception lists) must be
+resolved from `BaseDirectory`, with `nPath` only as the user-override location.
+
+If it misbehaves again, enable logging and read `<nPath>/Logs/<date>.txt`; the
+n-gram path now logs every rejection. Read these lines in order:
 
 1. `[AS] > n-gram models loaded from …` — model file found. If instead you see
    `not found at …` for both paths, `ngram.bin` is missing next to `Mahou.exe`
