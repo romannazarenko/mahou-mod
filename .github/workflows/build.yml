@@ -10,15 +10,15 @@ jobs:
   build:
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: '8.0.x'
 
       - name: Setup MSBuild
-        uses: microsoft/setup-msbuild@v2
+        uses: microsoft/setup-msbuild@v3
 
       - name: Train and validate n-gram models
         run: dotnet run --project Tools/ModelGen -c Release -- Dictionaries-origin Mahou/ngram.bin
@@ -27,7 +27,7 @@ jobs:
         run: msbuild Mahou/Mahou.sln /nologo /m /t:Build /p:Configuration=Release "/p:Platform=Any CPU"
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: Mahou-Release
           path: |
