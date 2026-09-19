@@ -75,27 +75,27 @@ n-gram auto-switch. Self-update is now fully disabled:
   (used by the AS_dict dictionary downloader).
 - To update the app: merge upstream here, let CI build, install the artifact.
 
-## Game mode (exe arg)
+## Enable/disable input processing (exe args)
 
 Two flags explicitly **set** whether Mahou intercepts input (not a toggle):
 
-- **`-game`** (also `--game`, `/game`, `-g`, `/g`) → interception OFF (game mode).
+- **`-off`** (also `--off`, `/off`) → interception OFF.
 - **`-on`** (also `--on`, `/on`) → interception ON.
 - **No flag** → unchanged: a plain re-launch just shows the window as before; it never
   changes the enabled state.
 
 Behaviour depends on whether Mahou is already running (single-instance mutex):
 
-- **Not running** → a `-game` launch boots in the disabled state (`Program.cs` detects
-  the flag via `IsGameModeArg` after `mahou`/`rif` are constructed and calls
+- **Not running** → a `-off` launch boots in the disabled state (`Program.cs` detects
+  the flag via `IsOffArg` after `mahou`/`rif` are constructed and calls
   `MahouUI.ToggleMahou()`); a plain or `-on` launch boots enabled as usual (default).
 - **Already running** (the usual autostart case) → the second launch does NOT start a
-  new process. `-game`/`-on` broadcast the registered window message
+  new process. `-off`/`-on` broadcast the registered window message
   `ToggleGameModeMahou!` (`MMain.gm`, mirrors `ao`/`re`) with `WParam` = desired ENABLED
   state (0 = disable, 1 = enable) and exit; a no-flag launch falls through to the usual
   show-window (`ao`). The live instance handles `gm` in `WndProc`: it calls
   `ToggleMahou()` only if the current state differs, so the message is idempotent
-  (re-sending the same state is a no-op). Net effect: run `Mahou.exe -game` before a
+  (re-sending the same state is a no-op). Net effect: run `Mahou.exe -off` before a
   game and `Mahou.exe -on` after — deterministic, no restart, no guessing the state.
 
 `ToggleMahou()` unregisters the hooks + raw-input devices, stops timers, and marks the

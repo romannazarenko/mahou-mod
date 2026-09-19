@@ -66,8 +66,8 @@ namespace Mahou
 							return;
 						}
 					}
-					if (IsGameModeArg(args)) {
-						// -game: turn interception OFF on the already-running instance.
+					if (IsOffArg(args)) {
+						// -off: turn interception OFF on the already-running instance.
 						WinAPI.PostMessage((IntPtr)0xffff, gm, 0, 0);
 						return;
 					}
@@ -174,11 +174,10 @@ namespace Mahou
 							KMHook.DoLater(() => mahou.Invoke((MethodInvoker)delegate { mahou.icon.trIcon.Visible = false; }), 1005);
 					}
 				}
-				if (IsGameModeArg(args)) {
-					// Game mode: boot with input processing fully disabled so Mahou
-					// never touches keystrokes in a game. ToggleMahou() unregisters the
-					// hooks and flags the tray as [Disabled]; re-enable via hotkey/tray.
-					Logging.Log("Game mode: starting with input processing disabled.");
+				if (IsOffArg(args)) {
+					// -off: boot with input processing disabled. ToggleMahou() unregisters
+					// the hooks and flags the tray as [Disabled]; re-enable via -on/hotkey/tray.
+					Logging.Log("Starting with input processing disabled (-off).");
 					mahou.ToggleMahou();
 				}
 				MyConfs.WriteToDisk();
@@ -188,13 +187,13 @@ namespace Mahou
 			}
 		}
 		/// <summary>
-		/// True if a game-mode flag (-g / -game / --game / /game) was passed, meaning
+		/// True if a disable flag (-off / --off / /off) was passed, meaning
 		/// Mahou should start with input processing fully disabled.
 		/// </summary>
-		public static bool IsGameModeArg(string[] args) {
+		public static bool IsOffArg(string[] args) {
 			foreach (var a in args) {
 				switch (a.ToUpperInvariant()) {
-					case "-G": case "/G": case "-GAME": case "--GAME": case "/GAME":
+					case "-OFF": case "--OFF": case "/OFF":
 						return true;
 				}
 			}
