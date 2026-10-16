@@ -34,7 +34,7 @@ If a .NET 8 SDK is available, step 1 also runs locally and is the only automated
   - `Classes/jklXHidServ.cs` integrates the JKL helper (native C in `JKL/`).
 - **`Classes/KMHook.cs`** (~4.7k lines): the core logic.
   - It tracks the current word (`c_snip`) and handles conversion (`ConvertSelection`, `StartConvertWord`), snippets and auto-switch.
-  - Auto-switch runs as follows: the trigger block on Space/Enter calls `CheckAutoSwitch`, which tries the `AS_dict.txt` rules first and falls back to `NgramScorer`. `DoAutoSwitch` then performs the action. The models load in `ReInitSnippets`, and only when AutoSwitch is enabled.
+  - Auto-switch runs as follows: the trigger block on Space/Enter calls `CheckAutoSwitch`. It tries the rules in this order: user rules from `AS_user.txt` (`Classes/UserDict.cs`, learned through `ConvertLast` → `LearnConversion`), then `AS_dict.txt`, then `NgramScorer`. `DoAutoSwitch` then performs the action. The models load in `ReInitSnippets`, and only when AutoSwitch is enabled.
 - **`Classes/NgramScorer.cs`**: pure C# with no WinForms. `Tools/ModelGen` compiles this same file, so the trainer and the runtime share one on-disk format. Keep it free of WinForms and Mahou-UI dependencies.
 - **Layouts**: `Classes/Locales.cs` enumerates them. `WordGuessLayout` only considers `MAIN_LAYOUT1/2` when "switch between layouts" is on.
 - **Config**: `Classes/Configs.cs` (INI wrapper). `Mahou.ini` lives next to the exe, or in `%AppData%\Mahou` when the exe folder isn't writable. `MahouUI.nPath` is that user-data location.

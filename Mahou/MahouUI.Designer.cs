@@ -161,6 +161,7 @@ namespace Mahou
 		private System.Windows.Forms.Button btn_UpdateAutoSwitchDictionary;
 		private System.Windows.Forms.CheckBox chk_AutoSwitchSwitchToGuessLayout;
 		private System.Windows.Forms.CheckBox chk_AutoSwitchSpaceAfter;
+		private System.Windows.Forms.CheckBox chk_AutoSwitchLearn;
 		private Mahou.MahouUI.TextBoxCA txt_AutoSwitchDictionary;
 		private System.Windows.Forms.CheckBox chk_AutoSwitch;
 		private System.Windows.Forms.Label lbl_AutoSwitchDependsOnSnippets;
@@ -539,6 +540,7 @@ namespace Mahou
 			this.chk_DownloadASD_InZip = new System.Windows.Forms.CheckBox();
 			this.lbl_AutoSwitchWordsCount = new System.Windows.Forms.Label();
 			this.chk_AutoSwitchSpaceAfter = new System.Windows.Forms.CheckBox();
+			this.chk_AutoSwitchLearn = new System.Windows.Forms.CheckBox();
 			this.btn_UpdateAutoSwitchDictionary = new System.Windows.Forms.Button();
 			this.chk_AutoSwitchSwitchToGuessLayout = new System.Windows.Forms.CheckBox();
 			this.txt_AutoSwitchDictionary = new Mahou.MahouUI.TextBoxCA();
@@ -2654,6 +2656,7 @@ namespace Mahou
 			this.tab_autoswitch.Controls.Add(this.chk_DownloadASD_InZip);
 			this.tab_autoswitch.Controls.Add(this.lbl_AutoSwitchWordsCount);
 			this.tab_autoswitch.Controls.Add(this.chk_AutoSwitchSpaceAfter);
+			this.tab_autoswitch.Controls.Add(this.chk_AutoSwitchLearn);
 			this.tab_autoswitch.Controls.Add(this.btn_UpdateAutoSwitchDictionary);
 			this.tab_autoswitch.Controls.Add(this.chk_AutoSwitchSwitchToGuessLayout);
 			this.tab_autoswitch.Controls.Add(this.txt_AutoSwitchDictionary);
@@ -2697,6 +2700,16 @@ namespace Mahou
 			this.chk_AutoSwitchSpaceAfter.Text = "Add 1 space after auto-switch.";
 			this.chk_AutoSwitchSpaceAfter.UseVisualStyleBackColor = true;
 			// 
+			// chk_AutoSwitchLearn
+			// 
+			this.chk_AutoSwitchLearn.AutoSize = true;
+			this.chk_AutoSwitchLearn.Location = new System.Drawing.Point(8, 67);
+			this.chk_AutoSwitchLearn.Name = "chk_AutoSwitchLearn";
+			this.chk_AutoSwitchLearn.Size = new System.Drawing.Size(252, 19);
+			this.chk_AutoSwitchLearn.TabIndex = 13;
+			this.chk_AutoSwitchLearn.Text = "Learn words from \"Convert last word\".";
+			this.chk_AutoSwitchLearn.UseVisualStyleBackColor = true;
+			// 
 			// btn_UpdateAutoSwitchDictionary
 			// 
 			this.btn_UpdateAutoSwitchDictionary.Location = new System.Drawing.Point(8, 41);
@@ -2719,12 +2732,12 @@ namespace Mahou
 			// 
 			// txt_AutoSwitchDictionary
 			// 
-			this.txt_AutoSwitchDictionary.Location = new System.Drawing.Point(8, 69);
+			this.txt_AutoSwitchDictionary.Location = new System.Drawing.Point(8, 88);
 			this.txt_AutoSwitchDictionary.MaxLength = 0;
 			this.txt_AutoSwitchDictionary.Multiline = true;
 			this.txt_AutoSwitchDictionary.Name = "txt_AutoSwitchDictionary";
 			this.txt_AutoSwitchDictionary.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.txt_AutoSwitchDictionary.Size = new System.Drawing.Size(541, 193);
+			this.txt_AutoSwitchDictionary.Size = new System.Drawing.Size(541, 174);
 			this.txt_AutoSwitchDictionary.TabIndex = 6;
 			this.txt_AutoSwitchDictionary.Text = "EMPTY, need to update.";
 			this.txt_AutoSwitchDictionary.TextChanged += new System.EventHandler(this.Txt_AutoSwitchDictionaryTextChanged);

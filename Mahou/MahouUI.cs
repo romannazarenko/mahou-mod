@@ -20,14 +20,14 @@ namespace Mahou {
 		public Hotkey Mainhk, ExitHk, HKCLast, HKCSelection, HKCLine, HKSymIgn, HKConMorWor,
 			  	      HKTitleCase, HKRandomCase, HKSwapCase, HKTransliteration, HKRestart, 
 			  	      HKToggleLP, HKShowST, HKToggleMahou, HKUpperCase, HKLowerCase, HKCycleCase,
-			  	      HKSelCustConv, HKShCMenuUM;
+			  	      HKSelCustConv, HKShCMenuUM, HKCLastLearn;
 		public List<Hotkey> SpecificSwitchHotkeys = new List<Hotkey>();
 		/// <summary>
 		/// Hotkey OK to fire action bools.
 		/// </summary>
 		public bool hksTTCOK, hksTRCOK, hksTSCOK, hksTrslOK, hkShWndOK, hkcwdsOK, hklOK, 
 					hksOK, hklineOK, hkSIOK, hkExitOK, hkToglLPOK, hkShowTSOK, hkToggleMahouOK, hkUcOK, hklcOK, hkccOK,
-					hkSCCok, hkSCMUM, hkCLLCS_toOK;
+					hkSCCok, hkSCMUM, hkCLLearnOK, hkCLLCS_toOK;
 		public static string nPath = AppDomain.CurrentDomain.BaseDirectory, CustomSound, CustomSound2, Redefines;
 		public static int ACT_Match = 0, TrayHoverMahouMM = 0, explorer_pid = -1, explorer_not_found_tries = 0;
 		public static bool LoggingEnabled, dummy, CapsLockDisablerTimer, LangPanelUpperArrow, mouseLTUpperArrow, caretLTUpperArrow,
@@ -88,7 +88,7 @@ namespace Mahou {
 					ConvertSelectionLS, ConvertSelectionLSPlus, MCDSSupport, OneLayoutWholeWord,
 					MouseTTAlways, OneLayout, MouseLangTooltipEnabled, CaretLangTooltipEnabled, QWERTZ_fix, 
 					ChangeLayoutInExcluded, SnippetSpaceAfter, SnippetsSwitchToGuessLayout,
-					AutoSwitchSpaceAfter, AutoSwitchSwitchToGuessLayout, GuessKeyCodeFix, Dowload_ASD_InZip, 
+					AutoSwitchSpaceAfter, AutoSwitchSwitchToGuessLayout, AutoSwitchLearn, GuessKeyCodeFix, Dowload_ASD_InZip, 
 					LDForCaret, LDForMouse, LDUseWindowsMessages, RemapCapslockAsF18, Add1NL, PersistentLayoutOnWindowChange, PersistentLayoutOnlyOnce,
 					PersistentLayoutForLayout1, PersistentLayoutForLayout2, UseDelayAfterBackspaces,
 					ConvertSWLinExcl;
@@ -97,26 +97,26 @@ namespace Mahou {
 			    HKCLine_tempMods, HKSymIgn_tempMods, HKConMorWor_tempMods, HKTitleCase_tempMods,
  				HKRandomCase_tempMods, HKSwapCase_tempMods, HKTransliteration_tempMods, HKRestart_tempMods,
  				HKToggleLangPanel_tempMods, HKShowSelectionTranslate_tempMods, HKToggleMahou_tempMods, HKToUpper_tempMods,
- 				HKToLower_tempMods, HKCycleCase_tempMods, HKSelCustConv_tempMods, HKShCMenuUM_tempMods;
+ 				HKToLower_tempMods, HKCycleCase_tempMods, HKSelCustConv_tempMods, HKShCMenuUM_tempMods, HKCLastLearn_tempMods;
 		/// <summary> Temporary key of hotkeys. </summary>
 		int Mainhk_tempKey, ExitHk_tempKey, HKCLast_tempKey, HKCSelection_tempKey,
 			    HKCLine_tempKey, HKSymIgn_tempKey, HKConMorWor_tempKey, HKTitleCase_tempKey,
  				HKRandomCase_tempKey, HKSwapCase_tempKey, HKTransliteration_tempKey, HKRestart_tempKey,
  				HKToggleLangPanel_tempKey, HKShowSelectionTranslate_tempKey, HKToggleMahou_tempKey, HKToUpper_tempKey,
- 				HKToLower_tempKey, HKCycleCase_tempKey, HKSelCustConv_tempKey, HKShCMenuUM_tempKey;
+ 				HKToLower_tempKey, HKCycleCase_tempKey, HKSelCustConv_tempKey, HKShCMenuUM_tempKey, HKCLastLearn_tempKey;
 		/// <summary> Temporary Enabled of hotkeys. </summary>
 		bool Mainhk_tempEnabled, ExitHk_tempEnabled, HKCLast_tempEnabled, HKCSelection_tempEnabled,
 			    HKCLine_tempEnabled, HKSymIgn_tempEnabled, HKConMorWor_tempEnabled, HKTitleCase_tempEnabled,
  				HKRandomCase_tempEnabled, HKSwapCase_tempEnabled, HKTransliteration_tempEnabled, HKRestart_tempEnabled,
  				HKToggleLangPanel_tempEnabled, HKShowSelectionTranslate_tempEnabled, HKToggleMahou_tempEnabled,
- 				HKToUpper_tempEnabled, HKToLower_tempEnabled, HKCycleCase_tempEnabled, HKShCMenuUM_tempEnabled;
+ 				HKToUpper_tempEnabled, HKToLower_tempEnabled, HKCycleCase_tempEnabled, HKShCMenuUM_tempEnabled, HKCLastLearn_tempEnabled;
 		public static bool HKSelCustConv_tempEnabled;
 		/// <summary> Temporary Double of hotkeys. </summary>
 		bool Mainhk_tempDouble, ExitHk_tempDouble, HKCLast_tempDouble, HKCSelection_tempDouble,
 			    HKCLine_tempDouble, HKSymIgn_tempDouble, HKConMorWor_tempDouble, HKTitleCase_tempDouble,
  				HKRandomCase_tempDouble, HKSwapCase_tempDouble, HKTransliteration_tempDouble,
  				HKToggleLangPanel_tempDouble, HKShowSelectionTranslate_tempDouble, HKToggleMahou_tempDouble,
- 				HKToUpper_tempDouble, HKToLower_tempDouble, HKCycleCase_tempDouble, HKSelCustConv_tempDouble, HKShCMenuUM_tempDouble;
+ 				HKToUpper_tempDouble, HKToLower_tempDouble, HKCycleCase_tempDouble, HKSelCustConv_tempDouble, HKShCMenuUM_tempDouble, HKCLastLearn_tempDouble;
 		/// <summary> Temporary colors of LangDisplays appearece. </summary>
 		public static Color LDMouseFore_temp, LDCaretFore_temp, LDMouseBack_temp, LDCaretBack_temp, 
 		 	  Layout1Fore_temp, Layout2Fore_temp, Layout1Back_temp, Layout2Back_temp;
@@ -651,6 +651,7 @@ namespace Mahou {
 					Hotkey.CallHotkey(HKTransliteration, id, ref hksTrslOK, ()=>KMHook.SelectionConversion(KMHook.ConvT.Transliteration));
 					Hotkey.CallHotkey(HKSelCustConv, id, ref hkSCCok, ()=>KMHook.SelectionConversion(KMHook.ConvT.Custom));
 					Hotkey.CallHotkey(HKShCMenuUM, id, ref hkSCMUM, ShowContextMenuUnderMouse);
+					Hotkey.CallHotkey(HKCLastLearn, id, ref hkCLLearnOK, () => KMHook.ConvertLast(MMain.c_word, false, true));
 					ShiftInHotkey = Hotkey.ContainsModifier(((int)m.LParam & 0xFFFF), (int)WinAPI.MOD_SHIFT) ? true : false;
 					AltInHotkey = Hotkey.ContainsModifier(((int)m.LParam & 0xFFFF), (int)WinAPI.MOD_ALT) ? true : false;
 					CtrlInHotkey = Hotkey.ContainsModifier(((int)m.LParam & 0xFFFF), (int)WinAPI.MOD_CONTROL) ? true : false;
@@ -884,6 +885,7 @@ namespace Mahou {
 			HKCycleCase_tempEnabled = MMain.MyConfs.ReadBool("Hotkeys", "CycleCase_Enabled");
 			HKSelCustConv_tempEnabled = MMain.MyConfs.ReadBool("Hotkeys", "SelectedTextToCustomConv_Enabled");
 			HKShCMenuUM_tempEnabled = MMain.MyConfs.ReadBool("Hotkeys", "ShowCMenuUnderMouse_Enabled");
+			HKCLastLearn_tempEnabled = MMain.MyConfs.ReadBool("Hotkeys", "ConvertLastWordLearn_Enabled");
 			#endregion
 			#region Hotkey doubles
 			Mainhk_tempDouble = MMain.MyConfs.ReadBool("Hotkeys", "ToggleMainWindow_Double");
@@ -905,6 +907,7 @@ namespace Mahou {
 			HKCycleCase_tempDouble = MMain.MyConfs.ReadBool("Hotkeys", "CycleCase_Double");
 			HKSelCustConv_tempDouble = MMain.MyConfs.ReadBool("Hotkeys", "SelectedTextToCustomConv_Double");
 			HKShCMenuUM_tempDouble = MMain.MyConfs.ReadBool("Hotkeys", "ShowCMenuUnderMouse_Double");
+			HKCLastLearn_tempDouble = MMain.MyConfs.ReadBool("Hotkeys", "ConvertLastWordLearn_Double");
 			#endregion
 			#region Hotkey modifiers
 			Mainhk_tempMods = MMain.MyConfs.Read("Hotkeys", "ToggleMainWindow_Modifiers");
@@ -927,6 +930,7 @@ namespace Mahou {
 			HKCycleCase_tempMods = MMain.MyConfs.Read("Hotkeys", "CycleCase_Modifiers");
 			HKSelCustConv_tempMods = MMain.MyConfs.Read("Hotkeys", "SelectedTextToCustomConv_Mods");
 			HKShCMenuUM_tempMods = MMain.MyConfs.Read("Hotkeys", "ShowCMenuUnderMouse_Mods");
+			HKCLastLearn_tempMods = MMain.MyConfs.Read("Hotkeys", "ConvertLastWordLearn_Mods");
 			#endregion
 			#region Hotkey keys
 			Mainhk_tempKey = MMain.MyConfs.ReadInt("Hotkeys", "ToggleMainWindow_Key");
@@ -949,6 +953,7 @@ namespace Mahou {
 			HKCycleCase_tempKey = MMain.MyConfs.ReadInt("Hotkeys", "CycleCase_Key");
 			HKSelCustConv_tempKey = MMain.MyConfs.ReadInt("Hotkeys", "SelectedTextToCustomConv_Key");
 			HKShCMenuUM_tempKey = MMain.MyConfs.ReadInt("Hotkeys", "ShowCMenuUnderMouse_Key");
+			HKCLastLearn_tempKey = MMain.MyConfs.ReadInt("Hotkeys", "ConvertLastWordLearn_Key");
 			#endregion
 			#region Lang Display colors
 			LDMouseFore_temp = GetColor(MMain.MyConfs.Read("Appearence", "MouseLTForeColor")); 
@@ -1023,6 +1028,7 @@ namespace Mahou {
 			MMain.MyConfs.Write("Hotkeys", "CycleCase_Enabled", HKCycleCase_tempEnabled.ToString());
 			MMain.MyConfs.Write("Hotkeys", "SelectedTextToCustomConv_Enabled", HKSelCustConv_tempEnabled.ToString());
 			MMain.MyConfs.Write("Hotkeys", "ShowCMenuUnderMouse_Enabled", HKShCMenuUM_tempEnabled.ToString());
+			MMain.MyConfs.Write("Hotkeys", "ConvertLastWordLearn_Enabled", HKCLastLearn_tempEnabled.ToString());
 			#endregion
 			#region Hotkey doubles
 			MMain.MyConfs.Write("Hotkeys", "ToggleMainWindow_Double", Mainhk_tempDouble.ToString());
@@ -1044,6 +1050,7 @@ namespace Mahou {
 			MMain.MyConfs.Write("Hotkeys", "CycleCase_Double", HKCycleCase_tempDouble.ToString());
 			MMain.MyConfs.Write("Hotkeys", "SelectedTextToCustomConv_Double", HKSelCustConv_tempDouble.ToString());
 			MMain.MyConfs.Write("Hotkeys", "ShowCMenuUnderMouse_Double", HKShCMenuUM_tempDouble.ToString());
+			MMain.MyConfs.Write("Hotkeys", "ConvertLastWordLearn_Double", HKCLastLearn_tempDouble.ToString());
 			#endregion
 			#region Hotkey modifiers
 			MMain.MyConfs.Write("Hotkeys", "ToggleMainWindow_Modifiers", Mainhk_tempMods);
@@ -1066,6 +1073,7 @@ namespace Mahou {
 			MMain.MyConfs.Write("Hotkeys", "CycleCase_Modifiers", HKCycleCase_tempMods);
 			MMain.MyConfs.Write("Hotkeys", "SelectedTextToCustomConv_Mods", HKSelCustConv_tempMods);
 			MMain.MyConfs.Write("Hotkeys", "ShowCMenuUnderMouse_Mods", HKShCMenuUM_tempMods);
+			MMain.MyConfs.Write("Hotkeys", "ConvertLastWordLearn_Mods", HKCLastLearn_tempMods);
 			#endregion
 			#region Hotkey keys
 			MMain.MyConfs.Write("Hotkeys", "ToggleMainWindow_Key", Mainhk_tempKey.ToString());
@@ -1088,6 +1096,7 @@ namespace Mahou {
 			MMain.MyConfs.Write("Hotkeys", "CycleCase_Key", HKCycleCase_tempKey.ToString());
 			MMain.MyConfs.Write("Hotkeys", "SelectedTextToCustomConv_Key", HKSelCustConv_tempKey.ToString());
 			MMain.MyConfs.Write("Hotkeys", "ShowCMenuUnderMouse_Key", HKShCMenuUM_tempKey.ToString());
+			MMain.MyConfs.Write("Hotkeys", "ConvertLastWordLearn_Key", HKCLastLearn_tempKey.ToString());
 			#endregion
 			UpdateLangDisplayTemps();
 			#region Lang Display colors
@@ -1313,6 +1322,7 @@ namespace Mahou {
 				#region AutoSwitch
 				MMain.MyConfs.Write("AutoSwitch", "Enabled", chk_AutoSwitch.Checked.ToString());
 				MMain.MyConfs.Write("AutoSwitch", "SpaceAfter", chk_AutoSwitchSpaceAfter.Checked.ToString());
+				MMain.MyConfs.Write("AutoSwitch", "Learn", chk_AutoSwitchLearn.Checked.ToString());
 				MMain.MyConfs.Write("AutoSwitch", "SwitchToGuessLayout", chk_AutoSwitchSwitchToGuessLayout.Checked.ToString());
 				MMain.MyConfs.Write("AutoSwitch", "DownloadInZip", chk_DownloadASD_InZip.Checked.ToString());
 				if (AutoSwitchEnabled && !string.IsNullOrEmpty(AutoSwitchDictionaryRaw) && !AutoSwitchDictionaryTooBig)
@@ -1915,6 +1925,7 @@ namespace Mahou {
 			#region AutoSwitch
 			AutoSwitchEnabled = chk_AutoSwitch.Checked = MMain.MyConfs.ReadBool("AutoSwitch", "Enabled");
 			AutoSwitchSpaceAfter = chk_AutoSwitchSpaceAfter.Checked = MMain.MyConfs.ReadBool("AutoSwitch", "SpaceAfter");
+			AutoSwitchLearn = chk_AutoSwitchLearn.Checked = MMain.MyConfs.ReadBool("AutoSwitch", "Learn");
 			AutoSwitchSwitchToGuessLayout = chk_AutoSwitchSwitchToGuessLayout.Checked = MMain.MyConfs.ReadBool("AutoSwitch", "SwitchToGuessLayout");
 			Dowload_ASD_InZip = chk_DownloadASD_InZip.Checked = MMain.MyConfs.ReadBool("AutoSwitch", "DownloadInZip");
 			check_ASD_size = true;
@@ -2386,7 +2397,7 @@ namespace Mahou {
 			// Snippets tab
 			lbl_NCR.Enabled = lbl_NCRCount.Enabled = pan_NoConvertRules.Enabled = btn_NCRAdd.Enabled = btn_NCR_Sub.Enabled = lbl_SnippetsCount.Enabled = lbl_SnippetExpandKey.Enabled = cbb_SnippetExpandKeys.Enabled = txt_Snippets.Enabled = chk_SnippetsSwitchToGuessLayout.Enabled = chk_SnippetsSpaceAfter.Enabled = lnk_SnipOpen.Enabled = chk_Snippets.Checked;
 			// Auto Switch tab
-			lbl_AutoSwitchWordsCount.Enabled = btn_UpdateAutoSwitchDictionary.Enabled = txt_AutoSwitchDictionary.Enabled = chk_AutoSwitchSwitchToGuessLayout.Enabled = chk_AutoSwitchSpaceAfter.Enabled = chk_DownloadASD_InZip.Enabled = chk_AutoSwitch.Checked;
+			lbl_AutoSwitchWordsCount.Enabled = btn_UpdateAutoSwitchDictionary.Enabled = txt_AutoSwitchDictionary.Enabled = chk_AutoSwitchSwitchToGuessLayout.Enabled = chk_AutoSwitchSpaceAfter.Enabled = chk_AutoSwitchLearn.Enabled = chk_DownloadASD_InZip.Enabled = chk_AutoSwitch.Checked;
 			// Persistent Layout tab
 			chk_ChangeLayoutOnlyOnce.Enabled = chk_OnlyOnWindowChange.Checked;
 			txt_PersistentLayout1Processes.Enabled = chk_PersistentLayout1Active.Checked;
@@ -2992,11 +3003,14 @@ DEL """+restartMahouPath + @"""";
 			    Hotkey.GetMods(HKSelCustConv_tempMods), (int)Hotkey.HKID.CustomConversion, HKSelCustConv_tempDouble);
 			HKShCMenuUM = new Hotkey(HKShCMenuUM_tempEnabled, (uint)HKShCMenuUM_tempKey, 
 			    Hotkey.GetMods(HKShCMenuUM_tempMods), (int)Hotkey.HKID.ShowCMenuUnderMouse, HKShCMenuUM_tempDouble);
+			HKCLastLearn = new Hotkey(HKCLastLearn_tempEnabled, (uint)HKCLastLearn_tempKey, 
+			    Hotkey.GetMods(HKCLastLearn_tempMods), (int)Hotkey.HKID.ConvertLastWordLearn, HKCLastLearn_tempDouble);
 			Logging.Log("Hotkeys initialized.");
 		}
 		public bool HasHotkey(Hotkey thishk) {
 			if (thishk == Mainhk || 
 				thishk == HKCLast ||
+				thishk == HKCLastLearn ||
 				thishk == HKCSelection ||
 				thishk == HKCLine ||
 				thishk == HKSymIgn ||
@@ -3809,6 +3823,9 @@ DEL """+restartMahouPath + @"""";
 				if (HKShCMenuUM_tempEnabled)
 					_regHK(Handle, (int)Hotkey.HKID.ShowCMenuUnderMouse,
 					                      WinAPI.MOD_NO_REPEAT + Hotkey.GetMods(HKShCMenuUM_tempMods),HKShCMenuUM_tempKey);
+				if (HKCLastLearn_tempEnabled)
+					_regHK(Handle, (int)Hotkey.HKID.ConvertLastWordLearn,
+					                      WinAPI.MOD_NO_REPEAT + Hotkey.GetMods(HKCLastLearn_tempMods),HKCLastLearn_tempKey);
 				if (!ChangeLayouByKey) return;
 				for(int i = 1; i != SpecKeySetCount+1; i++) {
 					var key = 0;
@@ -4132,6 +4149,9 @@ DEL """+restartMahouPath + @"""";
 				case 19:
 					UpdateHotkeyControls(HKShCMenuUM_tempEnabled, HKShCMenuUM_tempDouble, HKShCMenuUM_tempMods, HKShCMenuUM_tempKey);
 					break;
+				case 20:
+					UpdateHotkeyControls(HKCLastLearn_tempEnabled, HKCLastLearn_tempDouble, HKCLastLearn_tempMods, HKCLastLearn_tempKey);
+					break;
 			}
 		}
 		/// <summary>
@@ -4269,6 +4289,12 @@ DEL """+restartMahouPath + @"""";
 					HKShCMenuUM_tempDouble = chk_DoubleHotkey.Checked;
 					HKShCMenuUM_tempMods = (chk_WinInHotKey.Checked ? "Win + " : "") + txt_Hotkey_tempModifiers;
 					HKShCMenuUM_tempKey = txt_Hotkey_tempKey;
+					break;
+				case 20:
+					HKCLastLearn_tempEnabled = chk_HotKeyEnabled.Checked;
+					HKCLastLearn_tempDouble = chk_DoubleHotkey.Checked;
+					HKCLastLearn_tempMods = (chk_WinInHotKey.Checked ? "Win + " : "") + txt_Hotkey_tempModifiers;
+					HKCLastLearn_tempKey = txt_Hotkey_tempKey;
 					break;
 			}
 		}
@@ -4956,6 +4982,7 @@ DEL ""ExtractASD.cmd""";
 			#region AutoSwitch
 			chk_AutoSwitch.Text = MMain.Lang[Languages.Element.AutoSwitchEnabled];
 			chk_AutoSwitchSpaceAfter.Text = MMain.Lang[Languages.Element.AutoSwitchSpaceAfter];
+			chk_AutoSwitchLearn.Text = MMain.Lang[Languages.Element.AutoSwitchLearn];
 			chk_AutoSwitchSwitchToGuessLayout.Text = MMain.Lang[Languages.Element.AutoSwitchSwitchToGuessLayout];
 			btn_UpdateAutoSwitchDictionary.Text = MMain.Lang[Languages.Element.AutoSwitchUpdateDictionary];
 			lbl_AutoSwitchDependsOnSnippets.Text = MMain.Lang[Languages.Element.AutoSwitchDependsOnSnippets];
@@ -4991,7 +5018,8 @@ DEL ""ExtractASD.cmd""";
 										MMain.Lang[Languages.Element.ToggleMahou],
 										MMain.Lang[Languages.Element.CycleCase],
 										MMain.Lang[Languages.Element.CustomConversion],
-										MMain.Lang[Languages.Element.ShowCMenuUnderMouse]
+										MMain.Lang[Languages.Element.ShowCMenuUnderMouse],
+										MMain.Lang[Languages.Element.ConvertLastLearn]
 										});
 			#endregion
 			#region LangPanel/TranslatePanel
@@ -6022,6 +6050,9 @@ DEL ""ExtractASD.cmd""";
 				case 18:
 					lbl_HotkeyHelp.Text = MMain.Lang[Languages.Element.TT_CustomConversion];
 					break;
+				case 20:
+					lbl_HotkeyHelp.Text = MMain.Lang[Languages.Element.TT_ConvertLastLearn];
+					break;
 				default:
 					lbl_HotkeyHelp.Text = "";
 					break;
@@ -6205,11 +6236,11 @@ DEL ""ExtractASD.cmd""";
 			}
 			if (tabs.SelectedIndex == tabs.TabPages.IndexOf(tab_autoswitch)) {
 				if (!SnippetsEnabled) {
-					chk_AutoSwitchSpaceAfter.Visible = chk_AutoSwitch.Visible = chk_AutoSwitchSwitchToGuessLayout.Enabled = 
+					chk_AutoSwitchSpaceAfter.Visible = chk_AutoSwitchLearn.Visible = chk_AutoSwitch.Visible = chk_AutoSwitchSwitchToGuessLayout.Enabled = 
 						btn_UpdateAutoSwitchDictionary.Enabled = txt_AutoSwitchDictionary.Enabled = chk_DownloadASD_InZip.Enabled = false;
 					lbl_AutoSwitchDependsOnSnippets.Visible = true;
 				} else {
-					chk_AutoSwitchSpaceAfter.Visible = chk_AutoSwitch.Visible = chk_AutoSwitchSwitchToGuessLayout.Enabled = 
+					chk_AutoSwitchSpaceAfter.Visible = chk_AutoSwitchLearn.Visible = chk_AutoSwitch.Visible = chk_AutoSwitchSwitchToGuessLayout.Enabled = 
 						btn_UpdateAutoSwitchDictionary.Enabled = txt_AutoSwitchDictionary.Enabled = chk_DownloadASD_InZip.Enabled = true;
 					lbl_AutoSwitchDependsOnSnippets.Visible = false;
 					ToggleDependentControlsEnabledState();

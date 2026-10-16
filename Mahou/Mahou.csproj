@@ -146,6 +146,7 @@
     <Compile Include="Classes\miniaudio.cs" />
     <Compile Include="Classes\NativeClipboard.cs" />
     <Compile Include="Classes\TrayIcon.cs" />
+    <Compile Include="Classes\UserDict.cs" />
     <Compile Include="Classes\Configs.cs" />
     <Compile Include="Classes\WinAPI.cs" />
     <Compile Include="Classes\RawInputForm.cs" />

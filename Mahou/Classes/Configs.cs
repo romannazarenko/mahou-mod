@@ -324,6 +324,11 @@ namespace Mahou {
 			CheckString("Hotkeys", "ShowCMenuUnderMouse_Modifiers", "");
 			CheckBool("Hotkeys", "ShowCMenuUnderMouse_Double", "false");
 			CheckBool("Hotkeys", "ShowCMenuUnderMouse_Enabled", "false");
+			// Convert last word and remember it in AS_user.txt
+			CheckInt("Hotkeys", "ConvertLastWordLearn_Key", "0");
+			CheckString("Hotkeys", "ConvertLastWordLearn_Mods", "");
+			CheckBool("Hotkeys", "ConvertLastWordLearn_Double", "false");
+			CheckBool("Hotkeys", "ConvertLastWordLearn_Enabled", "false");
 			// Cycle Case
 			CheckInt("Hotkeys", "CycleCase_Key", "114");
 			CheckString("Hotkeys", "CycleCase_Modifiers", "Shift");
@@ -424,6 +429,7 @@ namespace Mahou {
 			CheckBool("AutoSwitch", "DownloadInZip", "true");
 			CheckBool("AutoSwitch", "SwitchToGuessLayout", "true");
 			CheckBool("AutoSwitch", "SpaceAfter", "true");
+			CheckBool("AutoSwitch", "Learn", "true");
 			CheckBool("AutoSwitch", "Enabled", "false");
 			#endregion
 			#region Snippets section

@@ -40,7 +40,8 @@ namespace Mahou {
 			ToggleMahou,
 			CycleCase,
 			CustomConversion,
-			ShowCMenuUnderMouse
+			ShowCMenuUnderMouse,
+			ConvertLastWordLearn
 		}
 		/// <summary>
 		/// Gets all modifiers in hotkey.
@@ -153,7 +154,8 @@ namespace Mahou {
 						}
 					}
 					if (hotkey.ID <= (int)Hotkey.HKID.TransliterateSelection || hotkey.ID == (int)Hotkey.HKID.ShowSelectionTranslation ||
-					    hotkey.ID == (int)Hotkey.HKID.CycleCase
+					    hotkey.ID == (int)Hotkey.HKID.CycleCase ||
+					    hotkey.ID == (int)Hotkey.HKID.ConvertLastWordLearn
 					   ) {
 						KMHook.SendModsUp(Convert.ToInt32(hotkey.Modifiers));
 					}
