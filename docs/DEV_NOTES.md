@@ -125,6 +125,33 @@ field text was replaced, or a per-app strategy, rather than a blind re-emit.
 
 Do NOT just reapply the reverted commit — it regressed layout selection.
 
+## Learning words from manual corrections (AS_user.txt)
+
+`<nPath>/AS_user.txt` holds rules learned from "Convert last word". It is checked
+first in `CheckAutoSwitch`, before AS_dict and n-gram:
+
+- `ghbdtn => привет` means switch this typed word (it was missed);
+- `!ckjy` means never switch this typed word (it was a false switch).
+
+How it learns (`KMHook.LearnConversion`, called from `ConvertLast`, not for line conversion):
+
+- The user converts a word that was **not** auto-switched → a switch rule is added.
+- The user converts a word **right after it was auto-switched** (`as_last_typed` / `as_last_corr`,
+  reset at every word end) → that typed word gets a never-switch rule.
+- The user converts back what was just learned → that rule is removed again (a toggle).
+  Rules that were already in the file are never removed this way.
+
+Triggers:
+
+- **Auto-learning** works for whatever key is bound to "Convert last word". It sits in
+  `ConvertLast`, not on a key. Toggle: the "Learn words…" checkbox on the AutoSwitch
+  tab (`[AutoSwitch] Learn`, on by default). Words of 2+ characters only.
+- **Hotkey** "Convert last word and remember it" (`HKID.ConvertLastWordLearn`, list index 20,
+  `[Hotkeys] ConvertLastWordLearn_*`, off by default) always learns, even single letters.
+
+Each learned rule shows a tray balloon. The file is re-read when the settings are
+applied (`ReInitSnippets`), so manual edits get picked up.
+
 ## Key files
 
 - `Mahou/Classes/NgramScorer.cs` — `NgramModel` (train/score/serialize) and

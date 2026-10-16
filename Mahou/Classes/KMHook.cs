@@ -37,6 +37,10 @@ namespace Mahou {
 		public static uint last_switch_layout = 0;
 		static uint cs_layout_last = 0;
 		static string busy_on = "", lastLWClearReason = "";
+		// Learning from manual corrections (AS_user.txt): the last auto-switch
+		// (typed => switched to) and the last learned conversion, so that converting
+		// it back is recognised as an undo.
+		static string as_last_typed, as_last_corr, learn_from, learn_to, learn_key;
 		public static NativeClipboard.clip lastClip;
 		public static string lastClipText;
 		public static string symbolclear;
@@ -662,7 +666,9 @@ namespace Mahou {
 						if (IGN) { Logging.Log("[AS] > Ignore AutoSwitch by: B/D/LS: " + was_back + "/"+was_del+"/"+was_ls); }
 						Debug.WriteLine("Ignore AutoSwitch by: B/D/LS: " + was_back + "/"+was_del+"/"+was_ls);
 						Debug.WriteLine("IGN:"+IGN+"EVT"+MSG);
-						if (!matched && (as_wrongs != null || NgramScorer.Ready) && (Key == Keys.Space || Key == Keys.Enter) && !IGN /*&& aseKeyDown == Keys.None*/) {
+						if (Key == Keys.Space || Key == Keys.Enter)
+							as_last_typed = as_last_corr = null; // a new word ended, the previous auto-switch is no longer the last one
+						if (!matched && (as_wrongs != null || NgramScorer.Ready || UserDict.Any) && (Key == Keys.Space || Key == Keys.Enter) && !IGN /*&& aseKeyDown == Keys.None*/) {
 							// Enter ends a word just like Space; its snippet buffer was snapshotted
 							// before ClearWord wiped it, and its "eat one" flag is Add1NL.
 							var isEnter = (Key == Keys.Enter);
@@ -1067,8 +1073,18 @@ namespace Mahou {
 			var sncl = gg.Item1.ToLowerInvariant();
 			var snl = gg.Item2;
 			Debug.WriteLine("Correct? ["+sncl+"]");
+			// 0) Rules learned from manual corrections (AS_user.txt) win over everything.
+			string userCorrect;
+			if (UserDict.IsNever(snil)) {
+				Logging.Log("[AS] > user rule: never switch ["+snil+"].");
+				return false;
+			}
+			if (UserDict.TryGetSwitch(snil, out userCorrect)) {
+				Logging.Log("[AS] > user rule switch ["+snil+"] => ["+userCorrect+"]");
+				matched = DoAutoSwitch(snip, snil, snl, word, userCorrect, "", enterTrigger, out corr);
+			}
 			// 1) User word list (AS_dict) takes priority: explicit rules and exceptions.
-			if (as_wrongs != null) {
+			if (!matched && as_wrongs != null) {
 				for (int i = 0; i < as_wrongs.Length; i++) {
 					if (as_corrects.Length > i) {
 		    			if (as_wrongs[i] == null)
@@ -1138,6 +1154,10 @@ namespace Mahou {
 				Logging.Log("[AS] > Changed last snippet to AS-ed, "+corr+", instead of ignorecase: "+ snil);
 				aftsingleAS = single;
 				last_snip = corr;
+				if (snil.IndexOf(' ') < 0) {
+					as_last_typed = snil;
+					as_last_corr = corr.ToLowerInvariant();
+				}
 			}
 			return matched;
 		}
@@ -3649,7 +3669,8 @@ namespace Mahou {
 		/// Converts last word/line/words.
 		/// </summary>
 		/// <param name="c_">List of YuKeys to be converted.</param>
-		public static void ConvertLast(List<YuKey> c_, bool line = false) {
+		/// <param name="learn">Remember the correction in AS_user.txt even if auto-learning is off.</param>
+		public static void ConvertLast(List<YuKey> c_, bool line = false, bool learn = false) {
 			try { //Used to catch errors, since it called as Task
 				Debug.WriteLine("Start CL");
 				Debug.WriteLine(c_.Count + " LL");
@@ -3666,6 +3687,8 @@ namespace Mahou {
 					wasLocale = MahouUI.currentLayout;
 				var desl = GetNextLayout(wasLocale).uId;
 				YuKey[] YuKeys = line ? c_.ToArray() : LayoutKeyReplace(c_, (int)(wasLocale&0xffff), (int)(desl&0xffff)).ToArray();
+				if (!line && (learn || (MahouUI.AutoSwitchLearn && MahouUI.AutoSwitchEnabled)))
+					LearnConversion(KeysToWord(c_, wasLocale), KeysToWord(YuKeys, desl), learn);
 				if (MahouUI.UseJKL && MahouUI.EmulateLS && !JKLERR) {
 					Debug.WriteLine("JKL-ed CLW");
 					Logging.Log("[CLAST] > On JKL layout: " +desl);
@@ -3725,6 +3748,60 @@ namespace Mahou {
 			Debug.WriteLine("===============> Fin");
 			MMain.mahou.UpdateLDs();
 			Memory.Flush();
+		}
+		/// <summary>
+		/// Reads the keys as text in the given layout, lowercased, without the trailing
+		/// space/newline that "eat one space" leaves in the last word.
+		/// </summary>
+		static string KeysToWord(IEnumerable<YuKey> keys, uint layout) {
+			var sb = new StringBuilder();
+			foreach (var k in keys) {
+				if (k.altnum) return "";
+				var c = ToUnicodeExMulti((uint)k.key, (IntPtr)((int)layout), k.upper);
+				if (c != '\0') sb.Append(c);
+			}
+			return sb.ToString().Trim().ToLowerInvariant();
+		}
+		/// <summary>
+		/// Turns a manual "convert last word" into a rule in AS_user.txt:
+		/// converting back what was just learned forgets it; converting back a fresh
+		/// auto-switch means it was wrong, so the typed word is never switched again;
+		/// anything else was a missed switch, so the word will auto-switch next time.
+		/// </summary>
+		static void LearnConversion(string from, string to, bool explicitHK) {
+			if (from.Length < (explicitHK ? 1 : 2) || from == to || to.Length != from.Length ||
+			    from.IndexOfAny(new []{' ', '\t', '\r', '\n'}) >= 0 || to.IndexOfAny(new []{' ', '\t', '\r', '\n'}) >= 0) {
+				Logging.Log("[ASU] > not learning ["+from+"] => ["+to+"].");
+				return;
+			}
+			string msg;
+			if (learn_key != null && from == learn_to && to == learn_from) {
+				UserDict.Remove(learn_key);
+				msg = String.Format(MMain.Lang[Languages.Element.ASUserForgot], learn_key);
+				learn_key = learn_from = learn_to = null;
+			} else {
+				// Only a rule added just now may be forgotten by converting back,
+				// never one that was already in the file.
+				learn_key = learn_from = learn_to = null;
+				string key;
+				if (as_last_typed != null && from == as_last_corr && to == as_last_typed) {
+					key = as_last_typed;
+					as_last_typed = as_last_corr = null;
+					if (!UserDict.AddNever(key)) return;
+					msg = String.Format(MMain.Lang[Languages.Element.ASUserNever], key);
+				} else {
+					key = from;
+					if (!UserDict.AddSwitch(from, to)) return;
+					msg = String.Format(MMain.Lang[Languages.Element.ASUserLearned], from, to);
+				}
+				learn_key = key; learn_from = from; learn_to = to;
+			}
+			Logging.Log("[ASU] > " + msg);
+			try {
+				MMain.mahou.BeginInvoke((Action)(() => MMain.mahou.icon.trIcon.ShowBalloonTip(1500, "Mahou", msg, ToolTipIcon.Info)));
+			} catch (Exception e) {
+				Logging.Log("[ASU] > balloon failed: " + e.Message, 1);
+			}
 		}
 		static bool SymbolIgnoreRules(char c) {
 			var ign = "<,>./?'\";:[]{}\\|";
@@ -4610,6 +4687,11 @@ namespace Mahou {
 					watch.Start();
 				}
 				if (MahouUI.AutoSwitchEnabled) {
+					try {
+						UserDict.Load();
+					} catch (Exception e) {
+						Logging.Log("[ASU] > Failed to load " + UserDict.FilePath + ": " + e.Message, 1);
+					}
 					GetSnippetsData(MahouUI.AutoSwitchDictionaryRaw, false);
 					if (MahouUI.AutoSwitchDictionaryTooBig) {
 						MahouUI.AutoSwitchDictionaryRaw = null;
